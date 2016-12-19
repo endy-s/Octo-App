@@ -1,7 +1,7 @@
-#Sun Dec 18 21:51:19 BRST 2016
-base.0=C\:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\instant-run-bootstrap_893c86f94a06e824e0c890faff13f727806fca2a
-renamed.1=classes.dex
-renamed.0=classes2.dex
-file.1=C\:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\instant-run_dce6ce162e711e0efb4269c76da355f88aa16bfc\\classes.dex
-base.1=C\:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\instant-run_dce6ce162e711e0efb4269c76da355f88aa16bfc
-file.0=C\:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\instant-run-bootstrap_893c86f94a06e824e0c890faff13f727806fca2a\\classes.dex
+#Sun Dec 18 22:35:50 BRST 2016
+base.0=C\:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\instant-run_dce6ce162e711e0efb4269c76da355f88aa16bfc
+renamed.1=classes2.dex
+renamed.0=classes.dex
+file.1=C\:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\instant-run-bootstrap_893c86f94a06e824e0c890faff13f727806fca2a\\classes.dex
+base.1=C\:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\instant-run-bootstrap_893c86f94a06e824e0c890faff13f727806fca2a
+file.0=C\:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\instant-run_dce6ce162e711e0efb4269c76da355f88aa16bfc\\classes.dex
