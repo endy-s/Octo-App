@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<instant-run
+    abi="armeabi-v7a,armeabi"
+    api-level="22"
+    density="hdpi"
+    format="8"
+    plugin-version="2.2.3"
+    timestamp="5931084554681"
+    token="-579863301683646719"
+    verifier="PARENT_CLASS_CHANGED" >
+
+    <task
+        name="javac"
+        duration="4613" />
+    <task
+        name="instant-run-dex"
+        duration="0" />
+    <task
+        name="instant-run-transform"
+        duration="480" />
+    <task
+        name="verifier"
+        duration="455" />
+
+    <artifact
+        location="C:\Users\Bruno\AndroidStudioProjects\Qu4troPrototype\Application\build\intermediates\instant-run-resources\resources-debug.ir.ap_"
+        type="RESOURCES" />
+    <artifact
+        location="C:\Users\Bruno\AndroidStudioProjects\Qu4troPrototype\Application\build\intermediates\transforms\dex\debug\folders\1000\5\slice_2\classes.dex"
+        type="DEX" />
+
+    <build
+        timestamp="4204716800049"
+        verifier="FULL_BUILD_REQUESTED" >
+        <artifact
+            location="C:\Users\Bruno\AndroidStudioProjects\Qu4troPrototype\Application\build\outputs\apk\Application-debug.apk"
+            type="MAIN" />
+    </build>
+    <build
+        timestamp="5931084554681"
+        verifier="PARENT_CLASS_CHANGED" >
+        <artifact
+            location="C:\Users\Bruno\AndroidStudioProjects\Qu4troPrototype\Application\build\intermediates\instant-run-resources\resources-debug.ir.ap_"
+            type="RESOURCES" />
+        <artifact
+            location="C:\Users\Bruno\AndroidStudioProjects\Qu4troPrototype\Application\build\intermediates\transforms\dex\debug\folders\1000\5\slice_2\classes.dex"
+            type="DEX" />
+    </build>
+    <build
+        timestamp="18671840040445"
+        verifier="MANIFEST_FILE_CHANGE" >
+        <artifact
+            location="C:\Users\Bruno\AndroidStudioProjects\Qu4troPrototype\Application\build\outputs\apk\Application-debug.apk"
+            type="MAIN" />
+    </build>
+
+</instant-run>
