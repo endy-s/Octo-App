@@ -93,6 +93,8 @@ public class BluetoothChatFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+
+// TODO - REMOVE, ALREADY AT SPLASH!
         // Get local Bluetooth adapter
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
@@ -104,7 +106,7 @@ public class BluetoothChatFragment extends Fragment {
         }
     }
 
-
+// TODO - REMOVE, ALREADY AT SPLASH!
     @Override
     public void onStart() {
         super.onStart();
@@ -154,7 +156,7 @@ public class BluetoothChatFragment extends Fragment {
         //mConversationView = (ListView) view.findViewById(R.id.in);
         //mOutEditText = (EditText) view.findViewById(R.id.edit_text_out);
         //mSendButton = (Button) view.findViewById(R.id.button_send);
-        ledStatus = (ImageButton) view.findViewById(R.id.imageButton);
+        ledStatus = (ImageButton) view.findViewById(R.id.btnOnOff);
     }
 
     /**

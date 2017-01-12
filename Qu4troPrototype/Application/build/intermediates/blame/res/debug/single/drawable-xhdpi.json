@@ -1,111 +1,15 @@
 [
     {
-        "merged": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\common_google_signin_btn_text_light_pressed.9.png",
-        "source": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.4.0\\res\\drawable-xhdpi\\common_google_signin_btn_text_light_pressed.9.png"
-    },
-    {
-        "merged": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\common_plus_signin_btn_icon_dark_focused.9.png",
-        "source": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.4.0\\res\\drawable-xhdpi\\common_plus_signin_btn_icon_dark_focused.9.png"
-    },
-    {
-        "merged": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\common_google_signin_btn_text_dark_normal.9.png",
-        "source": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.4.0\\res\\drawable-xhdpi\\common_google_signin_btn_text_dark_normal.9.png"
+        "merged": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\onoff.png",
+        "source": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\src\\main\\res\\drawable-xhdpi\\onoff.png"
     },
     {
         "merged": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\light.png",
         "source": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\src\\main\\res\\drawable-xhdpi\\light.png"
     },
     {
-        "merged": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\common_plus_signin_btn_text_dark_focused.9.png",
-        "source": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.4.0\\res\\drawable-xhdpi\\common_plus_signin_btn_text_dark_focused.9.png"
-    },
-    {
         "merged": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\ic_launcher.png",
         "source": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\src\\main\\res\\drawable-xhdpi\\ic_launcher.png"
-    },
-    {
-        "merged": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\common_plus_signin_btn_text_light_pressed.9.png",
-        "source": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.4.0\\res\\drawable-xhdpi\\common_plus_signin_btn_text_light_pressed.9.png"
-    },
-    {
-        "merged": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\common_google_signin_btn_icon_light_focused.9.png",
-        "source": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.4.0\\res\\drawable-xhdpi\\common_google_signin_btn_icon_light_focused.9.png"
-    },
-    {
-        "merged": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\common_plus_signin_btn_icon_light_normal.9.png",
-        "source": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.4.0\\res\\drawable-xhdpi\\common_plus_signin_btn_icon_light_normal.9.png"
-    },
-    {
-        "merged": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\common_plus_signin_btn_icon_light_disabled.9.png",
-        "source": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.4.0\\res\\drawable-xhdpi\\common_plus_signin_btn_icon_light_disabled.9.png"
-    },
-    {
-        "merged": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\common_google_signin_btn_text_light_normal.9.png",
-        "source": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.4.0\\res\\drawable-xhdpi\\common_google_signin_btn_text_light_normal.9.png"
-    },
-    {
-        "merged": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\common_plus_signin_btn_text_dark_normal.9.png",
-        "source": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.4.0\\res\\drawable-xhdpi\\common_plus_signin_btn_text_dark_normal.9.png"
-    },
-    {
-        "merged": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\common_full_open_on_phone.png",
-        "source": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.4.0\\res\\drawable-xhdpi\\common_full_open_on_phone.png"
-    },
-    {
-        "merged": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\common_google_signin_btn_text_dark_pressed.9.png",
-        "source": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.4.0\\res\\drawable-xhdpi\\common_google_signin_btn_text_dark_pressed.9.png"
-    },
-    {
-        "merged": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\common_google_signin_btn_text_light_disabled.9.png",
-        "source": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.4.0\\res\\drawable-xhdpi\\common_google_signin_btn_text_light_disabled.9.png"
-    },
-    {
-        "merged": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\common_plus_signin_btn_icon_dark_pressed.9.png",
-        "source": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.4.0\\res\\drawable-xhdpi\\common_plus_signin_btn_icon_dark_pressed.9.png"
-    },
-    {
-        "merged": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\common_google_signin_btn_text_dark_focused.9.png",
-        "source": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.4.0\\res\\drawable-xhdpi\\common_google_signin_btn_text_dark_focused.9.png"
-    },
-    {
-        "merged": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\time.png",
-        "source": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\src\\main\\res\\drawable-xhdpi\\time.png"
-    },
-    {
-        "merged": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\common_google_signin_btn_icon_light_normal.9.png",
-        "source": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.4.0\\res\\drawable-xhdpi\\common_google_signin_btn_icon_light_normal.9.png"
-    },
-    {
-        "merged": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\track.png",
-        "source": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\src\\main\\res\\drawable-xhdpi\\track.png"
-    },
-    {
-        "merged": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\common_plus_signin_btn_text_light_focused.9.png",
-        "source": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.4.0\\res\\drawable-xhdpi\\common_plus_signin_btn_text_light_focused.9.png"
-    },
-    {
-        "merged": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\common_plus_signin_btn_text_dark_pressed.9.png",
-        "source": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.4.0\\res\\drawable-xhdpi\\common_plus_signin_btn_text_dark_pressed.9.png"
-    },
-    {
-        "merged": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\onoff.png",
-        "source": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\src\\main\\res\\drawable-xhdpi\\onoff.png"
-    },
-    {
-        "merged": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\common_plus_signin_btn_icon_dark_disabled.9.png",
-        "source": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.4.0\\res\\drawable-xhdpi\\common_plus_signin_btn_icon_dark_disabled.9.png"
-    },
-    {
-        "merged": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\common_google_signin_btn_text_light_focused.9.png",
-        "source": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.4.0\\res\\drawable-xhdpi\\common_google_signin_btn_text_light_focused.9.png"
-    },
-    {
-        "merged": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\common_google_signin_btn_icon_dark_pressed.9.png",
-        "source": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.4.0\\res\\drawable-xhdpi\\common_google_signin_btn_icon_dark_pressed.9.png"
-    },
-    {
-        "merged": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\common_google_signin_btn_text_dark_disabled.9.png",
-        "source": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.4.0\\res\\drawable-xhdpi\\common_google_signin_btn_text_dark_disabled.9.png"
     },
     {
         "merged": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\ic_action_device_access_bluetooth_searching.png",
@@ -116,59 +20,23 @@
         "source": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\src\\main\\res\\drawable-xhdpi\\thermin.png"
     },
     {
-        "merged": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\common_google_signin_btn_icon_light_pressed.9.png",
-        "source": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.4.0\\res\\drawable-xhdpi\\common_google_signin_btn_icon_light_pressed.9.png"
-    },
-    {
-        "merged": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\common_google_signin_btn_icon_dark_disabled.9.png",
-        "source": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.4.0\\res\\drawable-xhdpi\\common_google_signin_btn_icon_dark_disabled.9.png"
-    },
-    {
-        "merged": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\common_plus_signin_btn_icon_dark_normal.9.png",
-        "source": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.4.0\\res\\drawable-xhdpi\\common_plus_signin_btn_icon_dark_normal.9.png"
-    },
-    {
         "merged": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\thermout.png",
         "source": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\src\\main\\res\\drawable-xhdpi\\thermout.png"
-    },
-    {
-        "merged": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\common_google_signin_btn_icon_light_disabled.9.png",
-        "source": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.4.0\\res\\drawable-xhdpi\\common_google_signin_btn_icon_light_disabled.9.png"
-    },
-    {
-        "merged": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\common_google_signin_btn_icon_dark_focused.9.png",
-        "source": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.4.0\\res\\drawable-xhdpi\\common_google_signin_btn_icon_dark_focused.9.png"
-    },
-    {
-        "merged": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\common_plus_signin_btn_text_dark_disabled.9.png",
-        "source": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.4.0\\res\\drawable-xhdpi\\common_plus_signin_btn_text_dark_disabled.9.png"
-    },
-    {
-        "merged": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\common_plus_signin_btn_icon_light_pressed.9.png",
-        "source": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.4.0\\res\\drawable-xhdpi\\common_plus_signin_btn_icon_light_pressed.9.png"
-    },
-    {
-        "merged": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\common_plus_signin_btn_icon_light_focused.9.png",
-        "source": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.4.0\\res\\drawable-xhdpi\\common_plus_signin_btn_icon_light_focused.9.png"
     },
     {
         "merged": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\standup.png",
         "source": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\src\\main\\res\\drawable-xhdpi\\standup.png"
     },
     {
-        "merged": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\common_plus_signin_btn_text_light_disabled.9.png",
-        "source": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.4.0\\res\\drawable-xhdpi\\common_plus_signin_btn_text_light_disabled.9.png"
-    },
-    {
-        "merged": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\common_plus_signin_btn_text_light_normal.9.png",
-        "source": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.4.0\\res\\drawable-xhdpi\\common_plus_signin_btn_text_light_normal.9.png"
+        "merged": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\time.png",
+        "source": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\src\\main\\res\\drawable-xhdpi\\time.png"
     },
     {
         "merged": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\battery.png",
         "source": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\src\\main\\res\\drawable-xhdpi\\battery.png"
     },
     {
-        "merged": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\common_google_signin_btn_icon_dark_normal.9.png",
-        "source": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.4.0\\res\\drawable-xhdpi\\common_google_signin_btn_icon_dark_normal.9.png"
+        "merged": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\track.png",
+        "source": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\src\\main\\res\\drawable-xhdpi\\track.png"
     }
 ]

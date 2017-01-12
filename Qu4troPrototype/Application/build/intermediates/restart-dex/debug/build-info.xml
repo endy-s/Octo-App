@@ -5,37 +5,30 @@
     density="hdpi"
     format="8"
     plugin-version="2.2.3"
-    timestamp="7129633942352"
+    timestamp="1108223959797"
     token="-579863301683646719"
-    verifier="COMPATIBLE" >
+    verifier="FULL_BUILD_REQUESTED" >
 
     <task
         name="javac"
-        duration="0" />
+        duration="5601" />
     <task
         name="instant-run-dex"
         duration="0" />
     <task
         name="instant-run-transform"
-        duration="0" />
+        duration="983" />
     <task
         name="verifier"
-        duration="0" />
+        duration="250" />
 
     <artifact
-        location="C:\Users\Bruno\AndroidStudioProjects\Qu4troPrototype\Application\build\intermediates\instant-run-resources\resources-debug.ir.ap_"
-        type="RESOURCES" />
+        location="C:\Users\Bruno\AndroidStudioProjects\Qu4troPrototype\Application\build\outputs\apk\Application-debug.apk"
+        type="MAIN" />
 
     <build
-        timestamp="6862848367383"
-        verifier="BINARY_MANIFEST_FILE_CHANGE" >
-        <artifact
-            location="C:\Users\Bruno\AndroidStudioProjects\Qu4troPrototype\Application\build\outputs\apk\Application-debug.apk"
-            type="MAIN" />
-    </build>
-    <build
-        timestamp="18671840040445"
-        verifier="MANIFEST_FILE_CHANGE" >
+        timestamp="1108223959797"
+        verifier="FULL_BUILD_REQUESTED" >
         <artifact
             location="C:\Users\Bruno\AndroidStudioProjects\Qu4troPrototype\Application\build\outputs\apk\Application-debug.apk"
             type="MAIN" />

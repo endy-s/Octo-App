@@ -34,5 +34,9 @@
     {
         "merged": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\build\\intermediates\\res\\merged\\debug\\color-v23\\abc_tint_seek_thumb.xml",
         "source": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.0.1\\res\\color-v23\\abc_tint_seek_thumb.xml"
+    },
+    {
+        "merged": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\build\\intermediates\\res\\merged\\debug\\color-v23\\design_tint_password_toggle.xml",
+        "source": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\build\\intermediates\\exploded-aar\\com.android.support\\design\\25.0.1\\res\\color-v23\\design_tint_password_toggle.xml"
     }
 ]

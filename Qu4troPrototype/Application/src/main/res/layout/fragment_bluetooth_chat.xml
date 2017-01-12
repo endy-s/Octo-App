@@ -20,7 +20,7 @@
               android:layout_height="match_parent"
               android:orientation="vertical" >
 
-    <GridLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1">
@@ -28,35 +28,147 @@
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/thermout"
-            android:id="@+id/imageButton"
-            android:layout_row="1"
-            android:layout_column="0"/>
-
-        <Button
-            android:text="Button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/button"
-            android:layout_row="1"
-            android:layout_column="1" />
+            android:id="@+id/btnOnOff"
+            android:src="@drawable/onoff"
+            android:background="@android:color/transparent"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="60dp"
+            android:layout_marginTop="30dp" />
 
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/imageButton3"
-            android:layout_row="0"
-            android:layout_column="0"
-            android:src="@drawable/onoff" />
+            android:src="@drawable/track"
+            android:id="@+id/btnTrack"
+            android:background="@android:color/transparent"
+            android:layout_alignBottom="@+id/btnOnOff"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="60dp" />
 
-        <TextView
-            android:text="Testing the Led Button!"
+        <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/textView2"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-            android:layout_row="0"
-            android:layout_column="1" />
-    </GridLayout>
+            android:src="@drawable/thermout"
+            android:id="@+id/btnTempOut"
+            android:background="@android:color/transparent"
+            android:layout_alignLeft="@+id/btnOnOff"
+            android:layout_below="@+id/btnOnOff"
+            android:layout_marginTop="40dp" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/thermin"
+            android:id="@+id/btnTempIn"
+            android:background="@android:color/transparent"
+            android:layout_alignBottom="@+id/btnTempOut"
+            android:layout_alignLeft="@+id/btnTrack" />
+
+        <TextView
+            android:text="TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtTempOut"
+            android:layout_below="@+id/btnTempOut"
+            android:layout_alignLeft="@+id/btnTempOut"
+            android:layout_marginTop="10dp" />
+
+        <TextView
+            android:text="TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtTempIn"
+            android:layout_alignBottom="@+id/txtTempOut"
+            android:layout_alignLeft="@+id/btnTempIn" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/time"
+            android:id="@+id/btnTime"
+            android:background="@android:color/transparent"
+            android:layout_below="@+id/txtTempOut"
+            android:layout_alignLeft="@+id/txtTempOut"
+            android:layout_marginTop="40dp" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/standup"
+            android:id="@+id/btnStanding"
+            android:background="@android:color/transparent"
+            android:layout_alignBottom="@+id/btnTime"
+            android:layout_alignLeft="@+id/txtTempIn" />
+
+        <TextView
+            android:text="TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtTimeTotal"
+            android:layout_below="@+id/btnTime"
+            android:layout_alignLeft="@+id/btnTime"
+            android:layout_marginTop="10dp" />
+
+        <TextView
+            android:text="TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtTimeStand"
+            android:layout_alignBottom="@+id/txtTimeTotal"
+            android:layout_alignLeft="@+id/btnStanding"/>
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/battery"
+            android:id="@+id/btnBatt"
+            android:background="@android:color/transparent"
+            android:layout_below="@+id/txtTimeTotal"
+            android:layout_alignLeft="@+id/txtTimeTotal"
+            android:layout_marginTop="30dp" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/light"
+            android:id="@+id/btnLight"
+            android:background="@android:color/transparent"
+            android:layout_alignBottom="@+id/btnBatt"
+            android:layout_alignLeft="@+id/txtTimeStand" />
+
+        <TextView
+            android:text="TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtBatt"
+            android:layout_alignLeft="@+id/btnBatt"
+            android:layout_below="@+id/btnBatt"
+            android:layout_marginTop="10dp"/>
+
+        <TextView
+            android:text="TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtLight"
+            android:layout_alignLeft="@+id/btnLight"
+            android:layout_below="@+id/btnLight"
+            android:layout_marginTop="10dp"/>
+    </RelativeLayout>
+
+    <TextView
+        android:text="TextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView"
+        android:layout_weight="1"
+        android:gravity="center" />
+
+    <Button
+        android:text="Button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/button"
+        android:layout_weight="1" />
 
 </LinearLayout>
