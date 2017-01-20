@@ -4,6 +4,10 @@
         "source": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\src\\main\\res\\drawable-mdpi\\thermin.png"
     },
     {
+        "merged": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi\\icone.png",
+        "source": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\src\\main\\res\\drawable-mdpi\\icone.png"
+    },
+    {
         "merged": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi\\battery.png",
         "source": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\src\\main\\res\\drawable-mdpi\\battery.png"
     },

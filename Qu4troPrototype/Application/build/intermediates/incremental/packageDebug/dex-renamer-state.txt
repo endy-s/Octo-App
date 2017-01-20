@@ -1,4 +1,4 @@
-#Mon Jan 02 21:37:33 BRST 2017
+#Fri Jan 20 17:05:27 BRST 2017
 base.0=C\:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\instant-run-bootstrap_893c86f94a06e824e0c890faff13f727806fca2a
 renamed.1=classes.dex
 renamed.0=classes2.dex

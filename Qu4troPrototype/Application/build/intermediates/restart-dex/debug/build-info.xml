@@ -5,33 +5,50 @@
     density="hdpi"
     format="8"
     plugin-version="2.2.3"
-    timestamp="1108223959797"
+    timestamp="9034207588011"
     token="-579863301683646719"
-    verifier="FULL_BUILD_REQUESTED" >
+    verifier="COLD_SWAP_REQUESTED" >
 
     <task
         name="javac"
-        duration="5601" />
+        duration="0" />
     <task
         name="instant-run-dex"
         duration="0" />
     <task
         name="instant-run-transform"
-        duration="983" />
+        duration="0" />
     <task
         name="verifier"
-        duration="250" />
+        duration="0" />
 
     <artifact
-        location="C:\Users\Bruno\AndroidStudioProjects\Qu4troPrototype\Application\build\outputs\apk\Application-debug.apk"
-        type="MAIN" />
+        location="C:\Users\Bruno\AndroidStudioProjects\Qu4troPrototype\Application\build\intermediates\instant-run-resources\resources-debug.ir.ap_"
+        type="RESOURCES" />
 
     <build
-        timestamp="1108223959797"
+        timestamp="7964049096957"
         verifier="FULL_BUILD_REQUESTED" >
         <artifact
             location="C:\Users\Bruno\AndroidStudioProjects\Qu4troPrototype\Application\build\outputs\apk\Application-debug.apk"
             type="MAIN" />
+    </build>
+    <build
+        timestamp="8916954754388"
+        verifier="COLD_SWAP_REQUESTED" >
+        <artifact
+            location="C:\Users\Bruno\AndroidStudioProjects\Qu4troPrototype\Application\build\intermediates\transforms\dex\debug\folders\1000\5\slice_2\classes.dex"
+            type="DEX" />
+        <artifact
+            location="C:\Users\Bruno\AndroidStudioProjects\Qu4troPrototype\Application\build\intermediates\transforms\dex\debug\folders\1000\5\slice_0\classes.dex"
+            type="DEX" />
+    </build>
+    <build
+        timestamp="9034207588011"
+        verifier="COLD_SWAP_REQUESTED" >
+        <artifact
+            location="C:\Users\Bruno\AndroidStudioProjects\Qu4troPrototype\Application\build\intermediates\instant-run-resources\resources-debug.ir.ap_"
+            type="RESOURCES" />
     </build>
 
 </instant-run>

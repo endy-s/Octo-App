@@ -32,6 +32,10 @@
         "source": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\src\\main\\res\\drawable-xxhdpi\\qu4tro.png"
     },
     {
+        "merged": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi\\icone.png",
+        "source": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\src\\main\\res\\drawable-xxhdpi\\icone.png"
+    },
+    {
         "merged": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi\\thermout.png",
         "source": "C:\\Users\\Bruno\\AndroidStudioProjects\\Qu4troPrototype\\Application\\src\\main\\res\\drawable-xxhdpi\\thermout.png"
     },
