@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_gallery) {
             Toast.makeText(this, "Gallery!", Toast.LENGTH_LONG).show();
         } else if (id == R.id.nav_slideshow) {
-
+            Toast.makeText(this, "Slideshow!", Toast.LENGTH_LONG).show();
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_share) {
