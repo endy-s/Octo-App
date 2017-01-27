@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_camera) {
             Toast.makeText(this, "Camera!", Toast.LENGTH_LONG).show();
         } else if (id == R.id.nav_gallery) {
-
+            Toast.makeText(this, "Gallery!", Toast.LENGTH_LONG).show();
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_manage) {
