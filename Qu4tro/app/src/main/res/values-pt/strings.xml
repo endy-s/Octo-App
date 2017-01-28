@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Qu4tro</string>
+    <string name="action_settings">Configurações</string>
+    <string name="light_off">Luzes apagadas</string>
+    <string name="light_on">Luzes acessas</string>
+    <string name="navigation_drawer_close">Feche o navegador</string>
+    <string name="tracking">Reveja sua trajetória</string>
+    <string name="turn_off">Desligue a Prancha</string>
+    <string name="navigation_drawer_open" translatable="false">Abre o navegador</string>
+    <string name="drawer_menu">Configure sua prancha</string>
+    <string name="project_name">Prancha Qu4tro</string>
+    <string name="bt_not_enabled_leaving">Bluetooth não foi acionado. Saindo da aplicação.</string>
+    <string name="button_scan">Procure por sua prancha</string>
+    <string name="none_found">Nenhum dispositivo foi encontrado. Por favor, ligue o dispositivo da sua prancha.</string>
+    <string name="none_paired">Nenhum dispositivo pairado</string>
+    <string name="not_connected">Prancha não conectada...</string>
+    <string name="scanning">Escaneando</string>
+    <string name="select_device">Escolha o dispositivo de sua prancha</string>
+    <string name="title_connected">Conectado a prancha</string>
+    <string name="title_connecting">Conectando...</string>
+    <string name="title_not_connected">Não conectado</string>
+    <string name="title_other_devices">Outros dispositivos disponíveis</string>
+    <string name="title_paired_devices">Dispositivos Pairados</string>
+</resources>
