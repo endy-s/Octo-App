@@ -22,4 +22,15 @@
     <string name="title_not_connected">Não conectado</string>
     <string name="title_other_devices">Outros dispositivos disponíveis</string>
     <string name="title_paired_devices">Dispositivos Pairados</string>
+    <string name="nav_comm">Comunicar</string>
+    <string name="nav_connect">Conectar</string>
+    <string name="nav_contact">Contato</string>
+    <string name="nav_history">Histórico</string>
+    <string name="nav_share">Compartilhar</string>
+    <string name="share_texts">Brilhe no Stand Up Paddle! Conheça a prancha Qu4tro em: (link)</string>
+    <string name="subject_mail">Contato do app Qu4tro!</string>
+    <string name="error_mail">Você não possui nenhum aplicativo de e-mail para nos contatar</string>
+    <string name="error_share">Você não possui nenhum aplicativo para compartilhar o Qu4tro</string>
+    <string name="send_mail">Entre em contato utilizando:</string>
+    <string name="send_share">Compartilhe Qu4tro utilizando:</string>
 </resources>

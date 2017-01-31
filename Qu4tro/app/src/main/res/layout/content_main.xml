@@ -146,7 +146,7 @@
         app:layout_constraintGuide_percent="0.7514677" />
 
     <TextView
-        android:text="@string/app_name"
+        android:text="@string/turn_off"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textView2"
@@ -155,7 +155,7 @@
         app:layout_constraintBottom_toTopOf="@+id/guideline2" />
 
     <TextView
-        android:text="@string/action_settings"
+        android:text="@string/light_off"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textView3"
@@ -164,7 +164,7 @@
         app:layout_constraintBottom_toTopOf="@+id/guideline2" />
 
     <TextView
-        android:text="TextView"
+        android:text="@string/title_not_connected"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textView4"
@@ -173,7 +173,7 @@
         app:layout_constraintBottom_toTopOf="@+id/guideline3" />
 
     <TextView
-        android:text="TextView"
+        android:text="@string/tracking"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textView5"
@@ -182,7 +182,7 @@
         app:layout_constraintBottom_toTopOf="@+id/guideline3" />
 
     <TextView
-        android:text="TextView"
+        android:text="@string/title_not_connected"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textView6"
@@ -191,7 +191,7 @@
         app:layout_constraintBottom_toTopOf="@+id/guideline4" />
 
     <TextView
-        android:text="TextView"
+        android:text="@string/title_not_connected"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textView7"
@@ -200,7 +200,7 @@
         app:layout_constraintBottom_toTopOf="@+id/guideline4" />
 
     <TextView
-        android:text="TextView"
+        android:text="@string/title_not_connected"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textView8"
@@ -210,7 +210,7 @@
         android:layout_marginBottom="16dp" />
 
     <TextView
-        android:text="TextView"
+        android:text="@string/title_not_connected"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textView9"

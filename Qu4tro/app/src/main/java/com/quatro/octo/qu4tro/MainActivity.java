@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -19,6 +20,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ShareActionProvider;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity
@@ -44,6 +46,11 @@ public class MainActivity extends AppCompatActivity
      * Member object for the chat services
      */
     private BluetoothService mBluetoothService = null;
+
+    /**
+     * "Share" variable
+     */
+    private ShareActionProvider mShareActionProvider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,25 +136,13 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.action_settings) {
             return true;
         }
-
-        //        switch (item.getItemId()) {
-//            case R.id.secure_connect_scan: {
-//                // Launch the DeviceListActivity to see devices and do scan
-//                Intent serverIntent = new Intent(getActivity(), DeviceListActivity.class);
-//                startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE_SECURE);
-//                return true;
-//            }
-//            case R.id.insecure_connect_scan: {
-//                // Launch the DeviceListActivity to see devices and do scan
-//                Intent serverIntent = new Intent(getActivity(), DeviceListActivity.class);
-//                startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE_INSECURE);
-//                return true;
-//            }
-//            case R.id.discoverable: {
+//        else if (R.id.discoverable) {
 //                // Ensure this device is discoverable by others
 //                ensureDiscoverable();
 //                return true;
 //            }
+
+
 
         return super.onOptionsItemSelected(item);
     }
@@ -158,18 +153,41 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            Toast.makeText(this, "Camera!", Toast.LENGTH_LONG).show();
-        } else if (id == R.id.nav_gallery) {
-            Toast.makeText(this, "Gallery!", Toast.LENGTH_LONG).show();
-        } else if (id == R.id.nav_slideshow) {
-            Toast.makeText(this, "Slideshow!", Toast.LENGTH_LONG).show();
-        } else if (id == R.id.nav_manage) {
 
-        } else if (id == R.id.nav_share) {
+        if (id == R.id.nav_bt) {
+        // Launch the DeviceListActivity to see devices and do scan
+            Intent serverIntent = new Intent(getBaseContext(), DeviceListActivity.class);
+            startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE_SECURE);
+            return true;
+        }
+        //        else if (id == R.id.nav_history) {
+//            Toast.makeText(this, "History!", Toast.LENGTH_LONG).show();
+//        }
+        else if (id == R.id.nav_share) {
+            Intent sendIntent = new Intent();
+
+            sendIntent.setAction(Intent.ACTION_SEND);
+            sendIntent.putExtra(Intent.EXTRA_TEXT, getResources().getString(R.string.share_texts));
+            sendIntent.setType("text/plain");
+
+            // Verify that the intent will resolve to an activity
+            if (sendIntent.resolveActivity(getPackageManager()) != null) {
+                startActivity(Intent.createChooser(sendIntent, getResources().getString(R.string.send_share)));
+            } else {
+                Toast.makeText(getBaseContext(), getResources().getString(R.string.error_share), Toast.LENGTH_SHORT).show();
+            }
 
         } else if (id == R.id.nav_send) {
 
+            Intent mail_intent = new Intent(Intent.ACTION_SENDTO);
+            mail_intent.setData(Uri.parse("mailto:")); // only email apps should handle this
+            mail_intent.putExtra(Intent.EXTRA_EMAIL, getResources().getStringArray(R.array.email));
+            mail_intent.putExtra(Intent.EXTRA_SUBJECT, getResources().getString(R.string.subject_mail));
+            if (mail_intent.resolveActivity(getPackageManager()) != null) {
+                startActivity(Intent.createChooser(mail_intent, getResources().getString(R.string.send_mail)));
+            } else {
+                Toast.makeText(getBaseContext(), getResources().getString(R.string.error_mail), Toast.LENGTH_SHORT).show();
+            }
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
