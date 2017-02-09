@@ -6,8 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.quatro.octo.qu4tro.MainActivity"
-    tools:showIn="@layout/app_bar_main">
+    tools:context="com.quatro.octo.qu4tro.MainActivity">
+    <!--tools:showIn="@layout/app_bar_main">-->
 
     <android.support.constraint.Guideline
         android:layout_width="wrap_content"
@@ -48,7 +48,8 @@
         app:layout_constraintBottom_toTopOf="@+id/textView2"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.95"
-        android:layout_marginTop="16dp" />
+        android:layout_marginTop="16dp"
+        android:background="@android:color/transparent" />
 
     <ImageButton
         android:layout_width="wrap_content"
@@ -62,7 +63,8 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/textView3"
         app:layout_constraintVertical_bias="0.95"
-        android:layout_marginTop="16dp" />
+        android:layout_marginTop="16dp"
+        android:background="@android:color/transparent" />
 
     <ImageButton
         android:layout_width="wrap_content"
@@ -74,7 +76,8 @@
         app:layout_constraintRight_toLeftOf="@+id/guideline"
         tools:ignore="ContentDescription"
         app:layout_constraintBottom_toTopOf="@+id/textView6"
-        app:layout_constraintVertical_bias="0.96" />
+        app:layout_constraintVertical_bias="0.96"
+        android:background="@android:color/transparent" />
 
     <ImageButton
         android:layout_width="wrap_content"
@@ -86,7 +89,8 @@
         app:layout_constraintTop_toTopOf="@+id/guideline3"
         tools:ignore="ContentDescription"
         app:layout_constraintBottom_toTopOf="@+id/textView7"
-        app:layout_constraintVertical_bias="0.95" />
+        app:layout_constraintVertical_bias="0.95"
+        android:background="@android:color/transparent" />
 
     <ImageButton
         android:layout_width="wrap_content"
@@ -98,7 +102,8 @@
         tools:ignore="ContentDescription"
         app:layout_constraintTop_toTopOf="@+id/guideline4"
         app:layout_constraintBottom_toTopOf="@+id/textView8"
-        app:layout_constraintVertical_bias="0.96" />
+        app:layout_constraintVertical_bias="0.96"
+        android:background="@android:color/transparent" />
 
     <ImageButton
         android:layout_width="wrap_content"
@@ -110,7 +115,8 @@
         tools:ignore="ContentDescription"
         app:layout_constraintTop_toTopOf="@+id/guideline4"
         app:layout_constraintBottom_toTopOf="@+id/textView9"
-        app:layout_constraintVertical_bias="0.95" />
+        app:layout_constraintVertical_bias="0.95"
+        android:background="@android:color/transparent" />
 
     <ImageButton
         android:layout_width="wrap_content"
@@ -122,7 +128,8 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/guideline"
         app:layout_constraintBottom_toTopOf="@+id/textView4"
-        app:layout_constraintVertical_bias="0.95" />
+        app:layout_constraintVertical_bias="0.95"
+        android:background="@android:color/transparent" />
 
     <ImageButton
         android:layout_width="wrap_content"
@@ -134,19 +141,20 @@
         app:layout_constraintTop_toTopOf="@+id/guideline2"
         tools:ignore="ContentDescription"
         app:layout_constraintBottom_toTopOf="@+id/textView5"
-        app:layout_constraintVertical_bias="0.95" />
+        app:layout_constraintVertical_bias="0.9"
+        android:background="@android:color/transparent" />
 
     <android.support.constraint.Guideline
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/guideline4"
         android:orientation="horizontal"
-        tools:layout_editor_absoluteY="384dp"
+        tools:layout_editor_absoluteY="383dp"
         tools:layout_editor_absoluteX="0dp"
-        app:layout_constraintGuide_percent="0.7514677" />
+        app:layout_constraintGuide_percent="0.75" />
 
     <TextView
-        android:text="@string/turn_off"
+        android:text="@string/bt_power"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textView2"
@@ -155,7 +163,7 @@
         app:layout_constraintBottom_toTopOf="@+id/guideline2" />
 
     <TextView
-        android:text="@string/light_off"
+        android:text="@string/bt_light"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textView3"
@@ -164,7 +172,7 @@
         app:layout_constraintBottom_toTopOf="@+id/guideline2" />
 
     <TextView
-        android:text="@string/title_not_connected"
+        android:text="@string/bt_bat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textView4"
@@ -173,7 +181,7 @@
         app:layout_constraintBottom_toTopOf="@+id/guideline3" />
 
     <TextView
-        android:text="@string/tracking"
+        android:text="@string/bt_track"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textView5"
@@ -182,7 +190,7 @@
         app:layout_constraintBottom_toTopOf="@+id/guideline3" />
 
     <TextView
-        android:text="@string/title_not_connected"
+        android:text="@string/bt_tempin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textView6"
@@ -191,7 +199,7 @@
         app:layout_constraintBottom_toTopOf="@+id/guideline4" />
 
     <TextView
-        android:text="@string/title_not_connected"
+        android:text="@string/bt_tempout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textView7"
@@ -200,7 +208,7 @@
         app:layout_constraintBottom_toTopOf="@+id/guideline4" />
 
     <TextView
-        android:text="@string/title_not_connected"
+        android:text="@string/bt_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textView8"
@@ -210,7 +218,7 @@
         android:layout_marginBottom="16dp" />
 
     <TextView
-        android:text="@string/title_not_connected"
+        android:text="@string/bt_sup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textView9"

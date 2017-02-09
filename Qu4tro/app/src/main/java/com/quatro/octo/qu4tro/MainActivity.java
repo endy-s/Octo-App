@@ -1,5 +1,6 @@
 package com.quatro.octo.qu4tro;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -10,6 +11,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -56,6 +58,7 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -69,7 +72,7 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
     // Initialize the BluetoothChatService to perform bluetooth connections
-        mBluetoothService = new BluetoothService(getApplicationContext(), mHandler);
+        mBluetoothService = new BluetoothService(this, mHandler);
     }
 
     /**
@@ -133,7 +136,9 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_connect) {
+            Intent serverIntent = new Intent(getBaseContext(), DeviceListActivity.class);
+            startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE_SECURE);
             return true;
         }
 //        else if (R.id.discoverable) {
@@ -141,8 +146,6 @@ public class MainActivity extends AppCompatActivity
 //                ensureDiscoverable();
 //                return true;
 //            }
-
-
 
         return super.onOptionsItemSelected(item);
     }
@@ -159,6 +162,9 @@ public class MainActivity extends AppCompatActivity
             Intent serverIntent = new Intent(getBaseContext(), DeviceListActivity.class);
             startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE_SECURE);
             return true;
+        }
+        else if (id == R.id.nav_set) {
+            Toast.makeText(this, "Open settings!", Toast.LENGTH_LONG).show();
         }
         //        else if (id == R.id.nav_history) {
 //            Toast.makeText(this, "History!", Toast.LENGTH_LONG).show();
@@ -207,14 +213,14 @@ public class MainActivity extends AppCompatActivity
                 case Constants.MESSAGE_STATE_CHANGE:
                     switch (msg.arg1) {
                         case BluetoothService.STATE_CONNECTED:
-                            getActionBar().setSubtitle(R.string.title_connected);
+                            MainActivity.this.getSupportActionBar().setSubtitle(R.string.title_connected);
                             break;
                         case BluetoothService.STATE_CONNECTING:
-                            getActionBar().setSubtitle(R.string.title_connecting);
+                            MainActivity.this.getSupportActionBar().setSubtitle(R.string.title_connecting);
                             break;
                         case BluetoothService.STATE_LISTEN:
                         case BluetoothService.STATE_NONE:
-                            getActionBar().setSubtitle(R.string.title_not_connected);
+                            MainActivity.this.getSupportActionBar().setSubtitle(R.string.title_not_connected);
                             break;
                     }
                     break;
@@ -278,4 +284,43 @@ public class MainActivity extends AppCompatActivity
         mBluetoothService.connect(device, secure);
     }
 
+    /**
+     * Updates the status on the action bar.
+     *
+     * @param resId a string resource ID
+     */
+    private void setStatus(int resId) {
+        final ActionBar actionBar = getActionBar();
+        if (null == actionBar) {
+            return;
+        }
+        actionBar.setSubtitle(resId);
+    }
+
+
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mBluetoothService != null) {
+            mBluetoothService.stop();
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        // Performing this check in onResume() covers the case in which BT was
+        // not enabled during onStart(), so we were paused to enable it...
+        // onResume() will be called when ACTION_REQUEST_ENABLE activity returns.
+        if (mBluetoothService != null) {
+            // Only if the state is STATE_NONE, do we know that we haven't started already
+            if (mBluetoothService.getState() == BluetoothService.STATE_NONE) {
+                // Start the Bluetooth chat services
+                mBluetoothService.start();
+            }
+        }
+    }
 }

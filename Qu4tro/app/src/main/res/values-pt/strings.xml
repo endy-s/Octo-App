@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Qu4tro</string>
-    <string name="action_settings">Configurações</string>
     <string name="light_off">Luzes apagadas</string>
     <string name="light_on">Luzes acessas</string>
     <string name="navigation_drawer_close">Feche o navegador</string>
@@ -33,4 +32,13 @@
     <string name="error_share">Você não possui nenhum aplicativo para compartilhar o Qu4tro</string>
     <string name="send_mail">Entre em contato utilizando:</string>
     <string name="send_share">Compartilhe Qu4tro utilizando:</string>
+    <string name="nav_settings">Configurações</string>
+    <string name="bt_light">Modo de\nIluminação</string>
+    <string name="bt_power">Liga/Desliga</string>
+    <string name="bt_track">Trajeto</string>
+    <string name="bt_sup">Tempo na Água</string>
+    <string name="bt_bat">Nível de Bateria</string>
+    <string name="bt_tempin">Temperatura na Água</string>
+    <string name="bt_tempout">Temperatura na Cidade</string>
+    <string name="bt_time">Tempo de circuito ligado</string>
 </resources>
