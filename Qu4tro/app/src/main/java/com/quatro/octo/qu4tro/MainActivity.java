@@ -9,11 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 
-import android.util.Log;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -22,7 +18,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ShareActionProvider;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity
@@ -54,6 +53,12 @@ public class MainActivity extends AppCompatActivity
      */
     private ShareActionProvider mShareActionProvider;
 
+    /**
+     * Widgets variables
+     */
+    private ImageButton btOn,   btLight, btTrack;
+    private TextView    tvBat, tvDev, tvEnv, tvWater;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +66,8 @@ public class MainActivity extends AppCompatActivity
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        fillWidget();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -109,6 +116,38 @@ public class MainActivity extends AppCompatActivity
 
 
 
+
+    private final void fillWidget() {
+        btOn    = (ImageButton) findViewById(R.id.btOn);
+        btLight = (ImageButton) findViewById(R.id.btLight);
+        btTrack = (ImageButton) findViewById(R.id.btTrack);
+
+        tvBat   = (TextView)    findViewById(R.id.tvBatt);
+        tvDev   = (TextView)    findViewById(R.id.tvDevice);
+        tvEnv   = (TextView)    findViewById(R.id.tvEnv);
+        tvWater = (TextView)    findViewById(R.id.tvWat);
+
+        btOn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getBaseContext(), "On", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        btLight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getBaseContext(), "Light", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        btTrack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getBaseContext(), "Track", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 
 
     @Override

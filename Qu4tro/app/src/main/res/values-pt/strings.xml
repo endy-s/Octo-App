@@ -9,13 +9,13 @@
     <string name="navigation_drawer_open" translatable="false">Abre o navegador</string>
     <string name="drawer_menu">Configure sua prancha</string>
     <string name="project_name">Prancha Qu4tro</string>
-    <string name="bt_not_enabled_leaving">Bluetooth não foi acionado. Saindo da aplicação.</string>
+    <string name="bt_not_enabled_leaving">Bluetooth não acionado. Saindo da aplicação.</string>
     <string name="button_scan">Procure por sua prancha</string>
     <string name="none_found">Nenhum dispositivo foi encontrado. Por favor, ligue o dispositivo da sua prancha.</string>
-    <string name="none_paired">Nenhum dispositivo pairado</string>
+    <string name="none_paired">Nenhum dispositivo emparelhado</string>
     <string name="not_connected">Prancha não conectada...</string>
-    <string name="scanning">Escaneando</string>
-    <string name="select_device">Escolha o dispositivo de sua prancha</string>
+    <string name="scanning">Escaneando...</string>
+    <string name="select_device">Escolha sua prancha</string>
     <string name="title_connected">Conectado a prancha</string>
     <string name="title_connecting">Conectando...</string>
     <string name="title_not_connected">Não conectado</string>
@@ -33,12 +33,12 @@
     <string name="send_mail">Entre em contato utilizando:</string>
     <string name="send_share">Compartilhe Qu4tro utilizando:</string>
     <string name="nav_settings">Configurações</string>
-    <string name="bt_light">Modo de\nIluminação</string>
+    <string name="bt_light">Iluminação</string>
     <string name="bt_power">Liga/Desliga</string>
     <string name="bt_track">Trajeto</string>
     <string name="bt_sup">Tempo na Água</string>
     <string name="bt_bat">Nível de Bateria</string>
-    <string name="bt_tempin">Temperatura na Água</string>
-    <string name="bt_tempout">Temperatura na Cidade</string>
-    <string name="bt_time">Tempo de circuito ligado</string>
+    <string name="bt_tempin">Temperatura da Água</string>
+    <string name="bt_tempout">Temperatura Ambiente</string>
+    <string name="bt_time">Circuito ligado</string>
 </resources>
