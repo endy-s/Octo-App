@@ -2,7 +2,7 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/content_main"
+    android:id="@+id/second_content_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
@@ -21,18 +21,8 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintVertical_bias="0.0"
         app:layout_constraintTop_toTopOf="@+id/guideline5"
-        android:id="@+id/linearLayout2">
-
-        <TextView
-            android:text="@string/status"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/tvStatus"
-            android:layout_weight="0"
-            android:gravity="center"
-            android:background="@drawable/layout_border"
-            android:textColor="@android:color/black"
-            android:textStyle="normal|bold" />
+        android:id="@+id/llStatus"
+        android:background="@drawable/layout_border">
 
         <LinearLayout
             android:orientation="horizontal"
@@ -229,50 +219,61 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
-        android:layout_marginTop="16dp">
+        app:layout_constraintBottom_toTopOf="@+id/llStatus"
+        android:layout_marginTop="16dp"
+        tools:padding="40sp"
+        android:id="@+id/llMain">
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:id="@+id/llOn"
+            android:clickable="true"
+            android:focusable="true">
 
             <ImageButton
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:srcCompat="@mipmap/onoff"
                 android:src="@mipmap/onoff"
-                android:id="@+id/btOn"
+                android:id="@+id/btPower"
                 tools:ignore="ContentDescription"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toLeftOf="@+id/guideline"
-                app:layout_constraintBottom_toTopOf="@+id/textView2"
+                app:layout_constraintBottom_toTopOf="@+id/textView81"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.75"
                 tools:background="@android:color/transparent"
                 android:background="@android:color/transparent"
                 android:layout_weight="1"
-                android:scaleType="fitCenter" />
+                android:scaleType="fitCenter"
+                android:visibility="visible"
+                tools:layout_margin="10sp" />
 
             <TextView
                 android:text="@string/bt_power"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/textView2"
+                android:id="@+id/tvPower"
                 app:layout_constraintRight_toLeftOf="@+id/guideline"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
+                app:layout_constraintBottom_toTopOf="@+id/llStatus"
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
-                android:textAppearance="@android:style/TextAppearance.Material.Large" />
+                android:textAppearance="@android:style/TextAppearance.Material.Large"
+                tools:layout_margin="10sp" />
         </LinearLayout>
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:clickable="true"
+            android:focusable="true"
+            android:id="@+id/llLight">
 
             <ImageButton
                 android:layout_width="match_parent"
@@ -286,29 +287,32 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintLeft_toLeftOf="@+id/guideline"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toTopOf="@+id/textView3"
+                app:layout_constraintBottom_toTopOf="@+id/tvLight"
                 app:layout_constraintVertical_bias="0.75"
                 android:layout_weight="1"
-                android:scaleType="fitCenter" />
+                android:scaleType="fitCenter"
+                tools:layout_margin="10sp" />
 
             <TextView
                 android:text="@string/bt_light"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/textView3"
+                android:id="@+id/tvLight"
                 app:layout_constraintLeft_toLeftOf="@+id/guideline"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
+                app:layout_constraintBottom_toTopOf="@+id/llStatus"
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
-                android:textAppearance="@android:style/TextAppearance.Material.Large" />
+                android:textAppearance="@android:style/TextAppearance.Material.Large"
+                tools:layout_margin="10sp" />
         </LinearLayout>
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:id="@+id/llTrack">
 
             <ImageButton
                 android:layout_width="match_parent"
@@ -317,26 +321,28 @@
                 android:id="@+id/btTrack"
                 tools:ignore="ContentDescription"
                 tools:background="@android:color/transparent"
-                app:layout_constraintBottom_toTopOf="@+id/textView5"
+                app:layout_constraintBottom_toTopOf="@+id/tvTrack"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.75"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 android:background="@android:color/transparent"
                 android:layout_weight="1"
-                android:scaleType="fitCenter" />
+                android:scaleType="fitCenter"
+                tools:layout_margin="10sp" />
 
             <TextView
                 android:text="@string/bt_track"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/textView5"
+                android:id="@+id/tvTrack"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintBottom_toTopOf="@+id/guideline5"
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
-                android:textAppearance="@android:style/TextAppearance.Material.Large" />
+                android:textAppearance="@android:style/TextAppearance.Material.Large"
+                tools:layout_margin="10sp" />
         </LinearLayout>
 
     </LinearLayout>

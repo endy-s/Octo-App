@@ -30,7 +30,10 @@
 
     <!-- Status Infos -->
     <string name="status" translatable="false">Status</string>
-    <string name="turn_off">Power Down the Board</string>
+    <string name="power_down">Power Down the Board</string>
+    <string name="confirmation">Are you sure?</string>
+    <string name="yes">OK</string>
+    <string name="cancel">Cancel</string>
 
     <string name="light_on">Light On</string>
     <string name="light_off">Light Off</string>

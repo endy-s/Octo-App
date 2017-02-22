@@ -2,6 +2,7 @@ package com.quatro.octo.qu4tro;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.DialogFragment;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
@@ -20,12 +21,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ShareActionProvider;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, QuatroDialogFragment.QuatroDialogListener {
 
     private static final String TAG = "MainBluetooth";
 
@@ -56,8 +58,9 @@ public class MainActivity extends AppCompatActivity
     /**
      * Widgets variables
      */
-    private ImageButton btOn,   btLight, btTrack;
-    private TextView    tvBat, tvDev, tvEnv, tvWater;
+    private ImageButton btPower, btLight, btTrack;
+    private TextView    tvPower, tvLight, tvTrack, tvBat, tvDev, tvEnv, tvWater;
+    private LinearLayout llPower, llLight, llTrack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,8 +120,8 @@ public class MainActivity extends AppCompatActivity
 
 
 
-    private final void fillWidget() {
-        btOn    = (ImageButton) findViewById(R.id.btOn);
+    private void fillWidget() {
+        btPower = (ImageButton) findViewById(R.id.btPower);
         btLight = (ImageButton) findViewById(R.id.btLight);
         btTrack = (ImageButton) findViewById(R.id.btTrack);
 
@@ -127,24 +130,11 @@ public class MainActivity extends AppCompatActivity
         tvEnv   = (TextView)    findViewById(R.id.tvEnv);
         tvWater = (TextView)    findViewById(R.id.tvWat);
 
-        btOn.setOnClickListener(new View.OnClickListener() {
+        btPower.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getBaseContext(), "On", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        btLight.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getBaseContext(), "Light", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        btTrack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getBaseContext(), "Track", Toast.LENGTH_SHORT).show();
+                DialogFragment newFragment = new QuatroDialogFragment();
+                newFragment.show(MainActivity.this.getFragmentManager(), "Confirm");
             }
         });
     }
@@ -240,6 +230,21 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+
+    // The dialog fragment receives a reference to this Activity through the
+    // Fragment.onAttach() callback, which it uses to call the following methods
+    // defined by the NoticeDialogFragment.NoticeDialogListener interface
+    @Override
+    public void onDialogPositiveClick(DialogFragment dialog) {
+        // User touched the dialog's positive button
+        Toast.makeText(getBaseContext(), "Turned Off", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onDialogNegativeClick(DialogFragment dialog) {
+        // User touched the dialog's negative button
+        Toast.makeText(getBaseContext(), "Canceled", Toast.LENGTH_SHORT).show();
+    }
 
 
     /**
