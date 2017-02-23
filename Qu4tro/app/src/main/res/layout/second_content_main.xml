@@ -22,7 +22,8 @@
         app:layout_constraintVertical_bias="0.0"
         app:layout_constraintTop_toTopOf="@+id/guideline5"
         android:id="@+id/llStatus"
-        android:background="@drawable/layout_border">
+        android:background="@drawable/layout_border"
+        android:padding="10sp">
 
         <LinearLayout
             android:orientation="horizontal"
@@ -221,7 +222,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/llStatus"
         android:layout_marginTop="16dp"
-        tools:padding="40sp"
+        tools:padding="10sp"
         android:id="@+id/llMain">
 
         <LinearLayout
@@ -233,23 +234,19 @@
             android:clickable="true"
             android:focusable="true">
 
-            <ImageButton
+            <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:srcCompat="@mipmap/onoff"
                 android:src="@mipmap/onoff"
                 android:id="@+id/btPower"
-                tools:ignore="ContentDescription"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toLeftOf="@+id/guideline"
                 app:layout_constraintBottom_toTopOf="@+id/textView81"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.75"
-                tools:background="@android:color/transparent"
-                android:background="@android:color/transparent"
                 android:layout_weight="1"
                 android:scaleType="fitCenter"
-                android:visibility="visible"
                 tools:layout_margin="10sp" />
 
             <TextView
@@ -275,15 +272,12 @@
             android:focusable="true"
             android:id="@+id/llLight">
 
-            <ImageButton
+            <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:srcCompat="@mipmap/light"
                 android:src="@mipmap/light"
                 android:id="@+id/btLight"
-                tools:ignore="ContentDescription"
-                tools:background="@android:color/transparent"
-                android:background="@android:color/transparent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintLeft_toLeftOf="@+id/guideline"
                 app:layout_constraintTop_toTopOf="parent"
@@ -314,19 +308,16 @@
             android:layout_weight="1"
             android:id="@+id/llTrack">
 
-            <ImageButton
+            <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:src="@mipmap/track"
                 android:id="@+id/btTrack"
-                tools:ignore="ContentDescription"
-                tools:background="@android:color/transparent"
                 app:layout_constraintBottom_toTopOf="@+id/tvTrack"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.75"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
-                android:background="@android:color/transparent"
                 android:layout_weight="1"
                 android:scaleType="fitCenter"
                 tools:layout_margin="10sp" />

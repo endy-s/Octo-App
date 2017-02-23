@@ -21,6 +21,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ShareActionProvider;
 import android.widget.TextView;
@@ -58,8 +59,8 @@ public class MainActivity extends AppCompatActivity
     /**
      * Widgets variables
      */
-    private ImageButton btPower, btLight, btTrack;
-    private TextView    tvPower, tvLight, tvTrack, tvBat, tvDev, tvEnv, tvWater;
+    private ImageView    btPower, btLight, btTrack;
+    private TextView     tvPower, tvLight, tvTrack, tvBat, tvDev, tvEnv, tvWater;
     private LinearLayout llPower, llLight, llTrack;
 
     @Override
@@ -121,20 +122,38 @@ public class MainActivity extends AppCompatActivity
 
 
     private void fillWidget() {
-        btPower = (ImageButton) findViewById(R.id.btPower);
-        btLight = (ImageButton) findViewById(R.id.btLight);
-        btTrack = (ImageButton) findViewById(R.id.btTrack);
+        //btPower = (ImageView) findViewById(R.id.btPower);
+        //btLight = (ImageView) findViewById(R.id.btLight);
+        //btTrack = (ImageView) findViewById(R.id.btTrack);
 
         tvBat   = (TextView)    findViewById(R.id.tvBatt);
         tvDev   = (TextView)    findViewById(R.id.tvDevice);
         tvEnv   = (TextView)    findViewById(R.id.tvEnv);
         tvWater = (TextView)    findViewById(R.id.tvWat);
 
-        btPower.setOnClickListener(new View.OnClickListener() {
+        llPower = (LinearLayout) findViewById(R.id.llOn);
+        llLight = (LinearLayout) findViewById(R.id.llLight);
+        llTrack = (LinearLayout) findViewById(R.id.llTrack);
+
+        llPower.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 DialogFragment newFragment = new QuatroDialogFragment();
                 newFragment.show(MainActivity.this.getFragmentManager(), "Confirm");
+            }
+        });
+
+        llLight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getBaseContext(), "Light!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        llTrack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getBaseContext(), "Track!", Toast.LENGTH_SHORT).show();
             }
         });
     }
