@@ -8,7 +8,7 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 
 /**
- * Created by Bruno on 21/02/2017.
+ * Created by Endy on 21/02/2017.
  */
 
 public class QuatroDialogFragment extends DialogFragment {

@@ -19,15 +19,17 @@
         android:icon="@android:drawable/ic_menu_preferences"
         android:title="@string/nav_settings" />
 
-    <item
-        android:id="@+id/nav_share"
-        android:icon="@drawable/ic_menu_share"
-        android:title="@string/nav_share"
-        android:actionProviderClass="android.widget.ShareActionProvider"/>
-    <item
-        android:id="@+id/nav_send"
-        android:icon="@drawable/ic_contact"
-        android:title="@string/nav_contact" />
+    <group >
+        <item
+            android:id="@+id/nav_share"
+            android:icon="@drawable/ic_menu_share"
+            android:title="@string/nav_share"
+            android:actionProviderClass="android.widget.ShareActionProvider"/>
+        <item
+            android:id="@+id/nav_send"
+            android:icon="@drawable/ic_contact"
+            android:title="@string/nav_contact" />
+    </group>
 
     <!--<item android:title="@string/nav_comm">-->
         <!--<menu>-->

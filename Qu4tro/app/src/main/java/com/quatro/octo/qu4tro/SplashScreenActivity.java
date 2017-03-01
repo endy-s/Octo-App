@@ -29,7 +29,7 @@ public class SplashScreenActivity extends Activity {
     private BluetoothAdapter mBluetoothAdapter = null;
 
     // Intent request codes
-    private static final int REQUEST_ENABLE_BT = 3;
+    private static final int REQUEST_ENABLE_BT = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

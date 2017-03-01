@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Qu4tro</string>
     <string name="light_off">Luzes apagadas</string>
     <string name="light_on">Luzes acessas</string>
     <string name="navigation_drawer_close">Feche o navegador</string>
     <string name="tracking">Reveja sua trajetória</string>
-    <string name="turn_off">Desligue a Prancha</string>
-    <string name="navigation_drawer_open" translatable="false">Abre o navegador</string>
+    <string name="turn_off">Desligar a Prancha</string>
     <string name="drawer_menu">Configure sua prancha</string>
     <string name="project_name">Prancha Qu4tro</string>
     <string name="bt_not_enabled_leaving">Bluetooth não acionado. Saindo da aplicação.</string>
@@ -40,5 +38,18 @@
     <string name="bt_bat">Nível de Bateria</string>
     <string name="bt_tempin">Temperatura da Água</string>
     <string name="bt_tempout">Temperatura Ambiente</string>
-    <string name="bt_time">Circuito ligado</string>
+    <string name="bt_time">Prancha ligada</string>
+    <string name="cancel">Cancelar</string>
+    <string name="confirmation">Você tem certeza?</string>
+    <string name="power_down">Desligar a Prancha</string>
+    <string name="pref_header_general">Gerais</string>
+    <string name="pref_header_notifications">Notificações</string>
+    <string name="pref_title_languages">Idioma</string>
+    <string name="pref_title_ringtone">Toque</string>
+    <string name="pref_title_sync_frequency">Frequência de Sincronização</string>
+    <string name="pref_title_system_sync_settings">Configurações de Sincronização</string>
+    <string name="pref_title_vibrate">Vibrar</string>
+    <string name="pref_title_display_name">Nome de exibição</string>
+    <string name="pref_title_new_message_notifications">Notificações</string>
+    <string name="pref_header_data_sync" translatable="false">Sincronização</string>
 </resources>

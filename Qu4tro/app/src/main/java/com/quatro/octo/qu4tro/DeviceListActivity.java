@@ -52,6 +52,7 @@ public class DeviceListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_device_list);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);  // "Back" Arrow
+        setTitle(R.string.select_device);
 
         // Set result CANCELED in case the user backs out
         setResult(Activity.RESULT_CANCELED);
