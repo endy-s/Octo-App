@@ -39,6 +39,8 @@ public class MainActivity extends AppCompatActivity
     private static final int REQUEST_CONNECT_DEVICE_SECURE      = 1;
     private static final int REQUEST_CONNECT_DEVICE_INSECURE    = 2;
     private static final int REQUEST_GENERAL_SETTINGS           = 3;
+    private static final int REQUEST_LIGHT_SETTINGS             = 4;
+    private static final int REQUEST_TRACKING_SCREEN            = 4;
 
     /**
      * Name of the connected device
@@ -128,6 +130,8 @@ public class MainActivity extends AppCompatActivity
                 {
                     Toast.makeText(getBaseContext(), "Light!", Toast.LENGTH_SHORT).show();
                 }
+                Intent lightSettingsIntent = new Intent(getBaseContext(), LightSettingsActivity.class);
+                startActivityForResult(lightSettingsIntent, REQUEST_LIGHT_SETTINGS);
             }
         });
 
@@ -138,6 +142,8 @@ public class MainActivity extends AppCompatActivity
                 {
                     Toast.makeText(getBaseContext(), "Track!", Toast.LENGTH_SHORT).show();
                 }
+                Intent mapsIntent = new Intent(getBaseContext(), MapsActivity.class);
+                startActivityForResult(mapsIntent, REQUEST_TRACKING_SCREEN);
             }
         });
     }
