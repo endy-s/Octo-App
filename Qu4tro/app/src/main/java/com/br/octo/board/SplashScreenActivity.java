@@ -1,16 +1,11 @@
-package com.quatro.octo.qu4tro;
+package com.br.octo.board;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.view.MotionEvent;
-import android.view.View;
 import android.widget.Toast;
 
 /**

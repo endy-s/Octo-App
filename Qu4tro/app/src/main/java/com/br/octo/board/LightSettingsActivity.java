@@ -1,28 +1,12 @@
-package com.quatro.octo.qu4tro;
+package com.br.octo.board;
 
 
-import android.annotation.TargetApi;
-import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
-import android.media.Ringtone;
-import android.media.RingtoneManager;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.support.v7.app.ActionBar;
-import android.preference.PreferenceFragment;
-import android.preference.PreferenceManager;
-import android.preference.RingtonePreference;
-import android.text.TextUtils;
-import android.view.MenuItem;
-import android.support.v4.app.NavUtils;
-
-import java.util.List;
+import android.widget.Toast;
 
 /**
  * A {@link PreferenceActivity} that presents a set of application settings. On
@@ -44,17 +28,33 @@ public class LightSettingsActivity extends AppCompatPreferenceActivity implement
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setupActionBar();
+        setTitle(R.string.title_activity_light_settings);
         addPreferencesFromResource(R.xml.pref_light);
+    }
+
+    /**
+     * Set up the {@link android.app.ActionBar}, if the API is available.
+     */
+    private void setupActionBar() {
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            // Show the Up button in the action bar.
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
     }
 
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        Toast.makeText(getBaseContext(), "OK", Toast.LENGTH_SHORT).show();
+
         if (key.equals(KEY_PREF_SYNC_CONN)) {
             Preference connectionPref = findPreference(key);
             // Set summary to be the user-description for the selected value
             connectionPref.setSummary(sharedPreferences.getString(key, ""));
         }
+
     }
 
     @Override

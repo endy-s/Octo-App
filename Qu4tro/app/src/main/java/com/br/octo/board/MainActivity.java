@@ -1,6 +1,5 @@
-package com.quatro.octo.qu4tro;
+package com.br.octo.board;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.app.DialogFragment;
 import android.bluetooth.BluetoothAdapter;
@@ -8,7 +7,6 @@ import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -24,11 +22,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ShareActionProvider;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, QuatroDialogFragment.QuatroDialogListener {
@@ -99,6 +94,9 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void fillWidget() {
+
+        LinearLayout mainLayout = (LinearLayout) findViewById(R.id.llMain);
+        mainLayout.setPadding(16, 16, 16, 16);
         //ivPower = (ImageView) findViewById(R.id.ivPower);
         //ivLight = (ImageView) findViewById(R.id.ivLight);
         //ivTrack = (ImageView) findViewById(R.id.ivTrack);

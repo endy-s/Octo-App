@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.quatro.octo.qu4tro.MainActivity"
+    tools:context="com.br.octo.board.MainActivity"
     tools:showIn="@layout/app_bar_main"
     android:paddingBottom="24dp">
 
@@ -222,8 +222,8 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/llStatus"
         android:layout_marginTop="16dp"
-        tools:padding="16sp"
-        android:id="@+id/llMain">
+        android:id="@+id/llMain"
+        android:padding="16sp">
 
         <LinearLayout
             android:orientation="vertical"

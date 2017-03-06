@@ -1,4 +1,4 @@
-package com.quatro.octo.qu4tro;
+package com.br.octo.board;
 
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
@@ -17,7 +17,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.Set;
 

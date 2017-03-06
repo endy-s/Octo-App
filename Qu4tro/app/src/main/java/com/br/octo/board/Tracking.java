@@ -1,4 +1,4 @@
-package com.quatro.octo.qu4tro;
+package com.br.octo.board;
 
 import android.app.Service;
 import android.content.Context;
@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
 
-import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.maps.model.LatLng;
 
 public class Tracking extends Service {
