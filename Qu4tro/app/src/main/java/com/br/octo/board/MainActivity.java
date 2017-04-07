@@ -115,9 +115,10 @@ public class MainActivity extends AppCompatActivity
             public void onClick(View v) {
                 if (btConnected)
                 {
-                    DialogFragment newFragment = new QuatroDialogFragment();
-                    newFragment.show(MainActivity.this.getFragmentManager(), "Confirm");
+                    Toast.makeText(getBaseContext(), "Power!", Toast.LENGTH_SHORT).show();
                 }
+                DialogFragment newFragment = new QuatroDialogFragment();
+                newFragment.show(MainActivity.this.getFragmentManager(), "Confirm");
             }
         });
 
@@ -138,10 +139,10 @@ public class MainActivity extends AppCompatActivity
             public void onClick(View v) {
                 if (btConnected)
                 {
-                    Toast.makeText(getBaseContext(), "Track!", Toast.LENGTH_SHORT).show();
+                    Intent mapsIntent = new Intent(getBaseContext(), MapsActivity.class);
+                    startActivityForResult(mapsIntent, REQUEST_TRACKING_SCREEN);
                 }
-                Intent mapsIntent = new Intent(getBaseContext(), MapsActivity.class);
-                startActivityForResult(mapsIntent, REQUEST_TRACKING_SCREEN);
+                Toast.makeText(getBaseContext(), "Track!", Toast.LENGTH_SHORT).show();
             }
         });
     }

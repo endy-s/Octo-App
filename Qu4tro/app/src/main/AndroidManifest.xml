@@ -67,6 +67,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.br.octo.board.MainActivity" />
         </activity>
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="37f823ac90b1b11443514a9d32c0da7164d30520" />
     </application>
 
+    <uses-permission android:name="android.permission.INTERNET" />
 </manifest>

@@ -10,7 +10,7 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@mipmap/qu4tro"
+        android:src="@drawable/img_logo_octo"
         android:id="@+id/imageView2"
         tools:layout_constraintTop_creator="1"
         tools:layout_constraintBottom_creator="1"
