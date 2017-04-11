@@ -97,6 +97,7 @@ public class MainActivity extends AppCompatActivity
 
         LinearLayout mainLayout = (LinearLayout) findViewById(R.id.llMain);
         mainLayout.setPadding(16, 16, 16, 16);
+
         //ivPower = (ImageView) findViewById(R.id.ivPower);
         //ivLight = (ImageView) findViewById(R.id.ivLight);
         //ivTrack = (ImageView) findViewById(R.id.ivTrack);
@@ -251,18 +252,20 @@ public class MainActivity extends AppCompatActivity
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case Constants.MESSAGE_STATE_CHANGE:
+                    int new_res_subtitle = R.string.title_not_connected;
                     switch (msg.arg1) {
                         case BluetoothService.STATE_CONNECTED:
-                            MainActivity.this.getSupportActionBar().setSubtitle(R.string.title_connected);
+                            new_res_subtitle = R.string.title_connected;
                             break;
                         case BluetoothService.STATE_CONNECTING:
-                            MainActivity.this.getSupportActionBar().setSubtitle(R.string.title_connecting);
+                            new_res_subtitle = R.string.title_connecting;
                             break;
                         case BluetoothService.STATE_LISTEN:
                         case BluetoothService.STATE_NONE:
-                            MainActivity.this.getSupportActionBar().setSubtitle(R.string.title_not_connected);
+                            new_res_subtitle = R.string.title_not_connected;
                             break;
                     }
+                    MainActivity.this.getSupportActionBar().setSubtitle(new_res_subtitle);
                     break;
                 case Constants.MESSAGE_WRITE:
                     byte[] writeBuf = (byte[]) msg.obj;

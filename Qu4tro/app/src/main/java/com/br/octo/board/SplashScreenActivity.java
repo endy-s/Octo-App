@@ -33,8 +33,6 @@ public class SplashScreenActivity extends Activity {
         super.onCreate(savedInstanceState);
         Fabric.with(this, new Crashlytics());
 
-        setContentView(R.layout.activity_splash_screen);
-
         // Get local Bluetooth adapter
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
@@ -67,6 +65,7 @@ public class SplashScreenActivity extends Activity {
                 Intent i = new Intent(SplashScreenActivity.this, MainActivity.class);
                 startActivity(i);
 
+                overridePendingTransition(R.anim.main_in, R.anim.splash_out);
                 finish();
             }
         }, SPLASH_TIME_OUT);

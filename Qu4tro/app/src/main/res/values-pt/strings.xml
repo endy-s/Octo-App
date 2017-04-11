@@ -6,7 +6,7 @@
     <string name="tracking">Reveja sua trajetória</string>
     <string name="turn_off">Desligar a Prancha</string>
     <string name="drawer_menu">Configure sua prancha</string>
-    <string name="project_name">Prancha Qu4tro</string>
+    <string name="project_name">Prancha Octo</string>
     <string name="bt_not_enabled_leaving">Bluetooth não acionado. Saindo da aplicação.</string>
     <string name="button_scan">Procure por sua prancha</string>
     <string name="none_found">Nenhum dispositivo foi encontrado. Por favor, ligue o dispositivo da sua prancha.</string>
@@ -24,12 +24,12 @@
     <string name="nav_contact">Contato</string>
     <string name="nav_history">Histórico</string>
     <string name="nav_share">Compartilhar</string>
-    <string name="share_texts">Brilhe no Stand Up Paddle! Conheça a prancha Qu4tro em: (link)</string>
-    <string name="subject_mail">Contato do app Qu4tro!</string>
+    <string name="share_texts">Brilhe no Stand Up Paddle! Conheça a prancha Octo em: (link)</string>
+    <string name="subject_mail">Contato do applicativo Octo</string>
     <string name="error_mail">Você não possui nenhum aplicativo de e-mail para nos contatar</string>
-    <string name="error_share">Você não possui nenhum aplicativo para compartilhar o Qu4tro</string>
+    <string name="error_share">Você não possui nenhum aplicativo para compartilhar o Octo</string>
     <string name="send_mail">Entre em contato utilizando:</string>
-    <string name="send_share">Compartilhe Qu4tro utilizando:</string>
+    <string name="send_share">Compartilhe Octo utilizando:</string>
     <string name="nav_settings">Configurações</string>
     <string name="bt_light">Iluminação</string>
     <string name="bt_power">Liga/Desliga</string>
@@ -43,14 +43,9 @@
     <string name="confirmation">Você tem certeza?</string>
     <string name="power_down">Desligar a Prancha</string>
     <string name="pref_header_general">Geral</string>
-    <string name="pref_header_notifications">Notificações</string>
     <string name="pref_title_languages">Idioma</string>
-    <string name="pref_title_ringtone">Toque</string>
     <string name="pref_title_sync_frequency">Frequência de Sincronização</string>
     <string name="pref_title_system_sync_settings">Configurações de Sincronização</string>
-    <string name="pref_title_vibrate">Vibrar</string>
-    <string name="pref_title_display_name">Nome de exibição</string>
-    <string name="pref_title_new_message_notifications">Notificações</string>
     <string name="pref_header_data_sync" translatable="false">Sincronização com a Prancha</string>
     <string name="pref_title_enabled">Iluminação Ativada</string>
     <string name="pref_title_intensity">Intensidade de Iluminação</string>

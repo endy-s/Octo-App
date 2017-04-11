@@ -2,7 +2,9 @@ package com.br.octo.board;
 
 
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.support.v7.app.ActionBar;
@@ -47,7 +49,47 @@ public class LightSettingsActivity extends AppCompatPreferenceActivity implement
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        Toast.makeText(getBaseContext(), "OK", Toast.LENGTH_SHORT).show();
+        Preference preference = findPreference(key);
+
+        if (preference instanceof ListPreference) {
+            // For list preferences, look up the correct display value in
+            // the preference's 'entries' list.
+            ListPreference listPreference = (ListPreference) preference;
+            int index = listPreference.findIndexOfValue(sharedPreferences.getString(key, ""));
+
+            // Set the summary to reflect the new value.
+            preference.setSummary(
+                    index >= 0
+                            ? listPreference.getEntries()[index]
+                            : null);
+
+            Resources res = getResources();
+
+            if (key.matches(res.getString(R.string.pref_key_light_mode)))
+            {
+                Preference preference_freq = findPreference(res.getString(R.string.pref_key_light_freq));
+                switch (index) {
+                    case 0:
+                        preference_freq.setEnabled(false);
+                        break;
+                    default:
+                        preference_freq.setEnabled(true);
+                        break;
+                }
+            }
+            else if (listPreference.getKey().matches(res.getString(R.string.pref_key_light_freq)))
+            {
+                if (index == 0)
+                {
+                    // Show Warning of battery consumption!
+                }
+            }
+        }
+        else {
+            // For all other preferences, set the summary to the value's
+            // simple string representation.
+//            preference.setSummary(stringValue);
+        }
 
         if (key.equals(KEY_PREF_SYNC_CONN)) {
             Preference connectionPref = findPreference(key);

@@ -222,8 +222,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/llStatus"
         android:layout_marginTop="16dp"
-        android:id="@+id/llMain"
-        android:padding="16sp">
+        android:id="@+id/llMain">
 
         <LinearLayout
             android:orientation="vertical"

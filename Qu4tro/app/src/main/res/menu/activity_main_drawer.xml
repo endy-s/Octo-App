@@ -5,26 +5,29 @@
         <!---->
     <!--</group>-->
 
-    <item
-        android:id="@+id/nav_bt"
-        android:icon="@drawable/ic_bt"
-        android:title="@string/nav_connect" />
-    <!--<item-->
-    <!--android:id="@+id/nav_history"-->
-    <!--android:icon="@drawable/ic_hst"-->
-    <!--android:title="@string/nav_history" />-->
+    <group android:id="@+id/group_top">
+        <item
+            android:id="@+id/nav_bt"
+            android:icon="@drawable/ic_bt"
+            android:title="@string/nav_connect" />
 
-    <item
-        android:id="@+id/nav_set"
-        android:icon="@android:drawable/ic_menu_preferences"
-        android:title="@string/nav_settings" />
+        <!--<item-->
+        <!--android:id="@+id/nav_history"-->
+        <!--android:icon="@drawable/ic_hst"-->
+        <!--android:title="@string/nav_history" />-->
 
-    <group >
+        <item
+            android:id="@+id/nav_set"
+            android:icon="@android:drawable/ic_menu_preferences"
+            android:title="@string/nav_settings" />
+    </group>
+
+    <group android:id="@+id/group_bottom">
         <item
             android:id="@+id/nav_share"
+            android:actionProviderClass="android.widget.ShareActionProvider"
             android:icon="@drawable/ic_menu_share"
-            android:title="@string/nav_share"
-            android:actionProviderClass="android.widget.ShareActionProvider"/>
+            android:title="@string/nav_share" />
         <item
             android:id="@+id/nav_send"
             android:icon="@drawable/ic_contact"
