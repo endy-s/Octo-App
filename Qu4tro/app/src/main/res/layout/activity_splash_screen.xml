@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
-    tools:context="com.br.octo.board.SplashScreenActivity"
+    tools:context="com.br.octo.board.modules.SplashScreenActivity"
     android:id="@+id/splashScreenLayout">
 
     <ImageView

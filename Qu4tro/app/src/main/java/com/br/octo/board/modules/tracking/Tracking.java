@@ -1,4 +1,4 @@
-package com.br.octo.board;
+package com.br.octo.board.modules.tracking;
 
 import android.app.Service;
 import android.content.Context;

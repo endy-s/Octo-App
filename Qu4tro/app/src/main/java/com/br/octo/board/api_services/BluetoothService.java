@@ -1,4 +1,4 @@
-package com.br.octo.board;
+package com.br.octo.board.api_services;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;

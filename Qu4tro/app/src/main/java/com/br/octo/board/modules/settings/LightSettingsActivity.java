@@ -1,4 +1,4 @@
-package com.br.octo.board;
+package com.br.octo.board.modules.settings;
 
 
 import android.content.SharedPreferences;
@@ -8,7 +8,9 @@ import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.support.v7.app.ActionBar;
-import android.widget.Toast;
+
+import com.br.octo.board.R;
+import com.br.octo.board.modules.base.AppCompatPreferenceActivity;
 
 /**
  * A {@link PreferenceActivity} that presents a set of application settings. On
@@ -24,7 +26,8 @@ import android.widget.Toast;
 public class LightSettingsActivity extends AppCompatPreferenceActivity implements
         SharedPreferences.OnSharedPreferenceChangeListener {
 
-    public static final String KEY_PREF_SYNC_CONN = "pref_syncConnectionType";
+    Resources res;
+    SharedPreferences sharedLightPref;
 
 
     @Override
@@ -33,6 +36,15 @@ public class LightSettingsActivity extends AppCompatPreferenceActivity implement
         setupActionBar();
         setTitle(R.string.title_activity_light_settings);
         addPreferencesFromResource(R.xml.pref_light);
+
+        res = getResources();
+
+        sharedLightPref = getPreferenceScreen().getSharedPreferences();
+
+        ListPreference modePreference = (ListPreference) findPreference(res.
+                getString(R.string.pref_key_light_mode));
+        setFreqEnabled(modePreference.findIndexOfValue(sharedLightPref.
+                getString(res.getString(R.string.pref_key_light_mode), "")));
     }
 
     /**
@@ -46,6 +58,17 @@ public class LightSettingsActivity extends AppCompatPreferenceActivity implement
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        sharedLightPref.registerOnSharedPreferenceChangeListener(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        sharedLightPref.unregisterOnSharedPreferenceChangeListener(this);
+    }
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
@@ -63,19 +86,9 @@ public class LightSettingsActivity extends AppCompatPreferenceActivity implement
                             ? listPreference.getEntries()[index]
                             : null);
 
-            Resources res = getResources();
-
             if (key.matches(res.getString(R.string.pref_key_light_mode)))
             {
-                Preference preference_freq = findPreference(res.getString(R.string.pref_key_light_freq));
-                switch (index) {
-                    case 0:
-                        preference_freq.setEnabled(false);
-                        break;
-                    default:
-                        preference_freq.setEnabled(true);
-                        break;
-                }
+                setFreqEnabled(index);
             }
             else if (listPreference.getKey().matches(res.getString(R.string.pref_key_light_freq)))
             {
@@ -91,25 +104,25 @@ public class LightSettingsActivity extends AppCompatPreferenceActivity implement
 //            preference.setSummary(stringValue);
         }
 
-        if (key.equals(KEY_PREF_SYNC_CONN)) {
-            Preference connectionPref = findPreference(key);
-            // Set summary to be the user-description for the selected value
-            connectionPref.setSummary(sharedPreferences.getString(key, ""));
+//        if (key.equals(KEY_PREF_SYNC_CONN)) {
+//            Preference connectionPref = findPreference(key);
+//            // Set summary to be the user-description for the selected value
+//            connectionPref.setSummary(sharedPreferences.getString(key, ""));
+//        }
+
+    }
+
+    // Set the Light Frequency Enabled status
+    // Disabled if the Mode is "Always On"
+    // Enabled if the Mode is "Fade" or "Strobe"
+    public void setFreqEnabled(int index) {
+        Preference preference_freq = findPreference(res.getString(R.string.pref_key_light_freq));
+
+        if (index == 0) {
+            preference_freq.setEnabled(false);
         }
-
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        getPreferenceScreen().getSharedPreferences()
-                .registerOnSharedPreferenceChangeListener(this);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        getPreferenceScreen().getSharedPreferences()
-                .unregisterOnSharedPreferenceChangeListener(this);
+        else {
+            preference_freq.setEnabled(true);
+        }
     }
 }

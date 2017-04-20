@@ -77,22 +77,26 @@
     <!-- General settings -->
     <string name="pref_header_general">General</string>
 
-        <!-- Language settings -->
+    <!-- Language settings -->
     <string name="pref_title_languages">Language</string>
 
     <string name="pref_key_language" translatable="false">lang_key</string>
-    <string-array name="pref_example_list_titles">
+    <string-array name="pref_general_list_titles" translatable="false">
         <item>English</item>
         <item>Português (Brasil)</item>
         <item>Português (Portugal)</item>
     </string-array>
-    <string-array name="pref_example_list_values">
+    <string-array name="pref_general_list_values" translatable="false">
         <item>0</item>
         <item>1</item>
         <item>2</item>
     </string-array>
 
-        <!-- Data & Sync settings-->
+    <!-- Language settings -->
+    <string name="pref_title_keep_screen">Keep Screen On</string>
+    <string name="pref_key_keep_screen" translatable="false">keep_screen_key</string>
+
+    <!-- Data & Sync settings-->
     <string name="pref_header_data_sync">Board Sync</string>
 
     <string name="pref_title_sync_frequency">Sync frequency</string>
@@ -109,13 +113,13 @@
         <item>2</item>
     </string-array>
 
-    <string-array name="list_preference_entries">
+    <string-array name="list_preference_entries" translatable="false">
         <item>Entry 1</item>
         <item>Entry 2</item>
         <item>Entry 3</item>
     </string-array>
 
-    <string-array name="list_preference_entry_values">
+    <string-array name="list_preference_entry_values" translatable="false">
         <item>0</item>
         <item>1</item>
         <item>2</item>
@@ -124,11 +128,9 @@
 
     <!-- Light settings -->
     <string name="pref_title_enabled">Light Enabled</string>
-    <string name="pref_title_mode">Light Mode</string>
-    <string name="pref_title_intensity">Light Intensity</string>
-
     <string name="pref_key_light_enabled" translatable="false">light_enabled_key</string>
 
+    <string name="pref_title_mode">Light Mode</string>
     <string name="pref_key_light_mode" translatable="false">light_mode_key</string>
     <string-array name="pref_light_list_titles">
         <item>Always On</item>
@@ -141,6 +143,7 @@
         <item>2</item>
     </string-array>
 
+    <string name="pref_title_freq">Light Frequency</string>
     <string name="pref_key_light_freq" translatable="false">light_freq_key</string>
     <string-array name="pref_light_frequency_titles">
         <item>05 seconds</item>
@@ -152,8 +155,10 @@
         <item>30</item>
         <item>60</item>
     </string-array>
+
+    <string name="pref_title_intensity">Light Intensity</string>
+
     <string name="pref_title_system_sync_settings">Sync Settings</string>
-    <string name="turn_off">Turn Off</string>
 
 
 </resources>

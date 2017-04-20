@@ -1,4 +1,4 @@
-package com.br.octo.board;
+package com.br.octo.board.modules.main;
 
 import android.app.Activity;
 import android.app.DialogFragment;
@@ -20,12 +20,23 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity
+import com.br.octo.board.api_services.BluetoothService;
+import com.br.octo.board.api_services.Constants;
+import com.br.octo.board.modules.DeviceListActivity;
+import com.br.octo.board.modules.base.BaseActivity;
+import com.br.octo.board.modules.settings.LightSettingsActivity;
+import com.br.octo.board.modules.settings.LocaleHelper;
+import com.br.octo.board.models.QuatroDialogFragment;
+import com.br.octo.board.R;
+import com.br.octo.board.modules.settings.SettingsActivity;
+
+public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener, QuatroDialogFragment.QuatroDialogListener {
 
     private static final String TAG = "MainBluetooth";
@@ -140,8 +151,8 @@ public class MainActivity extends AppCompatActivity
             public void onClick(View v) {
                 if (btConnected)
                 {
-                    Intent mapsIntent = new Intent(getBaseContext(), MapsActivity.class);
-                    startActivityForResult(mapsIntent, REQUEST_TRACKING_SCREEN);
+                    //Intent mapsIntent = new Intent(getBaseContext(), MapsActivity.class);
+                    //startActivityForResult(mapsIntent, REQUEST_TRACKING_SCREEN);
                 }
                 Toast.makeText(getBaseContext(), "Track!", Toast.LENGTH_SHORT).show();
             }
@@ -373,10 +384,17 @@ public class MainActivity extends AppCompatActivity
 
             case REQUEST_GENERAL_SETTINGS:
                 // When Settings returns with a Language change
-                recreate();
-//                if (resultCode == Activity.RESULT_OK) {
-//                    connectDevice(data, false);
-//                }
+                if (resultCode == Activity.RESULT_OK) {
+                    recreate();
+                }
+                else if (resultCode == Activity.RESULT_FIRST_USER) {
+                    BaseActivity.keepScreen = true;
+                    getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+                }
+                else {
+                    BaseActivity.keepScreen = false;
+                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+                }
                 break;
         }
     }

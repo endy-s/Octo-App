@@ -1,4 +1,4 @@
-package com.br.octo.board;
+package com.br.octo.board.api_services;
 
 /**
  * Created by Endy on 27/01/2017.

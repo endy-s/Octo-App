@@ -4,7 +4,6 @@
     <string name="light_on">Luzes acessas</string>
     <string name="navigation_drawer_close">Feche o navegador</string>
     <string name="tracking">Reveja sua trajetória</string>
-    <string name="turn_off">Desligar a Prancha</string>
     <string name="drawer_menu">Configure sua prancha</string>
     <string name="project_name">Prancha Octo</string>
     <string name="bt_not_enabled_leaving">Bluetooth não acionado. Saindo da aplicação.</string>
@@ -46,7 +45,7 @@
     <string name="pref_title_languages">Idioma</string>
     <string name="pref_title_sync_frequency">Frequência de Sincronização</string>
     <string name="pref_title_system_sync_settings">Configurações de Sincronização</string>
-    <string name="pref_header_data_sync" translatable="false">Sincronização com a Prancha</string>
+    <string name="pref_header_data_sync">Sincronização com a Prancha</string>
     <string name="pref_title_enabled">Iluminação Ativada</string>
     <string name="pref_title_intensity">Intensidade de Iluminação</string>
     <string name="pref_title_mode">Modo de Iluminação</string>
@@ -83,4 +82,6 @@
         <item>30</item>
         <item>60</item>
     </string-array>
+    <string name="pref_title_keep_screen">Manter a Tela Acesa</string>
+    <string name="pref_title_freq">Frequência da Iluminação</string>
 </resources>

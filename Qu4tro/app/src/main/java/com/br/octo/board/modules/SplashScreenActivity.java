@@ -1,20 +1,22 @@
-package com.br.octo.board;
+package com.br.octo.board.modules;
 
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.WindowManager;
 import android.widget.Toast;
-import com.crashlytics.android.Crashlytics;
-import io.fabric.sdk.android.Fabric;
 
-/**
- * An example full-screen activity that shows and hides the system UI (i.e.
- * status bar and navigation/system bar) with user interaction.
- */
-public class SplashScreenActivity extends Activity {
+import com.br.octo.board.R;
+import com.br.octo.board.modules.base.BaseActivity;
+import com.br.octo.board.modules.main.MainActivity;
+import com.br.octo.board.modules.base.AppCompatPreferenceActivity;
+
+
+public class SplashScreenActivity extends BaseActivity {
 
     private static final String TAG = "SplashScreen";
 
@@ -31,8 +33,6 @@ public class SplashScreenActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Fabric.with(this, new Crashlytics());
-
         // Get local Bluetooth adapter
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
@@ -40,6 +40,19 @@ public class SplashScreenActivity extends Activity {
         if (mBluetoothAdapter == null) {
             Toast.makeText(this, "Bluetooth is not available", Toast.LENGTH_LONG).show();
             finish();
+        }
+
+        // Get the Shared Preferences
+        if (PreferenceManager.getDefaultSharedPreferences(this)
+                .getBoolean(getString(R.string.pref_key_keep_screen), false)) {
+            BaseActivity.keepScreen = true;
+            AppCompatPreferenceActivity.keepScreen = true;
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        }
+        else {
+            BaseActivity.keepScreen = false;
+            AppCompatPreferenceActivity.keepScreen = true;
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
     }
 

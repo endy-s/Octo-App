@@ -22,6 +22,7 @@
         android:title="@string/pref_title_mode" />
 
     <ListPreference
+        android:persistent="true"
         android:dependency="@string/pref_key_light_enabled"
         android:defaultValue="30"
         android:entries="@array/pref_light_frequency_titles"

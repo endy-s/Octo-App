@@ -1,22 +1,19 @@
-package com.br.octo.board;
+package com.br.octo.board.modules.settings;
 
 
-import android.annotation.TargetApi;
-import android.app.FragmentManager;
-import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
-import android.os.Build;
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.os.PowerManager;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.support.v7.app.ActionBar;
-import android.preference.PreferenceFragment;
-import android.preference.PreferenceManager;
-import android.widget.Toast;
+import android.view.WindowManager;
 
-import java.util.List;
+import com.br.octo.board.R;
+import com.br.octo.board.modules.base.AppCompatPreferenceActivity;
+
 import java.util.Locale;
 
 /**
@@ -33,8 +30,9 @@ import java.util.Locale;
 public class SettingsActivity extends AppCompatPreferenceActivity implements
         SharedPreferences.OnSharedPreferenceChangeListener {
 
-    public static final String KEY_PREF_SYNC_CONN = "pref_syncConnectionType";
+    protected PowerManager.WakeLock mWakeLock;
 
+    Resources res;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -42,6 +40,8 @@ public class SettingsActivity extends AppCompatPreferenceActivity implements
         setupActionBar();
         setTitle(R.string.nav_settings);
         addPreferencesFromResource(R.xml.pref_general);
+
+        res = getResources();
     }
 
     /**
@@ -60,13 +60,11 @@ public class SettingsActivity extends AppCompatPreferenceActivity implements
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         Preference preference = findPreference(key);
 
-        String stringValue = sharedPreferences.getString(key, "");
-
         if (preference instanceof ListPreference) {
             // For list preferences, look up the correct display value in
             // the preference's 'entries' list.
             ListPreference listPreference = (ListPreference) preference;
-            int index = listPreference.findIndexOfValue(stringValue);
+            int index = listPreference.findIndexOfValue(sharedPreferences.getString(key, ""));
 
             // Set the summary to reflect the new value.
             preference.setSummary(
@@ -74,7 +72,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity implements
                             ? listPreference.getEntries()[index]
                             : null);
 
-            if (key.matches(getResources().getString(R.string.pref_key_language)))
+            if (key.matches(res.getString(R.string.pref_key_language)))
             {
                 switch (index) {
                     case 1:
@@ -89,7 +87,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity implements
                 }
                 restart_settings();
             }
-            else if (listPreference.getKey().matches(getResources().getString(R.string.pref_key_sync_frequency)))
+            else if (listPreference.getKey().matches(res.getString(R.string.pref_key_sync_frequency)))
             {
                 if (index == 0)
                 {
@@ -104,13 +102,22 @@ public class SettingsActivity extends AppCompatPreferenceActivity implements
         }
 
 
-        if (key.equals(KEY_PREF_SYNC_CONN)) {
-            Preference connectionPref = findPreference(key);
-            // Set summary to be the user-description for the selected value
-            connectionPref.setSummary(sharedPreferences.getString(key, ""));
+        // If it matches the Keep Screen Key
+        if (key.matches(res.getString(R.string.pref_key_keep_screen))) {
+            if (sharedPreferences.getBoolean(key, false)) {
+                setResult(RESULT_FIRST_USER);
+                AppCompatPreferenceActivity.keepScreen = true;
+                getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+            }
+            else {
+                setResult(RESULT_CANCELED);
+                AppCompatPreferenceActivity.keepScreen = false;
+                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+            }
         }
     }
 
+    // Restarting the Title and the preferences widgets to use the selected language
     private void restart_settings()
     {
         setTitle(R.string.nav_settings);
