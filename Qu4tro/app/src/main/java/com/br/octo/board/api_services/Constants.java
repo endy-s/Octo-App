@@ -1,4 +1,4 @@
-package com.br.octo.board;
+package com.br.octo.board.api_services;
 
 /**
  * Created by Endy on 27/01/2017.
@@ -20,4 +20,6 @@ public interface Constants {
     // Key names received from the BluetoothChatService Handler
     public static final String DEVICE_NAME = "device_name";
     public static final String TOAST = "toast";
+
+
 }

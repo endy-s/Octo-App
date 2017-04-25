@@ -1,4 +1,4 @@
-package com.br.octo.board;
+package com.br.octo.board.modules.tracking;
 
 import android.content.Intent;
 import android.content.IntentSender;
@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.widget.Toast;
 
+import com.br.octo.board.R;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationRequest;
@@ -38,8 +39,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     public static GoogleApiClient mGoogleApiClient;
     public LocationRequest mLocationRequest;
-    private long UPDATE_INTERVAL = 60000;  /* 60 secs */
-    private long FASTEST_INTERVAL = 10000; /* 10 secs */
+    private long UPDATE_INTERVAL = 30000;  /* 30 secs */
+    private long FASTEST_INTERVAL = 5000; /* 5 secs */
 
     /*
      * Define a request code to send to Google Play services This code is

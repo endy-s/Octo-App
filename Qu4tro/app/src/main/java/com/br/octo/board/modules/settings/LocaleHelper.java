@@ -1,4 +1,4 @@
-package com.br.octo.board;
+package com.br.octo.board.modules.settings;
 
 import android.annotation.TargetApi;
 import android.app.Activity;

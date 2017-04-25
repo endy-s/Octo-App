@@ -6,24 +6,28 @@
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
+<!-- <uses-permission android:name="android.permission.BLUETOOTH_PRIVILEGED"></uses-permission> -->
 
-    <!-- <uses-permission android:name="android.permission.BLUETOOTH_PRIVILEGED"></uses-permission> -->
     <application
+        android:name=".MainApplication"
         android:allowBackup="true"
         android:icon="@mipmap/icone"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.br.octo.board.MainActivity"
+            android:name=".modules.main.MainActivity"
             android:configChanges="locale|layoutDirection"
             android:label="@string/app_name"
-            android:resizeableActivity="true"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <!-- android:resizeableActivity="true" -->
+
         <activity
-            android:name="com.br.octo.board.SplashScreenActivity"
-            android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:name=".modules.SplashScreenActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -31,23 +35,33 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.br.octo.board.DeviceListActivity"
-            android:parentActivityName="com.br.octo.board.MainActivity"
-            android:theme="@style/AppTheme" />
+            android:name=".modules.DeviceListActivity"
+            android:screenOrientation="portrait"
+            android:parentActivityName=".modules.main.MainActivity"/>
         <activity
-            android:name="com.br.octo.board.SettingsActivity"
-            android:configChanges="locale|layoutDirection"
-            android:parentActivityName="com.br.octo.board.MainActivity" />
+            android:name=".modules.settings.SettingsActivity"
+            android:screenOrientation="portrait"
+            android:parentActivityName=".modules.main.MainActivity"/>
         <activity
-            android:name="com.br.octo.board.LightSettingsActivity"
-            android:parentActivityName="com.br.octo.board.MainActivity">
-        </activity>
+            android:name=".modules.settings.LightSettingsActivity"
+            android:screenOrientation="portrait"
+            android:parentActivityName=".modules.main.MainActivity"/>
 
         <service
-            android:name="com.br.octo.board.Tracking"
+            android:name=".modules.tracking.Tracking"
             android:enabled="true"
             android:exported="true"
             android:process=":tracking" />
+
+        <activity
+            android:name=".modules.tracking.MapsActivity"
+            android:screenOrientation="portrait"
+            android:label="@string/title_activity_maps">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".modules.main.MainActivity" />
+        </activity>
+
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -56,21 +70,13 @@
              sign the APK for publishing.
              You can define the keys for the debug and release targets in src/debug/ and src/release/. 
         -->
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
-
-        <activity
-            android:name="com.br.octo.board.MapsActivity"
-            android:label="@string/title_activity_maps">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.br.octo.board.MainActivity" />
-        </activity>
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="37f823ac90b1b11443514a9d32c0da7164d30520" />
     </application>
 
-    <uses-permission android:name="android.permission.INTERNET" />
 </manifest>

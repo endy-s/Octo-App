@@ -1,4 +1,4 @@
-package com.br.octo.board;
+package com.br.octo.board.modules;
 
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
@@ -18,9 +18,12 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.br.octo.board.R;
+import com.br.octo.board.modules.base.BaseActivity;
+
 import java.util.Set;
 
-public class DeviceListActivity extends AppCompatActivity {
+public class DeviceListActivity extends BaseActivity {
 
     /**
      * Tag for Log
