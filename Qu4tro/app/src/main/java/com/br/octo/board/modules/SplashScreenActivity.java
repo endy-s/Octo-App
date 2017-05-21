@@ -53,12 +53,9 @@ public class SplashScreenActivity extends BaseActivity {
         super.onStart();
 
         if (!mBluetoothAdapter.isEnabled()) {
-            // If BT is not on, request that it be enabled.
-            // setupChat() will then be called during onActivityResult
             Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
         } else {
-            // Otherwise, setup the chat session
             startMainActivity();
         }
     }
