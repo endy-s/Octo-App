@@ -6,7 +6,6 @@
     <string name="title_activity_maps" translatable="false">Map</string>
 
     <!--Cool Version Main Screen-->
-    <string name="last_info">LAST PADDLE</string>
 
     <!--  Bluetooth Status -->
     <string name="not_connected">Board not connected...</string>
@@ -39,14 +38,14 @@
     <string name="bt_bat">BATTERY</string>
     <string name="bt_board">BOARD</string>
     <string name="bt_last">LAST PADDLE</string>
-    <string name="bt_unknow">---</string>
+    <string name="bt_unknow" translatable="false">---</string>
 
     <string name="bt_sup">Min:Sec</string>
     
-    <string name="bt_dist">Km</string>
+    <string name="bt_dist" translatable="false">Km</string>
     <string name="bt_rows">Rows</string>
-    <string name="bt_cal">Kcal</string>
-    <string name="bt_vel">Km/h</string>
+    <string name="bt_cal" translatable="false">Kcal</string>
+    <string name="bt_vel" translatable="false">Km/h</string>
     
     <string name="bt_stop">STOP</string>
     <string name="bt_pause">PAUSE</string>

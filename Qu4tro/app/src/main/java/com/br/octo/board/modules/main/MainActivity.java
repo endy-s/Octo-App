@@ -86,24 +86,24 @@ public class MainActivity extends BaseActivity
 
     // Widgets
     // Status TextViews
-    @BindView(R.id.tvBatt)
+    @BindView(R.id.txtBattery)
     TextView batteryTV;
-    @BindView(R.id.tvDevice)
-    TextView timeOnTV;
-    @BindView(R.id.tvEnv)
+    @BindView(R.id.txtBoard)
+    TextView boardTV;
+    @BindView(R.id.txtAmbience)
     TextView tempEnvTV;
-    @BindView(R.id.tvWat)
+    @BindView(R.id.txtWater)
     TextView tempWatterTV;
 
     // Main "Buttons" - Actions
-    @BindView(R.id.llMain)
-    LinearLayout mainLayout;
-    @BindView(R.id.llOn)
-    LinearLayout powerLayout;
-    @BindView(R.id.llLight)
-    LinearLayout lightLayout;
-    @BindView(R.id.llTrack)
-    LinearLayout trackLayout;
+//    @BindView(R.id.llMain)
+//    LinearLayout mainLayout;
+//    @BindView(R.id.llOn)
+//    LinearLayout powerLayout;
+//    @BindView(R.id.llLight)
+//    LinearLayout lightLayout;
+//    @BindView(R.id.llTrack)
+//    LinearLayout trackLayout;
 
     // Layout views (Navigation, Drawer and toolbar)
     @BindView(R.id.drawer_layout)
@@ -122,7 +122,7 @@ public class MainActivity extends BaseActivity
 
         // Widgets binding and setting
         ButterKnife.bind(this);
-        mainLayout.setPadding(16, 16, 16, 16);
+        //mainLayout.setPadding(16, 16, 16, 16);
         setSupportActionBar(toolbar);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -296,29 +296,29 @@ public class MainActivity extends BaseActivity
 
     //region click listeners
 
-    @OnClick(R.id.llOn)
-    public void powerClicked() {
-        if (btConnected)
-        {
-            // return the code here
-        }
-        DialogFragment newFragment = new QuatroDialogFragment();
-        newFragment.show(MainActivity.this.getFragmentManager(), "Confirm");
-    }
+//    @OnClick(R.id.llOn)
+//    public void powerClicked() {
+//        if (btConnected)
+//        {
+//            // return the code here
+//        }
+//        DialogFragment newFragment = new QuatroDialogFragment();
+//        newFragment.show(MainActivity.this.getFragmentManager(), "Confirm");
+//    }
+//
+//    @OnClick(R.id.llLight)
+//    public void lightClicked()
+//    {
+//        if (btConnected)
+//        {
+//            // return the code here
+//        }
+//        startActivityForResult(new Intent(getBaseContext(), LightSettingsActivity.class),
+//                REQUEST_LIGHT_SETTINGS);
+//    }
 
-    @OnClick(R.id.llLight)
-    public void lightClicked()
-    {
-        if (btConnected)
-        {
-            // return the code here
-        }
-        startActivityForResult(new Intent(getBaseContext(), LightSettingsActivity.class),
-                REQUEST_LIGHT_SETTINGS);
-    }
-
-    @OnClick(R.id.llTrack)
-    public void trackClicked()
+    @OnClick(R.id.btStart)
+    public void startClicked()
     {
         if (btConnected)
         {

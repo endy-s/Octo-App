@@ -3,16 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginTop="50sp"
     android:background="@drawable/img_main_octo"
     android:orientation="vertical">
 
     <ImageButton
-        android:id="@+id/button2"
+        android:id="@+id/btStart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_margin="50sp"
         android:background="@android:color/transparent"
+        android:padding="50sp"
         android:src="@drawable/ic_btn_start"
         app:srcCompat="@drawable/ic_btn_start" />
 
@@ -271,8 +272,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="2"
                 android:gravity="center"
-                android:textAlignment="gravity"
                 android:text="@string/bt_unknow"
+                android:textAlignment="gravity"
                 android:textColor="@color/text_labels" />
 
             <TextView
@@ -281,8 +282,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="2"
                 android:gravity="center"
-                android:textAlignment="gravity"
                 android:text="@string/bt_unknow"
+                android:textAlignment="gravity"
                 android:textColor="@color/text_info" />
 
             <TextView
@@ -291,9 +292,9 @@
                 android:layout_height="match_parent"
                 android:layout_weight="2"
                 android:gravity="center"
-                android:textAlignment="gravity"
                 android:text="@string/bt_unknow"
-                android:textColor="@color/text_info"/>
+                android:textAlignment="gravity"
+                android:textColor="@color/text_info" />
 
             <TextView
                 android:id="@+id/textView16"
@@ -301,9 +302,9 @@
                 android:layout_height="match_parent"
                 android:layout_weight="2"
                 android:gravity="center"
-                android:textAlignment="gravity"
                 android:text="@string/bt_unknow"
-                android:textColor="@color/text_info"/>
+                android:textAlignment="gravity"
+                android:textColor="@color/text_info" />
 
         </LinearLayout>
 

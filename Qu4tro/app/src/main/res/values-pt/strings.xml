@@ -86,4 +86,9 @@
     <string name="pref_title_freq">Frequência da Iluminação</string>
     <string name="ble_not_supported">Bluetooth Low Energy não disponível. Terminando a aplicação.</string>
     <string name="unknown_device">Dispositivo Desconhecido</string>
+    <string name="bt_board">PRANCHA</string>
+    <string name="bt_last">ÚLTIMA REMADA</string>
+    <string name="bt_rows">Remadas</string>
+    <string name="bt_stop">PARAR</string>
+    <string name="bt_pause">PAUSAR</string>
 </resources>
