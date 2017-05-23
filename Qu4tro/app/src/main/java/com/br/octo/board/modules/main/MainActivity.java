@@ -279,7 +279,7 @@ public class MainActivity extends BaseActivity
     // end Region
 
     // Dialog Region (Used at "On/Off" button)
-
+    // TODO: kept to useas reference in future dialogs
     @Override
     public void onDialogPositiveClick(DialogFragment dialog) {
         // User touched the dialog's positive button
@@ -296,34 +296,13 @@ public class MainActivity extends BaseActivity
 
     //region click listeners
 
-//    @OnClick(R.id.llOn)
-//    public void powerClicked() {
-//        if (btConnected)
-//        {
-//            // return the code here
-//        }
-//        DialogFragment newFragment = new QuatroDialogFragment();
-//        newFragment.show(MainActivity.this.getFragmentManager(), "Confirm");
-//    }
-//
-//    @OnClick(R.id.llLight)
-//    public void lightClicked()
-//    {
-//        if (btConnected)
-//        {
-//            // return the code here
-//        }
-//        startActivityForResult(new Intent(getBaseContext(), LightSettingsActivity.class),
-//                REQUEST_LIGHT_SETTINGS);
-//    }
-
     @OnClick(R.id.btStart)
     public void startClicked()
     {
         if (btConnected)
         {
-            //Intent mapsIntent = new Intent(getBaseContext(), MapsActivity.class);
-            //startActivityForResult(mapsIntent, REQUEST_TRACKING_SCREEN);
+            //Intent trackingIntent = new Intent(getBaseContext(), TrackingService.class);
+            //startActivityForResult(trackingIntent, REQUEST_TRACKING_SCREEN);
         }
         Toast.makeText(getBaseContext(), "Track!", Toast.LENGTH_SHORT).show();
     }

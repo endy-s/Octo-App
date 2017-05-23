@@ -47,7 +47,7 @@
             android:parentActivityName=".modules.main.MainActivity"/>
 
         <activity
-            android:name=".modules.tracking.MapsActivity"
+            android:name=".modules.tracking.PaddleActivity"
             android:screenOrientation="portrait"
             android:label="@string/title_activity_maps">
             <meta-data
@@ -56,7 +56,7 @@
         </activity>
 
         <service
-            android:name=".modules.tracking.Tracking"
+            android:name=".modules.tracking.TrackingService"
             android:enabled="true"
             android:exported="true"
             android:process=":tracking" />

@@ -27,13 +27,13 @@ import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
+public class PaddleActivity extends FragmentActivity implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
 
     private GoogleMap mMap;
     SupportMapFragment mapFragment;
-    Tracking track;
+    TrackingService track;
 
     static ArrayList<LatLng> route = new ArrayList();
 
@@ -177,7 +177,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onResume() {
         super.onResume();
         if (mMap == null) {
-            startService(new Intent(this, Tracking.class));
+            startService(new Intent(this, TrackingService.class));
             mapFragment.getMapAsync(this);
             if (mMap != null) {
                 onMapReady(mMap);
