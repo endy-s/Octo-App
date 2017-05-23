@@ -80,6 +80,8 @@ public class SplashScreenActivity extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+
+    //TODO: Fix the problems of back pressed at the splash loading
     public void startMainActivity()
     {
         // Delay fade for Splash Screen in background

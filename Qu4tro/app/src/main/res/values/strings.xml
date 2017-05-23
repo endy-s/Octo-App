@@ -5,6 +5,9 @@
     <!--  Map Activity -->
     <string name="title_activity_maps" translatable="false">Map</string>
 
+    <!--Cool Version Main Screen-->
+    <string name="last_info">LAST PADDLE</string>
+
     <!--  Bluetooth Status -->
     <string name="not_connected">Board not connected...</string>
     <string name="bt_not_enabled_leaving">Bluetooth not enabled. Leaving the application.</string>
@@ -29,11 +32,25 @@
     <string name="bt_power">On/Off</string>
     <string name="bt_light">Light</string>
     <string name="bt_track">Tracking</string>
-    <string name="bt_bat">Battery Level</string>
     <string name="bt_time">Board On</string>
-    <string name="bt_sup">Time on Water</string>
-    <string name="bt_tempout">Environment Temperature</string>
-    <string name="bt_tempin">Water Temperature</string>
+
+    <string name="bt_tempin">WATER</string>
+    <string name="bt_tempout">AMBIENCE</string>
+    <string name="bt_bat">BATTERY</string>
+    <string name="bt_board">BOARD</string>
+    <string name="bt_last">LAST PADDLE</string>
+    <string name="bt_unknow">---</string>
+
+    <string name="bt_sup">Min:Sec</string>
+    
+    <string name="bt_dist">Km</string>
+    <string name="bt_rows">Rows</string>
+    <string name="bt_cal">Kcal</string>
+    <string name="bt_vel">Km/h</string>
+    
+    <string name="bt_stop">STOP</string>
+    <string name="bt_pause">PAUSE</string>
+
 
     <!-- Status Infos -->
     <string name="status" translatable="false">Status</string>

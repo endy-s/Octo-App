@@ -177,7 +177,9 @@ public class MainActivity extends BaseActivity
     @Override
     public void onDestroy() {
         super.onDestroy();
-        unbindService(mServiceConnection);
+        if (btConnected) {
+            unbindService(mServiceConnection);
+        }
         mBluetoothService = null;
     }
 
