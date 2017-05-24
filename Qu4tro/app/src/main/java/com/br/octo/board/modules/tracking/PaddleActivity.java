@@ -1,21 +1,17 @@
 package com.br.octo.board.modules.tracking;
 
-import android.content.Context;
-import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
-import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.widget.Toast;
 
 import com.br.octo.board.R;
-import com.br.octo.board.modules.main.MainActivity;
-import com.br.octo.board.modules.settings.LightSettingsActivity;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationRequest;
@@ -29,8 +25,6 @@ import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
-
-import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class PaddleActivity extends FragmentActivity implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
@@ -69,11 +63,6 @@ public class PaddleActivity extends FragmentActivity implements OnMapReadyCallba
 //                MainActivity.REQUEST_LIGHT_SETTINGS);
 //        DialogFragment newFragment = new QuatroDialogFragment();
 //        newFragment.show(MainActivity.this.getFragmentManager(), "Confirm");
-    }
-
-    @Override
-    protected void attachBaseContext(Context base) {
-        super.attachBaseContext(CalligraphyContextWrapper.wrap(base));
     }
 
 

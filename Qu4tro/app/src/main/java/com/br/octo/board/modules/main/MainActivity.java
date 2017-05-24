@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.DialogFragment;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothGattCharacteristic;
-import android.bluetooth.BluetoothGattService;
 import android.bluetooth.BluetoothManager;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
@@ -24,8 +23,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.WindowManager;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,13 +34,10 @@ import com.br.octo.board.api_services.SampleGattAttributes;
 import com.br.octo.board.models.QuatroDialogFragment;
 import com.br.octo.board.modules.DeviceListActivity;
 import com.br.octo.board.modules.base.BaseActivity;
-import com.br.octo.board.modules.settings.LightSettingsActivity;
 import com.br.octo.board.modules.settings.LocaleHelper;
 import com.br.octo.board.modules.settings.SettingsActivity;
+import com.br.octo.board.modules.tracking.PaddleActivity;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.UUID;
 
 import butterknife.BindView;
@@ -56,11 +52,11 @@ public class MainActivity extends BaseActivity
                     QuatroDialogFragment.QuatroDialogListener {
 
 // Intent request codes
-    private static final int REQUEST_CONNECT_DEVICE     = 0;
-    private static final int REQUEST_GENERAL_SETTINGS   = 1;
-    private static final int REQUEST_LIGHT_SETTINGS     = 2;
-    private static final int REQUEST_TRACKING_SCREEN    = 3;
-    private static final int REQUEST_ENABLE_BT          = 99;
+    public static final int REQUEST_CONNECT_DEVICE     = 0;
+    public static final int REQUEST_GENERAL_SETTINGS   = 1;
+    public static final int REQUEST_LIGHT_SETTINGS     = 2;
+    public static final int REQUEST_TRACKING_SCREEN    = 3;
+    public static final int REQUEST_ENABLE_BT          = 99;
 
 // Bluetooth
 
@@ -124,6 +120,7 @@ public class MainActivity extends BaseActivity
         ButterKnife.bind(this);
         //mainLayout.setPadding(16, 16, 16, 16);
         setSupportActionBar(toolbar);
+        //setTitle("");
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -299,12 +296,11 @@ public class MainActivity extends BaseActivity
     @OnClick(R.id.btStart)
     public void startClicked()
     {
-        if (btConnected)
-        {
-            //Intent trackingIntent = new Intent(getBaseContext(), TrackingService.class);
-            //startActivityForResult(trackingIntent, REQUEST_TRACKING_SCREEN);
-        }
-        Toast.makeText(getBaseContext(), "Track!", Toast.LENGTH_SHORT).show();
+//        if (btConnected)
+//        {
+            Intent trackingIntent = new Intent(getBaseContext(), PaddleActivity.class);
+            startActivityForResult(trackingIntent, REQUEST_TRACKING_SCREEN);
+//        }
     }
 
     //end region
