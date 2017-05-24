@@ -38,17 +38,25 @@
     <string name="bt_bat">BATTERY</string>
     <string name="bt_board">BOARD</string>
     <string name="bt_last">LAST PADDLE</string>
+    <string name="bt_hour" translatable="false">HR</string>
     <string name="bt_unknow" translatable="false">---</string>
 
-    <string name="bt_sup">Min:Sec</string>
-    
-    <string name="bt_dist" translatable="false">Km</string>
-    <string name="bt_rows">Rows</string>
-    <string name="bt_cal" translatable="false">Kcal</string>
-    <string name="bt_vel" translatable="false">Km/h</string>
-    
+
+    <!--Both Screens-->
+    <string name="bt_dist" translatable="false">KM</string>
+    <string name="bt_cal" translatable="false">KCAL</string>
+
+    <!--Tracking Screen-->
+    <string name="bt_sup">MIN:SEC</string>
+
+    <string name="bt_rows">ROWS</string>
+    <string name="bt_speed" translatable="false">KM/H</string>
+
+
+    <!--Botton Navigation-->
     <string name="bt_stop">STOP</string>
     <string name="bt_pause">PAUSE</string>
+    <string name="bt_play" translatable="false">PLAY</string>
 
 
     <!-- Status Infos -->

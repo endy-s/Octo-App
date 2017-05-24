@@ -1,5 +1,6 @@
 package com.br.octo.board.modules.tracking;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
@@ -13,6 +14,8 @@ import android.support.v4.content.ContextCompat;
 import android.widget.Toast;
 
 import com.br.octo.board.R;
+import com.br.octo.board.modules.main.MainActivity;
+import com.br.octo.board.modules.settings.LightSettingsActivity;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationRequest;
@@ -26,6 +29,8 @@ import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
+
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class PaddleActivity extends FragmentActivity implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
@@ -54,10 +59,21 @@ public class PaddleActivity extends FragmentActivity implements OnMapReadyCallba
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_maps);
+        setContentView(R.layout.content_tracking);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
+//        mapFragment = (SupportMapFragment) getSupportFragmentManager()
+//                .findFragmentById(R.id.map);
+
+
+//        startActivityForResult(new Intent(getBaseContext(), LightSettingsActivity.class),
+//                MainActivity.REQUEST_LIGHT_SETTINGS);
+//        DialogFragment newFragment = new QuatroDialogFragment();
+//        newFragment.show(MainActivity.this.getFragmentManager(), "Confirm");
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(base));
     }
 
 
@@ -176,12 +192,12 @@ public class PaddleActivity extends FragmentActivity implements OnMapReadyCallba
     @Override
     public void onResume() {
         super.onResume();
-        if (mMap == null) {
-            startService(new Intent(this, TrackingService.class));
-            mapFragment.getMapAsync(this);
-            if (mMap != null) {
-                onMapReady(mMap);
-            }
-        }
+//        if (mMap == null) {
+//            startService(new Intent(this, TrackingService.class));
+//            mapFragment.getMapAsync(this);
+//            if (mMap != null) {
+//                onMapReady(mMap);
+//            }
+//        }
     }
 }
