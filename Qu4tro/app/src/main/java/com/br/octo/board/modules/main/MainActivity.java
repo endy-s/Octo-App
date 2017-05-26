@@ -60,7 +60,7 @@ public class MainActivity extends BaseActivity
 
 // Bluetooth
 
-    int lightModes = 0;
+    int lightModes = 1;
     BluetoothHelper btHelper;
 
     private BluetoothAdapter mBluetoothAdapter = null;

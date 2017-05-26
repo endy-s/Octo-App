@@ -35,6 +35,7 @@ public class BluetoothHelper {
 
     public void connectToDevice(Context context, BluetoothDevice device){
         if (mGatt == null) {
+            btConnected = false;
             mGatt = device.connectGatt(context, false, gattCallback);
         }
     }
