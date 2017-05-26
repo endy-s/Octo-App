@@ -73,7 +73,8 @@
                     fontPath="fonts/segoeui.ttf"
                     android:text="@string/bt_unknow"
                     android:textColor="@color/text_info"
-                    android:textSize="36sp" />
+                    android:gravity="center_vertical"
+                    android:textSize="24sp" />
             </LinearLayout>
 
         </LinearLayout>
@@ -118,14 +119,14 @@
 
                 <TextView
                     android:id="@+id/txtAmbience"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
                     fontPath="fonts/segoeui.ttf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
                     android:text="@string/bt_unknow"
-                    android:textAlignment="textStart"
                     android:textColor="@color/text_info"
-                    android:textSize="36sp" />
+                    android:gravity="center_vertical"
+                    android:textSize="24sp" />
             </LinearLayout>
 
         </LinearLayout>
@@ -180,12 +181,13 @@
                 <TextView
                     android:id="@+id/txtBattery"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="2"
                     fontPath="fonts/segoeui.ttf"
                     android:text="@string/bt_unknow"
                     android:textColor="@color/text_info"
-                    android:textSize="36sp" />
+                    android:gravity="center_vertical"
+                    android:textSize="24sp" />
             </LinearLayout>
 
         </LinearLayout>
@@ -231,12 +233,13 @@
                 <TextView
                     android:id="@+id/txtBoard"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="2"
                     fontPath="fonts/segoeui.ttf"
-                    android:text="@string/bt_unknow"
+                    android:text="@string/bt_board_off"
                     android:textColor="@color/text_info"
-                    android:textSize="36sp" />
+                    android:gravity="center_vertical"
+                    android:textSize="24sp" />
             </LinearLayout>
 
         </LinearLayout>

@@ -40,6 +40,7 @@
     <string name="bt_last">LAST PADDLE</string>
     <string name="bt_hour" translatable="false">HR</string>
     <string name="bt_unknow" translatable="false">---</string>
+    <string name="bt_board_off" translatable="false">OFF</string>
 
 
     <!--Both Screens-->
