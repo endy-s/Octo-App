@@ -1,35 +1,35 @@
 package com.br.octo.board.modules.main;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.DialogFragment;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothManager;
-import android.content.BroadcastReceiver;
-import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.ServiceConnection;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.br.octo.board.R;
-import com.br.octo.board.api_services.BluetoothService;
+import com.br.octo.board.api_services.BluetoothHelper;
 import com.br.octo.board.api_services.SampleGattAttributes;
 import com.br.octo.board.models.QuatroDialogFragment;
 import com.br.octo.board.modules.DeviceListActivity;
@@ -60,6 +60,9 @@ public class MainActivity extends BaseActivity
 
 // Bluetooth
 
+    int lightModes = 0;
+    BluetoothHelper btHelper;
+
     private BluetoothAdapter mBluetoothAdapter = null;
 
     public static final String EXTRAS_DEVICE_NAME = "DEVICE_NAME";
@@ -69,7 +72,7 @@ public class MainActivity extends BaseActivity
     private String mDeviceAddress;
 
     //private ExpandableListView mGattServicesList;
-    private BluetoothService mBluetoothService = null;
+//    private BluetoothService mBluetoothService = null;
     private BluetoothGattCharacteristic characteristicTX;
     private BluetoothGattCharacteristic characteristicRX;
 
@@ -120,7 +123,7 @@ public class MainActivity extends BaseActivity
         ButterKnife.bind(this);
         //mainLayout.setPadding(16, 16, 16, 16);
         setSupportActionBar(toolbar);
-        //setTitle("");
+        setTitle("");
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -132,6 +135,35 @@ public class MainActivity extends BaseActivity
         final BluetoothManager bluetoothManager =
                 (BluetoothManager) getSystemService(getBaseContext().BLUETOOTH_SERVICE);
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+
+        btHelper = BluetoothHelper.getInstance();
+
+
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.ACCESS_FINE_LOCATION)) {
+
+                // Show an expanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+
+            } else {
+
+                // No explanation needed, we can request the permission.
+
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                        PERMISSION_REQUEST_COARSE_LOCATION);
+
+                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                // app-defined int constant. The callback method gets the
+                // result of the request.
+            }
+        }
     }
 
     @Override
@@ -145,13 +177,13 @@ public class MainActivity extends BaseActivity
             Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
         } else {
-            registerReceiver(mGattUpdateReceiver, makeGattUpdateIntentFilter());
+//            registerReceiver(mGattUpdateReceiver, makeGattUpdateIntentFilter());
 
             if (btConnected) {
-                if (mBluetoothService != null) {
-                    final boolean result = mBluetoothService.connect(mDeviceAddress);
-                    Log.d("Main-Bluetooth", "Connect request result = " + result);
-                }
+//                if (mBluetoothService != null) {
+//                    final boolean result = mBluetoothService.connect(mDeviceAddress);
+//                    Log.d("Main-Bluetooth", "Connect request result = " + result);
+//                }
             }
         }
     }
@@ -159,7 +191,7 @@ public class MainActivity extends BaseActivity
     @Override
     protected void onPause() {
         super.onPause();
-        unregisterReceiver(mGattUpdateReceiver);
+//        unregisterReceiver(mGattUpdateReceiver);
     }
 
     @Override
@@ -175,9 +207,9 @@ public class MainActivity extends BaseActivity
     public void onDestroy() {
         super.onDestroy();
         if (btConnected) {
-            unbindService(mServiceConnection);
+//            unbindService(mServiceConnection);
         }
-        mBluetoothService = null;
+//        mBluetoothService = null;
     }
 
     @Override
@@ -231,6 +263,16 @@ public class MainActivity extends BaseActivity
 
             return true;
         }
+        else if (id == R.id.nav_history) {
+            if (lightModes >= 3) {
+                lightModes = 0;
+            }
+            else {
+                lightModes++;
+            }
+            btHelper.sendMessage("<W=1;L=" + String.valueOf(lightModes) + ";>");
+        }
+
         else if (id == R.id.nav_share) {
             Intent sendIntent = new Intent(Intent.ACTION_SEND);
 
@@ -300,6 +342,8 @@ public class MainActivity extends BaseActivity
 //        {
             Intent trackingIntent = new Intent(getBaseContext(), PaddleActivity.class);
             startActivityForResult(trackingIntent, REQUEST_TRACKING_SCREEN);
+
+
 //        }
     }
 
@@ -334,141 +378,43 @@ public class MainActivity extends BaseActivity
                 // When DeviceListActivity returns with a device to connect
                 if (resultCode == Activity.RESULT_OK) {
                     // Get the device MAC address
-                    mDeviceAddress = data.getExtras().getString(DeviceListActivity.EXTRA_DEVICE_ADDRESS);
-                    connectDevice();
+
+                    btConnected = true;
                 }
                 break;
         }
     }
 
 
-    // Bluetooth region
-
-    private void connectDevice ()
-    {
-        Intent gattServiceIntent = new Intent(this, BluetoothService.class);
-        bindService(gattServiceIntent, mServiceConnection, BIND_AUTO_CREATE);
-    }
-
-    // Code to manage Service lifecycle.
-    private final ServiceConnection mServiceConnection = new ServiceConnection() {
-
-        @Override
-        public void onServiceConnected(ComponentName componentName, IBinder service) {
-            mBluetoothService = ((BluetoothService.LocalBinder) service).getService();
-            if (!mBluetoothService.initialize()) {
-                Log.e("Main-Bluetooth", "Unable to initialize Bluetooth");
-                finish();
-            }
-            // Automatically connects to the device upon successful start-up initialization.
-            mBluetoothService.connect(mDeviceAddress);
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName componentName) {
-            mBluetoothService = null;
-        }
-    };
-
-    // Handles various events fired by the Service.
-    // ACTION_GATT_CONNECTED: connected to a GATT server.
-    // ACTION_GATT_DISCONNECTED: disconnected from a GATT server.
-    // ACTION_GATT_SERVICES_DISCOVERED: discovered GATT services.
-    // ACTION_DATA_AVAILABLE: received data from the device.  This can be a result of read
-    //                        or notification operations.
-    private final BroadcastReceiver mGattUpdateReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            final String action = intent.getAction();
-            if (BluetoothService.ACTION_GATT_CONNECTED.equals(action)) {
-                btConnected = true;
-                updateConnectionState();
-            } else if (BluetoothService.ACTION_GATT_DISCONNECTED.equals(action)) {
-                btConnected = false;
-                updateConnectionState();
-//                clearUI();
-            }
-//            else if (BluetoothService.ACTION_GATT_SERVICES_DISCOVERED.equals(action)) {
-//                // Show all the supported services and characteristics on the user interface.
-//                displayGattServices(mBluetoothService.getSupportedGattServices());
-//            }
-            else if (BluetoothService.ACTION_DATA_AVAILABLE.equals(action)) {
-                //displayData(intent.getStringExtra(mBluetoothService.EXTRA_DATA));
-            }
-        }
-    };
-
-//    private void clearUI() {
-//        mDataField.setText(R.string.no_data);
-//    }
 
 
-    private void updateConnectionState() {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-//                mConnectionState.setText(resourceId);
-                // Change the enable properties of the widgets
-                if (btConnected) {
 
+    private static final int PERMISSION_REQUEST_COARSE_LOCATION = 1;
+
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[],
+                                           int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSION_REQUEST_COARSE_LOCATION: {
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Log.d("MAIN", "coarse location permission granted");
+                } else {
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                    builder.setTitle("Functionality limited");
+                    builder.setMessage("Since location access has not been granted, this app will not be able to discover beacons when in the background.");
+                    builder.setPositiveButton(android.R.string.ok, null);
+                    builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                        @Override
+                        public void onDismiss(DialogInterface dialog) {
+                        }
+                    });
+                    builder.show();
                 }
-                else {
-
-                }
+                return;
             }
-        });
-    }
-
-    // Demonstrates how to iterate through the supported GATT Services/Characteristics.
-    // In this sample, we populate the data structure that is bound to the ExpandableListView
-    // on the UI.
-//    private void displayGattServices(List<BluetoothGattService> gattServices) {
-//        if (gattServices == null) return;
-//        String uuid = null;
-//        String unknownServiceString = getResources().getString(R.string.unknown_service);
-//        ArrayList<HashMap<String, String>> gattServiceData = new ArrayList<HashMap<String, String>>();
-//
-//
-//        // Loops through available GATT Services.
-//        for (BluetoothGattService gattService : gattServices) {
-//            HashMap<String, String> currentServiceData = new HashMap<String, String>();
-//            uuid = gattService.getUuid().toString();
-//            currentServiceData.put(
-//                    LIST_NAME, SampleGattAttributes.lookup(uuid, unknownServiceString));
-//
-//            // If the service exists for HM 10 Serial, say so.
-//            if(SampleGattAttributes.lookup(uuid, unknownServiceString) == "HM 10 Serial") { isSerial.setText("Yes, serial :-)"); } else {  isSerial.setText("No, serial :-("); }
-//            currentServiceData.put(LIST_UUID, uuid);
-//            gattServiceData.add(currentServiceData);
-//
-//            // get characteristic when UUID matches RX/TX UUID
-//            characteristicTX = gattService.getCharacteristic(BluetoothService.UUID_HM_RX_TX);
-//            characteristicRX = gattService.getCharacteristic(BluetoothService.UUID_HM_RX_TX);
-//        }
-//
-//    }
-
-    private static IntentFilter makeGattUpdateIntentFilter() {
-        final IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(BluetoothService.ACTION_GATT_CONNECTED);
-        intentFilter.addAction(BluetoothService.ACTION_GATT_DISCONNECTED);
-        //intentFilter.addAction(BluetoothService.ACTION_GATT_SERVICES_DISCOVERED);
-        intentFilter.addAction(BluetoothService.ACTION_DATA_AVAILABLE);
-        return intentFilter;
-    }
-
-
-    // on change of bars write char
-    private void sendChar() {
-        String msg = "<OCTO>\n";
-        Log.d("Main-Bluetooth", "Sending message = " + msg);
-        final byte[] tx = msg.getBytes();
-        if(btConnected) {
-            characteristicTX.setValue(tx);
-            mBluetoothService.writeCharacteristic(characteristicTX);
-            mBluetoothService.setCharacteristicNotification(characteristicRX,true);
         }
     }
-
-
 }
