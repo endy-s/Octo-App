@@ -22,9 +22,9 @@ public class BluetoothHelper {
     private static final BluetoothHelper btInstance = new BluetoothHelper();
 
     private BluetoothGatt mGatt;
-    private BluetoothGattCharacteristic characteristicTX;
-    private BluetoothGattCharacteristic characteristicRX;
-    public boolean btConnected = false;
+    private BluetoothGattCharacteristic characteristicRxTx;
+
+    private boolean btConnected = false;
 
     public static BluetoothHelper getInstance() {
         return btInstance;
@@ -34,10 +34,22 @@ public class BluetoothHelper {
     }
 
     public void connectToDevice(Context context, BluetoothDevice device){
-        if (mGatt == null) {
-            btConnected = false;
-            mGatt = device.connectGatt(context, false, gattCallback);
+        // Check if was Previously connected to the device
+        if (mGatt != null) {
+            if (mGatt.getDevice() == device) {
+                Log.d("BLUETOOTH", "PREVIOUSLY CONNECTED TO THIS DEVICE");
+                mGatt.connect();
+                return;
+            }
         }
+
+        btConnected = false;
+        // TODO: Check how the autoConnect works and if it fits the needs of the app
+        mGatt = device.connectGatt(context, false, gattCallback);
+    }
+
+    public void disconnect() {
+        mGatt.disconnect();
     }
 
     private final BluetoothGattCallback gattCallback = new BluetoothGattCallback() {
@@ -51,6 +63,8 @@ public class BluetoothHelper {
                     break;
                 case BluetoothProfile.STATE_DISCONNECTED:
                     Log.e("gattCallback", "STATE_DISCONNECTED");
+                    mGatt.close();
+                    btConnected = false;
                     break;
                 default:
                     Log.e("gattCallback", "STATE_OTHER");
@@ -65,18 +79,15 @@ public class BluetoothHelper {
             gatt.readCharacteristic(services.get(1).getCharacteristics().get
                     (0));
 
-            BluetoothGattService mCustomService = gatt.
-                    getService(UUID.fromString(SampleGattAttributes.HM_RX_TX));
+//            BluetoothGattService mCustomService = gatt.
+//                    getService(UUID.fromString(SampleGattAttributes.HM_RX_TX));
 
-            characteristicTX = services.get(3).
+            characteristicRxTx = services.get(3).
                     getCharacteristic(UUID.fromString(SampleGattAttributes.HM_RX_TX));
 
             Log.d("BLUETOOTH", "The right service is: " + services.get(3).getUuid().toString());
 
-            characteristicRX = services.get(3).
-                    getCharacteristic(UUID.fromString(SampleGattAttributes.HM_RX_TX));
-
-            gatt.setCharacteristicNotification(characteristicRX, true);
+            gatt.setCharacteristicNotification(characteristicRxTx, true);
 
             sendHandshake();
         }
@@ -86,8 +97,6 @@ public class BluetoothHelper {
                                          BluetoothGattCharacteristic
                                                  characteristic, int status) {
             Log.i("onCharacteristicRead", characteristic.toString());
-
-            //gatt.disconnect();
         }
 
         @Override
@@ -98,21 +107,31 @@ public class BluetoothHelper {
 
             if (!btConnected) {
                 if (answer.matches("<BOARD>")) {
+                    btConnected = true;
+                }
+            }
+            else {
+                if (answer.matches("<OK>")) {
+
+                }
+                else if (answer.startsWith("<U;")) {
+
+                }
+                else if (answer.startsWith("<B;")) {
 
                 }
             }
-
         }
     };
 
-    private void sendHandshake() {
-        sendMessage("<OCTO>\n");
-    }
+    public boolean getConnectionStatus () { return btConnected; }
+
+    private void sendHandshake() { sendMessage("<OCTO>\n"); }
 
     public void sendMessage(String message) {
         final byte[] tx = message.getBytes();
-        characteristicTX.setValue(tx);
-        characteristicTX.setWriteType(BluetoothGattCharacteristic.WRITE_TYPE_NO_RESPONSE);
-        mGatt.writeCharacteristic(characteristicTX);
+        characteristicRxTx.setValue(tx);
+        characteristicRxTx.setWriteType(BluetoothGattCharacteristic.WRITE_TYPE_NO_RESPONSE);
+        mGatt.writeCharacteristic(characteristicRxTx);
     }
 }

@@ -1,6 +1,7 @@
 package com.br.octo.board.modules;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.le.BluetoothLeScanner;
@@ -10,6 +11,7 @@ import android.bluetooth.le.ScanResult;
 import android.bluetooth.le.ScanSettings;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +21,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.br.octo.board.R;
 import com.br.octo.board.api_services.BluetoothHelper;
@@ -33,15 +36,8 @@ import butterknife.OnClick;
 import butterknife.OnItemClick;
 
 public class DeviceListActivity extends BaseActivity {
-    //Change to a DialogFragment in the future
-
-
     // Tag for Log
     private static final String TAG = "DeviceListActivity";
-
-    // Return Intent extra
-    public static String EXTRA_DEVICE_ADDRESS = "device_address";
-    public static BluetoothDevice EXTRA_DEVICE = null;
 
     private LeDeviceListAdapter mLeDeviceListAdapter;
 
@@ -49,6 +45,10 @@ public class DeviceListActivity extends BaseActivity {
     private BluetoothLeScanner mBluetoothLEScanner;
     private ScanSettings settings;
     private List<ScanFilter> filters;
+
+    BluetoothHelper btHelper;
+
+    ProgressDialog pd;
 
 
     @BindView(R.id.button_scan)
@@ -70,7 +70,7 @@ public class DeviceListActivity extends BaseActivity {
         setTitle(R.string.select_device);
 
         // Set result CANCELED in case the user backs out
-        setResult(Activity.RESULT_CANCELED);
+        setResult(RESULT_CANCELED);
 
         // Initializes list view adapter.
         mLeDeviceListAdapter = new LeDeviceListAdapter(this, mDevices);
@@ -83,6 +83,8 @@ public class DeviceListActivity extends BaseActivity {
                 .setScanMode(ScanSettings.SCAN_MODE_LOW_LATENCY)
                 .build();
         filters = new ArrayList<>();
+
+        scanLeDevice();
     }
 
     @Override
@@ -99,23 +101,16 @@ public class DeviceListActivity extends BaseActivity {
 
         if (device == null) return;
 
-//        final Intent intent = new Intent();
-//
-//        intent.putExtra(MainActivity.EXTRAS_DEVICE_NAME, device.getName());
-//        intent.putExtra(MainActivity.EXTRAS_DEVICE_ADDRESS, device.getAddress());
-//
         if (mBluetoothLEScanner != null) {
             mBluetoothLEScanner.stopScan(mScanCallback);
         }
-//
-//        // Set result and finish this Activity
-//        setResult(Activity.RESULT_OK, intent);
 
-
-        BluetoothHelper btHelper = BluetoothHelper.getInstance();
+        btHelper = BluetoothHelper.getInstance();
         btHelper.connectToDevice(this, device);
 
-        finish();
+        pd = ProgressDialog.show(this, "Conectando", "Validando dispositivo...", true, false);
+
+        checkConnected();
     }
 
     /**
@@ -240,8 +235,6 @@ public class DeviceListActivity extends BaseActivity {
 
             mLeDeviceListAdapter.addDevice(btDevice);
             mLeDeviceListAdapter.notifyDataSetChanged();
-
-//            connectToDevice(btDevice);
         }
 
         @Override
@@ -256,16 +249,29 @@ public class DeviceListActivity extends BaseActivity {
             Log.e("Scan Failed", "Error Code: " + errorCode);
         }
     };
-//
-//    public void connectToDevice(BluetoothDevice device) {
-//        if (mGatt == null) {
-//            mGatt = device.connectGatt(this, false, gattCallback);
-//            scanLeDevice(false);// will stop after first device detection
-//        }
-//    }
 
 
     // NEW BLUETOOTH REGION
+
+    public void checkConnected (){
+        Log.d("DEVICE", "checked");
+
+        if (btHelper.getConnectionStatus()) {
+            pd.dismiss();
+
+            Log.d("DEVICE", "Called on main thread");
+            setResult(RESULT_OK);
+            finish();
+        } else {
+            final Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    checkConnected();
+                }
+            }, 500);
+        }
+    }
 
     // endregion
 }

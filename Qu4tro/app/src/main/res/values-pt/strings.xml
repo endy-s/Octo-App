@@ -62,26 +62,34 @@
         <item>2</item>
     </string-array>
 
+
+
     <string-array name="pref_light_list_titles">
         <item>Sempre Ligado</item>
         <item>Fade</item>
         <item>Strobe</item>
     </string-array>
     <string-array name="pref_light_list_values">
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
+        <item>"1"</item>
+        <item>"2"</item>
+        <item>"3"</item>
     </string-array>
+
     <string-array name="pref_light_frequency_titles">
-        <item>05 segundos</item>
-        <item>30 segundos</item>
-        <item>60 segundos</item>
+        <item>Lento</item>
+        <item>Médio Lento</item>
+        <item>Médio</item>
+        <item>Médio Rápido</item>
+        <item>Rápido</item>
     </string-array>
     <string-array name="pref_light_frequency_values">
-        <item>05</item>
-        <item>30</item>
-        <item>60</item>
+        <item>"5"</item>
+        <item>"4"</item>
+        <item>"3"</item>
+        <item>"2"</item>
+        <item>"1"</item>
     </string-array>
+
     <string name="pref_title_keep_screen">Manter a Tela Acesa</string>
     <string name="pref_title_freq">Frequência da Iluminação</string>
     <string name="ble_not_supported">Bluetooth Low Energy não disponível. Terminando a aplicação.</string>
@@ -91,4 +99,9 @@
     <string name="bt_rows">Remadas</string>
     <string name="bt_stop">PARAR</string>
     <string name="bt_pause">PAUSAR</string>
+    <string name="bt_play">INICIAR</string>
+    <string name="dialog_next">PRÓXIMO</string>
+    <string name="dialog_permission_request">Solicitação de Permissão</string>
+    <string name="dialog_permission_description">O app OCTO precisa das permissões de localização para suas funcionalidades.
+        Por favor, aceite a próxima solicitação de permissão.</string>
 </resources>

@@ -18,21 +18,18 @@
             android:title="@string/pref_title_keep_screen" />
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/pref_header_data_sync">
+    <!--<PreferenceCategory android:title="@string/pref_header_data_sync">-->
 
-        <ListPreference
-            android:defaultValue="1"
-            android:entries="@array/pref_sync_frequency_titles"
-            android:entryValues="@array/pref_sync_frequency_values"
-            android:summary="%s"
-            android:key="@string/pref_key_sync_frequency"
-            android:negativeButtonText="@null"
-            android:positiveButtonText="@null"
-            android:title="@string/pref_title_sync_frequency" />
+        <!--<ListPreference-->
+            <!--android:defaultValue="1"-->
+            <!--android:entries="@array/pref_sync_frequency_titles"-->
+            <!--android:entryValues="@array/pref_sync_frequency_values"-->
+            <!--android:summary="%s"-->
+            <!--android:key="@string/pref_key_sync_frequency"-->
+            <!--android:negativeButtonText="@null"-->
+            <!--android:positiveButtonText="@null"-->
+            <!--android:title="@string/pref_title_sync_frequency" />-->
 
-    </PreferenceCategory>
-
-    <!-- This preference simply launches an intent when selected. Use this UI sparingly, per
-         design guidelines. -->
+    <!--</PreferenceCategory>-->
 
 </PreferenceScreen>

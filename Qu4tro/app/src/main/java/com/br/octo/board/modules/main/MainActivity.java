@@ -2,15 +2,14 @@ package com.br.octo.board.modules.main;
 
 import android.Manifest;
 import android.app.Activity;
-import android.app.DialogFragment;
 import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothGattCharacteristic;
-import android.bluetooth.BluetoothManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -25,20 +24,17 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.br.octo.board.R;
 import com.br.octo.board.api_services.BluetoothHelper;
-import com.br.octo.board.api_services.SampleGattAttributes;
-import com.br.octo.board.models.QuatroDialogFragment;
 import com.br.octo.board.modules.DeviceListActivity;
 import com.br.octo.board.modules.base.BaseActivity;
 import com.br.octo.board.modules.settings.LocaleHelper;
 import com.br.octo.board.modules.settings.SettingsActivity;
 import com.br.octo.board.modules.tracking.PaddleActivity;
-
-import java.util.UUID;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -48,40 +44,21 @@ import butterknife.OnClick;
  * Created by Endy.
  */
 public class MainActivity extends BaseActivity
-        implements NavigationView.OnNavigationItemSelectedListener,
-                    QuatroDialogFragment.QuatroDialogListener {
+        implements NavigationView.OnNavigationItemSelectedListener {
 
 // Intent request codes
-    public static final int REQUEST_CONNECT_DEVICE     = 0;
-    public static final int REQUEST_GENERAL_SETTINGS   = 1;
-    public static final int REQUEST_LIGHT_SETTINGS     = 2;
-    public static final int REQUEST_TRACKING_SCREEN    = 3;
-    public static final int REQUEST_ENABLE_BT          = 99;
+    public static final int ACTIVITY_REQUEST_SCAN_DEVICE = 0;
+    public static final int ACTIVITY_REQUEST_GENERAL_SETTINGS = 1;
+    public static final int ACTIVITY_REQUEST_LIGHT_SETTINGS = 2;
+    public static final int ACTIVITY_REQUEST_TRACKING_SCREEN = 3;
+    public static final int ACTIVITY_REQUEST_ENABLE_BT = 99;
+
+    private static final int PERMISSION_REQUEST_COARSE_LOCATION = 5;
 
 // Bluetooth
 
-    int lightModes = 1;
     BluetoothHelper btHelper;
-
     private BluetoothAdapter mBluetoothAdapter = null;
-
-    public static final String EXTRAS_DEVICE_NAME = "DEVICE_NAME";
-    public static final String EXTRAS_DEVICE_ADDRESS = "DEVICE_ADDRESS";
-
-    private String mDeviceName;
-    private String mDeviceAddress;
-
-    //private ExpandableListView mGattServicesList;
-//    private BluetoothService mBluetoothService = null;
-    private BluetoothGattCharacteristic characteristicTX;
-    private BluetoothGattCharacteristic characteristicRX;
-
-    private boolean btConnected = false;
-
-    public final static UUID HM_RX_TX = UUID.fromString(SampleGattAttributes.HM_RX_TX);
-
-    private final String LIST_NAME = "NAME";
-    private final String LIST_UUID = "UUID";
 
     // Widgets
     // Status TextViews
@@ -94,15 +71,9 @@ public class MainActivity extends BaseActivity
     @BindView(R.id.txtWater)
     TextView tempWatterTV;
 
-    // Main "Buttons" - Actions
-//    @BindView(R.id.llMain)
-//    LinearLayout mainLayout;
-//    @BindView(R.id.llOn)
-//    LinearLayout powerLayout;
-//    @BindView(R.id.llLight)
-//    LinearLayout lightLayout;
-//    @BindView(R.id.llTrack)
-//    LinearLayout trackLayout;
+    // Button
+    @BindView(R.id.btStart)
+    ImageButton btStart;
 
     // Layout views (Navigation, Drawer and toolbar)
     @BindView(R.id.drawer_layout)
@@ -119,12 +90,10 @@ public class MainActivity extends BaseActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Widgets binding and setting
         ButterKnife.bind(this);
-        //mainLayout.setPadding(16, 16, 16, 16);
+
         setSupportActionBar(toolbar);
         setTitle("");
-
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
@@ -132,66 +101,47 @@ public class MainActivity extends BaseActivity
 
         navigationView.setNavigationItemSelectedListener(this);
 
-        final BluetoothManager bluetoothManager =
-                (BluetoothManager) getSystemService(getBaseContext().BLUETOOTH_SERVICE);
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+
 
         btHelper = BluetoothHelper.getInstance();
 
+        if (!btHelper.getConnectionStatus()) {
+            showNotConnected();
+        }
 
-        if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_FINE_LOCATION)
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
 
-            // Should we show an explanation?
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                    Manifest.permission.ACCESS_FINE_LOCATION)) {
-
-                // Show an expanation to the user *asynchronously* -- don't block
-                // this thread waiting for the user's response! After the user
-                // sees the explanation, try again to request the permission.
-
-            } else {
-
-                // No explanation needed, we can request the permission.
-
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                        PERMISSION_REQUEST_COARSE_LOCATION);
-
-                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-                // app-defined int constant. The callback method gets the
-                // result of the request.
-            }
+            final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle(R.string.dialog_permission_request);
+            builder.setMessage(R.string.dialog_permission_description);
+            builder.setPositiveButton(R.string.dialog_next, null);
+            builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialog) {
+                    ActivityCompat.requestPermissions(MainActivity.this,
+                            new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                            PERMISSION_REQUEST_COARSE_LOCATION);
+                }
+            });
+            builder.show();
         }
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        // Performing this check in onResume() covers the case in which BT was
-        // not enabled during onStart(), so we were paused to enable it...
-        // onResume() will be called when ACTION_REQUEST_ENABLE activity returns.
-
         if (!mBluetoothAdapter.isEnabled()) {
             Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-            startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
-        } else {
-//            registerReceiver(mGattUpdateReceiver, makeGattUpdateIntentFilter());
-
-            if (btConnected) {
-//                if (mBluetoothService != null) {
-//                    final boolean result = mBluetoothService.connect(mDeviceAddress);
-//                    Log.d("Main-Bluetooth", "Connect request result = " + result);
-//                }
-            }
+            startActivityForResult(enableIntent, ACTIVITY_REQUEST_ENABLE_BT);
         }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-//        unregisterReceiver(mGattUpdateReceiver);
     }
 
     @Override
@@ -206,10 +156,9 @@ public class MainActivity extends BaseActivity
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (btConnected) {
-//            unbindService(mServiceConnection);
+        if (btHelper.getConnectionStatus()) {
+            btHelper.disconnect();
         }
-//        mBluetoothService = null;
     }
 
     @Override
@@ -234,10 +183,8 @@ public class MainActivity extends BaseActivity
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.action_connect)
-        {
-            startActivityForResult(new Intent(getBaseContext(), DeviceListActivity.class),
-                    REQUEST_CONNECT_DEVICE);
+        if (id == R.id.action_connect) {
+            startActivityForResult(new Intent(getBaseContext(), DeviceListActivity.class), ACTIVITY_REQUEST_SCAN_DEVICE);
             return true;
         }
 
@@ -251,28 +198,21 @@ public class MainActivity extends BaseActivity
 
         if (id == R.id.nav_bt) {
             // Launch the DeviceListActivity to see devices and do scan
-            startActivityForResult(new Intent(getBaseContext(), DeviceListActivity.class),
-                    REQUEST_CONNECT_DEVICE);
-
+            startActivityForResult(new Intent(getBaseContext(), DeviceListActivity.class), ACTIVITY_REQUEST_SCAN_DEVICE);
             return true;
         }
         else if (id == R.id.nav_set) {
             // Launch the SettingsActivity to change the preferences
-            startActivityForResult(new Intent(getBaseContext(), SettingsActivity.class),
-                    REQUEST_GENERAL_SETTINGS);
+            startActivityForResult(new Intent(getBaseContext(), SettingsActivity.class), ACTIVITY_REQUEST_GENERAL_SETTINGS);
 
             return true;
         }
         else if (id == R.id.nav_history) {
-            if (lightModes >= 3) {
-                lightModes = 0;
-            }
-            else {
-                lightModes++;
-            }
-            btHelper.sendMessage("<W=1;L=" + String.valueOf(lightModes) + ";>");
+            // TODO: Call the History view (to be developed)
         }
-
+        else if (id == R.id.nav_tutorial) {
+            // TODO: Call the Tutorial view (to be developed)
+        }
         else if (id == R.id.nav_share) {
             Intent sendIntent = new Intent(Intent.ACTION_SEND);
 
@@ -314,23 +254,6 @@ public class MainActivity extends BaseActivity
         return true;
     }
 
-
-    // end Region
-
-    // Dialog Region (Used at "On/Off" button)
-    // TODO: kept to useas reference in future dialogs
-    @Override
-    public void onDialogPositiveClick(DialogFragment dialog) {
-        // User touched the dialog's positive button
-        Toast.makeText(getBaseContext(), "Turned Off", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onDialogNegativeClick(DialogFragment dialog) {
-        // User touched the dialog's negative button
-        Toast.makeText(getBaseContext(), "Canceled", Toast.LENGTH_SHORT).show();
-    }
-
     // end Region
 
     //region click listeners
@@ -338,13 +261,11 @@ public class MainActivity extends BaseActivity
     @OnClick(R.id.btStart)
     public void startClicked()
     {
-//        if (btConnected)
-//        {
+        if (btHelper.getConnectionStatus())
+        {
             Intent trackingIntent = new Intent(getBaseContext(), PaddleActivity.class);
-            startActivityForResult(trackingIntent, REQUEST_TRACKING_SCREEN);
-
-
-//        }
+            startActivityForResult(trackingIntent, ACTIVITY_REQUEST_TRACKING_SCREEN);
+        }
     }
 
     //end region
@@ -352,9 +273,9 @@ public class MainActivity extends BaseActivity
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
-            case REQUEST_GENERAL_SETTINGS:
+            case ACTIVITY_REQUEST_GENERAL_SETTINGS:
                 // When Settings returns with a Language change
-                if (resultCode == Activity.RESULT_OK) {
+                if (resultCode == RESULT_OK) {
                     recreate();
                 }
                 else if (resultCode == Activity.RESULT_FIRST_USER) {
@@ -365,8 +286,8 @@ public class MainActivity extends BaseActivity
                 }
                 break;
 
-            case REQUEST_ENABLE_BT:
-                if (resultCode != Activity.RESULT_OK) {
+            case ACTIVITY_REQUEST_ENABLE_BT:
+                if (resultCode != RESULT_OK) {
                     // User did not enable Bluetooth or an error occurred
                     Toast.makeText(this, R.string.bt_not_enabled_leaving,
                             Toast.LENGTH_SHORT).show();
@@ -374,24 +295,38 @@ public class MainActivity extends BaseActivity
                 }
                 break;
 
-            case REQUEST_CONNECT_DEVICE:
-                // When DeviceListActivity returns with a device to connect
-                if (resultCode == Activity.RESULT_OK) {
-                    // Get the device MAC address
-
-                    btConnected = true;
+            case ACTIVITY_REQUEST_SCAN_DEVICE:
+                // Check if connected
+                if (resultCode == RESULT_OK) {
+                    showBoardInfos();
                 }
                 break;
         }
     }
 
 
+    // Region manage the info shown at the screen
 
+    public void showBoardInfos() {
+        btStart.setColorFilter(null);
+        btStart.setImageAlpha(255);
+        btStart.setEnabled(true);
 
+        boardTV.setText(R.string.bt_board_on);
+    }
 
-    private static final int PERMISSION_REQUEST_COARSE_LOCATION = 1;
+    public void showNotConnected() {
+        ColorMatrix matrix = new ColorMatrix();
+        matrix.setSaturation(0);
+        ColorMatrixColorFilter filter = new ColorMatrixColorFilter(matrix);
+        btStart.setColorFilter(filter);
+        btStart.setImageAlpha(128);
+        btStart.setEnabled(false);
 
+        boardTV.setText(R.string.bt_board_off);
+    }
 
+    // end region
 
     @Override
     public void onRequestPermissionsResult(int requestCode,
@@ -404,7 +339,7 @@ public class MainActivity extends BaseActivity
                 } else {
                     final AlertDialog.Builder builder = new AlertDialog.Builder(this);
                     builder.setTitle("Functionality limited");
-                    builder.setMessage("Since location access has not been granted, this app will not be able to discover beacons when in the background.");
+                    builder.setMessage("Since location access has not been granted, this app will not be able to discover your board. Reinstall the application and ");
                     builder.setPositiveButton(android.R.string.ok, null);
                     builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
                         @Override
@@ -413,7 +348,6 @@ public class MainActivity extends BaseActivity
                     });
                     builder.show();
                 }
-                return;
             }
         }
     }

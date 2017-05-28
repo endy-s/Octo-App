@@ -22,7 +22,7 @@
         android:title="@string/nav_history" />
 
         <item
-        android:id="@+id/nav_movie"
+        android:id="@+id/nav_tutorial"
         android:icon="@drawable/ic_movie"
         android:title="@string/nav_movie" />
     </group>
