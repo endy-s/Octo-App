@@ -4,15 +4,18 @@ import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
-import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.br.octo.board.R;
+import com.br.octo.board.modules.main.MainActivity;
+import com.br.octo.board.modules.settings.LightSettingsActivity;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationRequest;
@@ -27,13 +30,17 @@ import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
+public class PaddleActivity extends FragmentActivity implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
 
     private GoogleMap mMap;
     SupportMapFragment mapFragment;
-    Tracking track;
+    TrackingService track;
 
     static ArrayList<LatLng> route = new ArrayList();
 
@@ -50,15 +57,44 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private final static int MY_LOCATION_REQUEST_CODE = 1;
 
+    @BindView(R.id.btLight)
+    ImageButton btLight;
+    @BindView(R.id.btShare)
+    ImageButton btShare;
+    @BindView(R.id.btMaps)
+    ImageButton btMaps;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_maps);
+        setContentView(R.layout.content_tracking);
+
+        ButterKnife.bind(this);
+
+
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
+//        mapFragment = (SupportMapFragment) getSupportFragmentManager()
+//                .findFragmentById(R.id.map);
+
+
+//        startActivityForResult(new Intent(getBaseContext(), LightSettingsActivity.class),
+//                MainActivity.ACTIVITY_REQUEST_LIGHT_SETTINGS);
+//        DialogFragment newFragment = new QuatroDialogFragment();
+//        newFragment.show(MainActivity.this.getFragmentManager(), "Confirm");
     }
+
+    //region click listeners
+
+    @OnClick(R.id.btLight)
+    public void LightClicked()
+    {
+        Intent trackingIntent = new Intent(getBaseContext(), LightSettingsActivity.class);
+        startActivityForResult(trackingIntent, MainActivity.ACTIVITY_REQUEST_LIGHT_SETTINGS);
+    }
+
+    //end region
 
 
     /**
@@ -176,12 +212,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onResume() {
         super.onResume();
-        if (mMap == null) {
-            startService(new Intent(this, Tracking.class));
-            mapFragment.getMapAsync(this);
-            if (mMap != null) {
-                onMapReady(mMap);
-            }
-        }
+//        if (mMap == null) {
+//            startService(new Intent(this, TrackingService.class));
+//            mapFragment.getMapAsync(this);
+//            if (mMap != null) {
+//                onMapReady(mMap);
+//            }
+//        }
     }
 }

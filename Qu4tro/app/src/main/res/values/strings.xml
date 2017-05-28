@@ -1,13 +1,25 @@
 <resources xmlns:xliff="http://schemas.android.com/tools">
-    <string name="app_name" translatable="false">Octo</string>
-    <string name="project_name">Board Octo</string>
+    <string name="app_name" translatable="false">OCTO</string>
+    <string name="project_name">Board OCTO</string>
 
     <!--  Map Activity -->
     <string name="title_activity_maps" translatable="false">Map</string>
 
+    <!--Dialog-->
+    <string name="dialog_permission_request">Permission request</string>
+    <string name="dialog_permission_description">The OCTO app needs location permission for its functionality.
+        Please, accept the following permission request</string>
+    <string name="dialog_next">NEXT</string>
+    <string name="power_down">Power Down the Board</string>
+    <string name="confirmation">Are you sure?</string>
+    <string name="cancel">Cancel</string>
+
+    <!--Cool Version Main Screen-->
+
     <!--  Bluetooth Status -->
     <string name="not_connected">Board not connected...</string>
     <string name="bt_not_enabled_leaving">Bluetooth not enabled. Leaving the application.</string>
+    <string name="ble_not_supported">Bluetooth Low Energy not supported. Leaving the application.</string>
     <string name="title_connecting">Connecting...</string>
     <string name="title_connected">Connected to the board</string>
     <string name="title_not_connected">Not connected</string>
@@ -20,23 +32,46 @@
     <string name="title_paired_devices">Paired Devices</string>
     <string name="title_other_devices">Other Available Devices</string>
     <string name="button_scan">Scan for your board device</string>
+    <string name="device_name" translatable="false">Device Name</string>
+    <string name="device_addr" translatable="false">Device-ADDR</string>
+    <string name="unknown_device">Unknown Device</string>
 
     <!-- Buttons -->
     <string name="bt_power">On/Off</string>
     <string name="bt_light">Light</string>
     <string name="bt_track">Tracking</string>
-    <string name="bt_bat">Battery Level</string>
     <string name="bt_time">Board On</string>
-    <string name="bt_sup">Time on Water</string>
-    <string name="bt_tempout">Environment Temperature</string>
-    <string name="bt_tempin">Water Temperature</string>
+
+    <string name="bt_tempin">WATER</string>
+    <string name="bt_tempout">AMBIENCE</string>
+    <string name="bt_bat">BATTERY</string>
+    <string name="bt_board">BOARD</string>
+    <string name="bt_last">LAST PADDLE</string>
+    <string name="bt_hour" translatable="false">HR</string>
+    <string name="bt_unknown" translatable="false">---</string>
+    <string name="bt_board_on" translatable="false">ON</string>
+    <string name="bt_board_off" translatable="false">OFF</string>
+
+
+    <!--Both Screens-->
+    <string name="bt_dist" translatable="false">KM</string>
+    <string name="bt_cal" translatable="false">KCAL</string>
+
+    <!--Tracking Screen-->
+    <string name="bt_sup">MIN:SEC</string>
+
+    <string name="bt_rows">ROWS</string>
+    <string name="bt_speed" translatable="false">KM/H</string>
+
+
+    <!--Botton Navigation-->
+    <string name="bt_stop">STOP</string>
+    <string name="bt_pause">PAUSE</string>
+    <string name="bt_play">PLAY</string>
+
 
     <!-- Status Infos -->
     <string name="status" translatable="false">Status</string>
-    <string name="power_down">Power Down the Board</string>
-    <string name="confirmation">Are you sure?</string>
-    <string name="yes" translatable="false">OK</string>
-    <string name="cancel">Cancel</string>
 
     <string name="light_on">Light On</string>
     <string name="light_off">Light Off</string>
@@ -53,22 +88,23 @@
     <string name="nav_settings">Settings</string>
     <string name="nav_connect">Connect</string>
     <string name="nav_history">History</string>
+    <string name="nav_movie" translatable="false">Tutorial</string>
     <string name="nav_comm">Communicate</string>
     <string name="nav_share">Share</string>
     <string name="nav_contact">Contact</string>
 
 
     <!-- Texts & Infos-->
-    <string name="share_texts">Shine on the Stand Up Paddle! Meet the board Octo at: (link)</string>
-    <string name="send_share">Share Octo with:</string>
-    <string name="error_share">You don\'t have any apps to share Octo</string>
+    <string name="share_texts">Shine on the Stand Up Paddle! Meet the board OCTO at: (link)</string>
+    <string name="send_share">Share OCTO with:</string>
+    <string name="error_share">You don\'t have any apps to share OCTO</string>
     <string name="send_mail">Enter in contact with:</string>
     <string name="error_mail">You don\'t have any e-mail apps to contact us</string>
 
     <string-array name="email" translatable="false">
         <item>octogestaodeprojetos@gmail.com</item>
     </string-array>
-    <string name="subject_mail">Contact from the Octo app</string>
+    <string name="subject_mail">Contact from the OCTO app</string>
 
 
     <!-- Strings related to Settings -->
@@ -138,22 +174,26 @@
         <item>Strobe</item>
     </string-array>
     <string-array name="pref_light_list_values">
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
+        <item>"1"</item>
+        <item>"2"</item>
+        <item>"3"</item>
     </string-array>
 
     <string name="pref_title_freq">Light Frequency</string>
     <string name="pref_key_light_freq" translatable="false">light_freq_key</string>
     <string-array name="pref_light_frequency_titles">
-        <item>05 seconds</item>
-        <item>30 seconds</item>
-        <item>60 seconds</item>
+        <item>Slow</item>
+        <item>Medium Slow</item>
+        <item>Medium</item>
+        <item>Medium Fast</item>
+        <item>Fast</item>
     </string-array>
     <string-array name="pref_light_frequency_values">
-        <item>05</item>
-        <item>30</item>
-        <item>60</item>
+        <item>"5"</item>
+        <item>"4"</item>
+        <item>"3"</item>
+        <item>"2"</item>
+        <item>"1"</item>
     </string-array>
 
     <string name="pref_title_intensity">Light Intensity</string>

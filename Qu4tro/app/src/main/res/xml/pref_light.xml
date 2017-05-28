@@ -3,7 +3,7 @@
     <!-- A 'parent' preference, which enables/disables child preferences (below)
          when checked/unchecked. -->
     <SwitchPreference
-        android:defaultValue="true"
+        android:defaultValue="false"
         android:key="@string/pref_key_light_enabled"
         android:title="@string/pref_title_enabled" />
 
@@ -11,8 +11,9 @@
          dismiss it. -->
     <!-- NOTE: ListPreference's summary should be set to its value by the activity code. -->
     <ListPreference
+        android:persistent="true"
         android:dependency="@string/pref_key_light_enabled"
-        android:defaultValue="0"
+        android:defaultValue="1"
         android:entries="@array/pref_light_list_titles"
         android:entryValues="@array/pref_light_list_values"
         android:summary="%s"
@@ -24,7 +25,7 @@
     <ListPreference
         android:persistent="true"
         android:dependency="@string/pref_key_light_enabled"
-        android:defaultValue="30"
+        android:defaultValue="3"
         android:entries="@array/pref_light_frequency_titles"
         android:entryValues="@array/pref_sync_frequency_values"
         android:summary="%s"

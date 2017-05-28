@@ -5,7 +5,7 @@
     <string name="navigation_drawer_close">Feche o navegador</string>
     <string name="tracking">Reveja sua trajetória</string>
     <string name="drawer_menu">Configure sua prancha</string>
-    <string name="project_name">Prancha Octo</string>
+    <string name="project_name">Prancha OCTO</string>
     <string name="bt_not_enabled_leaving">Bluetooth não acionado. Saindo da aplicação.</string>
     <string name="button_scan">Procure por sua prancha</string>
     <string name="none_found">Nenhum dispositivo foi encontrado. Por favor, ligue o dispositivo da sua prancha.</string>
@@ -23,12 +23,12 @@
     <string name="nav_contact">Contato</string>
     <string name="nav_history">Histórico</string>
     <string name="nav_share">Compartilhar</string>
-    <string name="share_texts">Brilhe no Stand Up Paddle! Conheça a prancha Octo em: (link)</string>
-    <string name="subject_mail">Contato do applicativo Octo</string>
+    <string name="share_texts">Brilhe no Stand Up Paddle! Conheça a prancha OCTO em: (link)</string>
+    <string name="subject_mail">Contato do applicativo OCTO</string>
     <string name="error_mail">Você não possui nenhum aplicativo de e-mail para nos contatar</string>
-    <string name="error_share">Você não possui nenhum aplicativo para compartilhar o Octo</string>
+    <string name="error_share">Você não possui nenhum aplicativo para compartilhar o OCTO</string>
     <string name="send_mail">Entre em contato utilizando:</string>
-    <string name="send_share">Compartilhe Octo utilizando:</string>
+    <string name="send_share">Compartilhe OCTO utilizando:</string>
     <string name="nav_settings">Configurações</string>
     <string name="bt_light">Iluminação</string>
     <string name="bt_power">Liga/Desliga</string>
@@ -62,26 +62,46 @@
         <item>2</item>
     </string-array>
 
+
+
     <string-array name="pref_light_list_titles">
         <item>Sempre Ligado</item>
         <item>Fade</item>
         <item>Strobe</item>
     </string-array>
     <string-array name="pref_light_list_values">
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
+        <item>"1"</item>
+        <item>"2"</item>
+        <item>"3"</item>
     </string-array>
+
     <string-array name="pref_light_frequency_titles">
-        <item>05 segundos</item>
-        <item>30 segundos</item>
-        <item>60 segundos</item>
+        <item>Lento</item>
+        <item>Médio Lento</item>
+        <item>Médio</item>
+        <item>Médio Rápido</item>
+        <item>Rápido</item>
     </string-array>
     <string-array name="pref_light_frequency_values">
-        <item>05</item>
-        <item>30</item>
-        <item>60</item>
+        <item>"5"</item>
+        <item>"4"</item>
+        <item>"3"</item>
+        <item>"2"</item>
+        <item>"1"</item>
     </string-array>
+
     <string name="pref_title_keep_screen">Manter a Tela Acesa</string>
     <string name="pref_title_freq">Frequência da Iluminação</string>
+    <string name="ble_not_supported">Bluetooth Low Energy não disponível. Terminando a aplicação.</string>
+    <string name="unknown_device">Dispositivo Desconhecido</string>
+    <string name="bt_board">PRANCHA</string>
+    <string name="bt_last">ÚLTIMA REMADA</string>
+    <string name="bt_rows">Remadas</string>
+    <string name="bt_stop">PARAR</string>
+    <string name="bt_pause">PAUSAR</string>
+    <string name="bt_play">INICIAR</string>
+    <string name="dialog_next">PRÓXIMO</string>
+    <string name="dialog_permission_request">Solicitação de Permissão</string>
+    <string name="dialog_permission_description">O app OCTO precisa das permissões de localização para suas funcionalidades.
+        Por favor, aceite a próxima solicitação de permissão.</string>
 </resources>
