@@ -14,47 +14,22 @@
      limitations under the License.
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/devices_layout"
     android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical"
-    >
-
-    <TextView
-        android:id="@+id/title_paired_devices"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/layout_border"
-        android:paddingLeft="5dp"
-        android:text="@string/title_paired_devices"
-        android:textAppearance="@android:style/TextAppearance.Material.Large" />
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
 
     <ListView
-        android:id="@+id/paired_devices"
+        android:id="@+id/ble_devices"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:stackFromBottom="true"
-        />
-
-    <TextView
-        android:id="@+id/title_new_devices"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/layout_border"
-        android:paddingLeft="5dp"
-        android:text="@string/title_other_devices"
-        android:textAppearance="@android:style/TextAppearance.Material.Large"
-        android:visibility="gone"
-        />
-
-    <ListView
-        android:id="@+id/new_devices"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:stackFromBottom="true"
-        />
+        android:divider="@android:color/darker_gray"
+        android:dividerHeight="1sp"
+        android:entries="@array/list_preference_entry_values"
+        android:footerDividersEnabled="true"
+        android:headerDividersEnabled="true"
+        android:stackFromBottom="true"/>
 
     <Button
         android:id="@+id/button_scan"

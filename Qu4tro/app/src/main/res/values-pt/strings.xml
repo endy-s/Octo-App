@@ -5,7 +5,7 @@
     <string name="navigation_drawer_close">Feche o navegador</string>
     <string name="tracking">Reveja sua trajetória</string>
     <string name="drawer_menu">Configure sua prancha</string>
-    <string name="project_name">Prancha Octo</string>
+    <string name="project_name">Prancha OCTO</string>
     <string name="bt_not_enabled_leaving">Bluetooth não acionado. Saindo da aplicação.</string>
     <string name="button_scan">Procure por sua prancha</string>
     <string name="none_found">Nenhum dispositivo foi encontrado. Por favor, ligue o dispositivo da sua prancha.</string>
@@ -23,12 +23,12 @@
     <string name="nav_contact">Contato</string>
     <string name="nav_history">Histórico</string>
     <string name="nav_share">Compartilhar</string>
-    <string name="share_texts">Brilhe no Stand Up Paddle! Conheça a prancha Octo em: (link)</string>
-    <string name="subject_mail">Contato do applicativo Octo</string>
+    <string name="share_texts">Brilhe no Stand Up Paddle! Conheça a prancha OCTO em: (link)</string>
+    <string name="subject_mail">Contato do applicativo OCTO</string>
     <string name="error_mail">Você não possui nenhum aplicativo de e-mail para nos contatar</string>
-    <string name="error_share">Você não possui nenhum aplicativo para compartilhar o Octo</string>
+    <string name="error_share">Você não possui nenhum aplicativo para compartilhar o OCTO</string>
     <string name="send_mail">Entre em contato utilizando:</string>
-    <string name="send_share">Compartilhe Octo utilizando:</string>
+    <string name="send_share">Compartilhe OCTO utilizando:</string>
     <string name="nav_settings">Configurações</string>
     <string name="bt_light">Iluminação</string>
     <string name="bt_power">Liga/Desliga</string>
@@ -84,4 +84,6 @@
     </string-array>
     <string name="pref_title_keep_screen">Manter a Tela Acesa</string>
     <string name="pref_title_freq">Frequência da Iluminação</string>
+    <string name="ble_not_supported">Bluetooth Low Energy não disponível. Terminando a aplicação.</string>
+    <string name="unknown_device">Dispositivo Desconhecido</string>
 </resources>
