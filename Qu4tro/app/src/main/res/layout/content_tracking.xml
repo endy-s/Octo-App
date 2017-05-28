@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingPrefix"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/img_paddle_octo"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/txtKm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/bt_unknown"
+        android:textColor="@color/text_info"
+        fontPath="fonts/segoeui.ttf"
+        android:textSize="75sp" />
+
+    <ImageView
+        android:id="@+id/trackDivider0"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scaleX="0.5"
+        android:scaleY="0.5"
+        android:src="@drawable/img_divider_big"
+        app:srcCompat="@drawable/img_divider_big" />
+
+    <TextView
+        android:id="@+id/labelKm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/bt_dist"
+        fontPath="fonts/segoeui.ttf"
+        android:textColor="@color/text_labels"
+        android:textSize="24sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/labelRows"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                fontPath="fonts/segoeui.ttf"
+                android:text="@string/bt_rows"
+                android:textColor="@color/text_labels" />
+
+            <ImageView
+                android:id="@+id/trackDivider1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scaleY="0.5"
+                android:src="@drawable/img_divider"
+                app:srcCompat="@drawable/img_divider" />
+
+            <TextView
+                android:id="@+id/txtRows"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                fontPath="fonts/segoeui.ttf"
+                android:text="@string/bt_unknown"
+                android:textColor="@color/text_info"
+                android:textSize="36sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                fontPath="fonts/segoeui.ttf"
+                android:text="@string/bt_sup"
+                android:textColor="@color/text_labels" />
+
+            <ImageView
+                android:id="@+id/trackDivider2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scaleY="0.5"
+                android:src="@drawable/img_divider"
+                app:srcCompat="@drawable/img_divider" />
+
+            <TextView
+                android:id="@+id/txtTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                fontPath="fonts/segoeui.ttf"
+                android:text="@string/bt_unknown"
+                android:textColor="@color/text_info"
+                android:textSize="36sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/labelKcal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                fontPath="fonts/segoeui.ttf"
+                android:text="@string/bt_cal"
+                android:textColor="@color/text_labels" />
+
+            <ImageView
+                android:id="@+id/trackDivider3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scaleY="0.5"
+                android:src="@drawable/img_divider"
+                app:srcCompat="@drawable/img_divider" />
+
+            <TextView
+                android:id="@+id/txtKcal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                fontPath="fonts/segoeui.ttf"
+                android:text="@string/bt_unknown"
+                android:textColor="@color/text_info"
+                android:textSize="36sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/labelSpeed"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                fontPath="fonts/segoeui.ttf"
+                android:text="@string/bt_speed"
+                android:textColor="@color/text_labels" />
+
+            <ImageView
+                android:id="@+id/trackDivider4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scaleY="0.5"
+                android:src="@drawable/img_divider"
+                app:srcCompat="@drawable/img_divider" />
+
+            <TextView
+                android:id="@+id/txtSpeed"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                fontPath="fonts/segoeui.ttf"
+                android:text="@string/bt_unknown"
+                android:textColor="@color/text_info"
+                android:textSize="36sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/btLight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_light"
+            app:srcCompat="@drawable/ic_light" />
+
+        <ImageButton
+            android:id="@+id/btShare"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_sharing"
+            app:srcCompat="@drawable/ic_sharing" />
+
+        <ImageButton
+            android:id="@+id/btMaps"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_tracking"
+            app:srcCompat="@drawable/ic_tracking" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="bottom"
+        android:orientation="vertical">
+
+        <android.support.design.widget.BottomNavigationView
+            android:id="@+id/bottomNavigationView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/black_overlay"
+            android:backgroundTint="@color/black_overlay"
+            android:visibility="visible"
+            app:itemBackground="@color/black_overlay"
+            app:itemIconTint="@color/text_info"
+            app:itemTextColor="@color/text_info"
+            app:menu="@menu/bottom_navigation_menu"
+            tools:visibility="visible" />
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,11 +1,17 @@
 package com.br.octo.board.modules;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.bluetooth.le.BluetoothLeScanner;
+import android.bluetooth.le.ScanCallback;
+import android.bluetooth.le.ScanFilter;
+import android.bluetooth.le.ScanResult;
+import android.bluetooth.le.ScanSettings;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,12 +21,14 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.br.octo.board.R;
+import com.br.octo.board.api_services.BluetoothHelper;
 import com.br.octo.board.modules.base.BaseActivity;
-import com.br.octo.board.modules.main.MainActivity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,19 +36,19 @@ import butterknife.OnClick;
 import butterknife.OnItemClick;
 
 public class DeviceListActivity extends BaseActivity {
-    //Change to a DialogFragment in the future
-
-
     // Tag for Log
     private static final String TAG = "DeviceListActivity";
-
-    // Return Intent extra
-    public static String EXTRA_DEVICE_ADDRESS = "device_address";
 
     private LeDeviceListAdapter mLeDeviceListAdapter;
 
     ArrayList<BluetoothDevice> mDevices = new ArrayList<>();;
-    private BluetoothAdapter mBluetoothAdapter;
+    private BluetoothLeScanner mBluetoothLEScanner;
+    private ScanSettings settings;
+    private List<ScanFilter> filters;
+
+    BluetoothHelper btHelper;
+
+    ProgressDialog pd;
 
 
     @BindView(R.id.button_scan)
@@ -62,7 +70,7 @@ public class DeviceListActivity extends BaseActivity {
         setTitle(R.string.select_device);
 
         // Set result CANCELED in case the user backs out
-        setResult(Activity.RESULT_CANCELED);
+        setResult(RESULT_CANCELED);
 
         // Initializes list view adapter.
         mLeDeviceListAdapter = new LeDeviceListAdapter(this, mDevices);
@@ -70,14 +78,20 @@ public class DeviceListActivity extends BaseActivity {
         bleDevicesListView.setAdapter(mLeDeviceListAdapter);
 
         // Get the local Bluetooth adapter
-        mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        mBluetoothLEScanner = BluetoothAdapter.getDefaultAdapter().getBluetoothLeScanner();
+        settings = new ScanSettings.Builder()
+                .setScanMode(ScanSettings.SCAN_MODE_LOW_LATENCY)
+                .build();
+        filters = new ArrayList<>();
+
+        scanLeDevice();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (mBluetoothAdapter != null) {
-            mBluetoothAdapter.stopLeScan(mLeScanCallback);
+        if (mBluetoothLEScanner != null) {
+            mBluetoothLEScanner.stopScan(mScanCallback);
         }
     }
 
@@ -87,20 +101,16 @@ public class DeviceListActivity extends BaseActivity {
 
         if (device == null) return;
 
-        final Intent intent = new Intent();
-
-        intent.putExtra(MainActivity.EXTRAS_DEVICE_NAME, device.getName());
-        intent.putExtra(MainActivity.EXTRAS_DEVICE_ADDRESS, device.getAddress());
-
-        if (mBluetoothAdapter != null) {
-            if (mBluetoothAdapter.isDiscovering()) {
-                mBluetoothAdapter.stopLeScan(mLeScanCallback);
-            }
+        if (mBluetoothLEScanner != null) {
+            mBluetoothLEScanner.stopScan(mScanCallback);
         }
 
-        // Set result and finish this Activity
-        setResult(Activity.RESULT_OK, intent);
-        finish();
+        btHelper = BluetoothHelper.getInstance();
+        btHelper.connectToDevice(this, device);
+
+        pd = ProgressDialog.show(this, "Conectando", "Validando dispositivo...", true, false);
+
+        checkConnected();
     }
 
     /**
@@ -114,17 +124,13 @@ public class DeviceListActivity extends BaseActivity {
         mLeDeviceListAdapter.clear();
 
         // Indicate scanning in the title
-        setProgressBarIndeterminateVisibility(true);
+        //setProgressBarIndeterminateVisibility(true);
         setTitle(R.string.scanning);
 
         // If we're already discovering, stop it
-        if (mBluetoothAdapter != null) {
-            if (mBluetoothAdapter.isDiscovering()) {
-                mBluetoothAdapter.stopLeScan(mLeScanCallback);
-            }
-
+        if (mBluetoothLEScanner != null) {
             // Request discover from BluetoothAdapter
-            mBluetoothAdapter.startLeScan(mLeScanCallback);
+            mBluetoothLEScanner.startScan(filters, settings, mScanCallback);
         }
     }
 
@@ -218,18 +224,54 @@ public class DeviceListActivity extends BaseActivity {
     }
 
     // Device scan callback.
-    private BluetoothAdapter.LeScanCallback mLeScanCallback =
-            new BluetoothAdapter.LeScanCallback() {
+    private ScanCallback mScanCallback =
+            new ScanCallback() {
 
         @Override
-        public void onLeScan(final BluetoothDevice device, int rssi, byte[] scanRecord) {
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    mLeDeviceListAdapter.addDevice(device);
-                    mLeDeviceListAdapter.notifyDataSetChanged();
-                }
-            });
+        public void onScanResult(int callbackType, ScanResult result) {
+            Log.i("callbackType", String.valueOf(callbackType));
+            Log.i("result", result.toString());
+            BluetoothDevice btDevice = result.getDevice();
+
+            mLeDeviceListAdapter.addDevice(btDevice);
+            mLeDeviceListAdapter.notifyDataSetChanged();
+        }
+
+        @Override
+        public void onBatchScanResults(List<ScanResult> results) {
+            for (ScanResult sr : results) {
+                Log.i("ScanResult - Results", sr.toString());
+            }
+        }
+
+        @Override
+        public void onScanFailed(int errorCode) {
+            Log.e("Scan Failed", "Error Code: " + errorCode);
         }
     };
+
+
+    // NEW BLUETOOTH REGION
+
+    public void checkConnected (){
+        Log.d("DEVICE", "checked");
+
+        if (btHelper.getConnectionStatus()) {
+            pd.dismiss();
+
+            Log.d("DEVICE", "Called on main thread");
+            setResult(RESULT_OK);
+            finish();
+        } else {
+            final Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    checkConnected();
+                }
+            }, 500);
+        }
+    }
+
+    // endregion
 }

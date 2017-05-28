@@ -53,12 +53,9 @@ public class SplashScreenActivity extends BaseActivity {
         super.onStart();
 
         if (!mBluetoothAdapter.isEnabled()) {
-            // If BT is not on, request that it be enabled.
-            // setupChat() will then be called during onActivityResult
             Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
         } else {
-            // Otherwise, setup the chat session
             startMainActivity();
         }
     }
@@ -83,6 +80,8 @@ public class SplashScreenActivity extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+
+    //TODO: Fix the problems of back pressed at the splash loading
     public void startMainActivity()
     {
         // Delay fade for Splash Screen in background

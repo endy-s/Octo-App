@@ -11,7 +11,7 @@ import android.util.Log;
 
 import com.google.android.gms.maps.model.LatLng;
 
-public class Tracking extends Service {
+public class TrackingService extends Service {
     @Override
     public IBinder onBind(Intent intent) {
         // TODO: Return the communication channel to the service.
@@ -38,7 +38,7 @@ public class Tracking extends Service {
         {
             Log.e(TAG, "onLocationChanged: " + location);
             mLastLocation.set(location);
-            MapsActivity.route.add(new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude()));
+            PaddleActivity.route.add(new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude()));
         }
 
         @Override
