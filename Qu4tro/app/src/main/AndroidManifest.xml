@@ -7,7 +7,6 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
-<!-- <uses-permission android:name="android.permission.BLUETOOTH_PRIVILEGED"></uses-permission> -->
 
     <application
         android:name=".MainApplication"
@@ -22,7 +21,6 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
-        <!-- android:resizeableActivity="true" -->
 
         <activity
             android:name=".modules.SplashScreenActivity"
@@ -34,6 +32,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".modules.DeviceListActivity"
             android:screenOrientation="portrait"
@@ -47,12 +46,6 @@
             android:screenOrientation="portrait"
             android:parentActivityName=".modules.main.MainActivity"/>
 
-        <service
-            android:name=".modules.tracking.Tracking"
-            android:enabled="true"
-            android:exported="true"
-            android:process=":tracking" />
-
         <activity
             android:name=".modules.tracking.MapsActivity"
             android:screenOrientation="portrait"
@@ -61,6 +54,16 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".modules.main.MainActivity" />
         </activity>
+
+        <service
+            android:name=".modules.tracking.Tracking"
+            android:enabled="true"
+            android:exported="true"
+            android:process=":tracking" />
+
+        <!--<service -->
+            <!--android:name="" -->
+            <!--android:enabled="true"/>-->
 
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -78,5 +81,4 @@
             android:name="io.fabric.ApiKey"
             android:value="37f823ac90b1b11443514a9d32c0da7164d30520" />
     </application>
-
 </manifest>

@@ -3,7 +3,6 @@ package com.br.octo.board.modules.main;
 import android.app.Activity;
 import android.app.DialogFragment;
 import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -18,20 +17,19 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.br.octo.board.R;
 import com.br.octo.board.api_services.BluetoothService;
 import com.br.octo.board.api_services.Constants;
+import com.br.octo.board.models.QuatroDialogFragment;
 import com.br.octo.board.modules.DeviceListActivity;
 import com.br.octo.board.modules.base.BaseActivity;
 import com.br.octo.board.modules.settings.LightSettingsActivity;
 import com.br.octo.board.modules.settings.LocaleHelper;
-import com.br.octo.board.models.QuatroDialogFragment;
-import com.br.octo.board.R;
 import com.br.octo.board.modules.settings.SettingsActivity;
 
 import butterknife.BindView;
@@ -51,6 +49,9 @@ public class MainActivity extends BaseActivity
     private static final int REQUEST_GENERAL_SETTINGS           = 2;
     private static final int REQUEST_LIGHT_SETTINGS             = 3;
     private static final int REQUEST_TRACKING_SCREEN            = 4;
+
+    public static final String EXTRAS_DEVICE_NAME = "DEVICE_NAME";
+    public static final String EXTRAS_DEVICE_ADDRESS = "DEVICE_ADDRESS";
 
     // Name of the connected device
     private String mConnectedDeviceName = null;

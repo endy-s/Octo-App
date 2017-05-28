@@ -2,7 +2,9 @@ package com.br.octo.board.modules;
 
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothManager;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
@@ -21,12 +23,22 @@ public class SplashScreenActivity extends BaseActivity {
     private BluetoothAdapter mBluetoothAdapter = null;
 
     // Intent request codes
-    private static final int REQUEST_ENABLE_BT = 2;
+    private static final int REQUEST_ENABLE_BT = 99;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Get local Bluetooth adapter
+        // Use this check to determine whether BLE is supported on the device.  Then you can
+        // selectively disable BLE-related features.
+        if (!getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE)) {
+            Toast.makeText(this, R.string.ble_not_supported, Toast.LENGTH_SHORT).show();
+            finish();
+        }
+
+        // Initializes a Bluetooth adapter.
+        // For API level 18 and above, get the reference through BluetoothManager.
+        final BluetoothManager bluetoothManager =
+                (BluetoothManager) getSystemService(getBaseContext().BLUETOOTH_SERVICE);
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
         // If the adapter is null, then Bluetooth is not supported
@@ -51,18 +63,24 @@ public class SplashScreenActivity extends BaseActivity {
         }
     }
 
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_ENABLE_BT) {
             if (resultCode == Activity.RESULT_OK) {
                 // Bluetooth is now enabled, so set up a chat session
                 startMainActivity();
+
+                return;
             } else {
                 // User did not enable Bluetooth or an error occurred
                 Toast.makeText(this, R.string.bt_not_enabled_leaving,
                         Toast.LENGTH_SHORT).show();
                 finish();
+
+                return;
             }
         }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     public void startMainActivity()
@@ -86,7 +104,6 @@ public class SplashScreenActivity extends BaseActivity {
         // Future: Add download of user data (if logged in)
         if (PreferenceManager.getDefaultSharedPreferences(this)
                 .getBoolean(getString(R.string.pref_key_keep_screen), false)) {
-            Toast.makeText(getBaseContext(), "OK", Toast.LENGTH_SHORT);
             BaseActivity.keepScreen = true;
             AppCompatPreferenceActivity.keepScreen = true;
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
