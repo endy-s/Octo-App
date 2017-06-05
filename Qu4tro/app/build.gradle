@@ -20,7 +20,7 @@ android {
         configOcto {
             keyAlias 'OCTO'
             keyPassword 'Octo2016'
-            storeFile file('C:/Users/Bruno/AndroidStudioProjects/Qu4troPrototype/octo.jks')
+            storeFile file('/Users/endysilveira/AndroidStudioProjects/Qu4troPrototype/octo.jks')
             storePassword 'Octo2016'
         }
     }
@@ -47,9 +47,8 @@ android {
 }
 
 ext {
-    constraintLayoutVersion = '1.0.0-beta5'
     supportLibraryVersion = '25.3.1'
-    playServicesVersion = '10.2.4'
+    playServicesVersion = '10.2.6'
     butterknifeVersion = '8.5.1'
 }
 
@@ -58,8 +57,6 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-
-    compile "com.android.support.constraint:constraint-layout:$constraintLayoutVersion"
 
     //Support
     compile "com.android.support:appcompat-v7:$supportLibraryVersion"
