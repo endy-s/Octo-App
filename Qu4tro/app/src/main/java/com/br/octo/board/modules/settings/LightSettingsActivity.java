@@ -6,10 +6,8 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
-import android.preference.PreferenceActivity;
 import android.preference.SwitchPreference;
 import android.support.v7.app.ActionBar;
-import android.widget.Toast;
 
 import com.br.octo.board.R;
 import com.br.octo.board.api_services.BluetoothHelper;
@@ -29,6 +27,8 @@ public class LightSettingsActivity extends AppCompatPreferenceActivity implement
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        setContentView(R.layout.settings_light);
         setupActionBar();
         setTitle(R.string.title_activity_light_settings);
         addPreferencesFromResource(R.xml.pref_light);

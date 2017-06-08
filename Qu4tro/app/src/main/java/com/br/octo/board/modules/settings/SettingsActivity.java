@@ -27,6 +27,8 @@ public class SettingsActivity extends AppCompatPreferenceActivity implements
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        setContentView(R.layout.settings_general);
         setupActionBar();
         setTitle(R.string.nav_settings);
         addPreferencesFromResource(R.xml.pref_general);
