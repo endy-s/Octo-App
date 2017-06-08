@@ -1,6 +1,5 @@
 package com.br.octo.board.modules;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -10,6 +9,7 @@ import android.bluetooth.le.ScanFilter;
 import android.bluetooth.le.ScanResult;
 import android.bluetooth.le.ScanSettings;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -21,7 +21,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.br.octo.board.R;
 import com.br.octo.board.api_services.BluetoothHelper;
@@ -35,7 +34,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnItemClick;
 
-public class DeviceListActivity extends BaseActivity {
+public class DeviceListActivity extends BaseActivity implements BluetoothHelper.BluetoothCallback, ProgressDialog.OnCancelListener {
     // Tag for Log
     private static final String TAG = "DeviceListActivity";
 
@@ -84,6 +83,9 @@ public class DeviceListActivity extends BaseActivity {
                 .build();
         filters = new ArrayList<>();
 
+        btHelper = BluetoothHelper.getInstance();
+        btHelper.setCallback(this);
+
         scanLeDevice();
     }
 
@@ -105,12 +107,9 @@ public class DeviceListActivity extends BaseActivity {
             mBluetoothLEScanner.stopScan(mScanCallback);
         }
 
-        btHelper = BluetoothHelper.getInstance();
         btHelper.connectToDevice(this, device);
 
-        pd = ProgressDialog.show(this, "Conectando", "Validando dispositivo...", true, false);
-
-        checkConnected();
+        pd = ProgressDialog.show(this, "Conectando", "Validando dispositivo...", true, true, this);
     }
 
     /**
@@ -138,19 +137,19 @@ public class DeviceListActivity extends BaseActivity {
 
 
     // Adapter for holding devices found through scanning.
-    public class LeDeviceListAdapter extends ArrayAdapter {
+    private class LeDeviceListAdapter extends ArrayAdapter {
         private Context context;
         private ArrayList<BluetoothDevice> mLeDevices;
         private LayoutInflater mInflator;
 
-        public LeDeviceListAdapter(Context context, ArrayList<BluetoothDevice> devices) {
+        LeDeviceListAdapter(Context context, ArrayList<BluetoothDevice> devices) {
             super(context, R.layout.device_name, devices);
 
             this.mLeDevices = devices;
             this.context = context;
         }
 
-        public class LeDeviceViewHolder {
+        class LeDeviceViewHolder {
             TextView     deviceAddress;
             TextView     deviceName;
         }
@@ -191,13 +190,13 @@ public class DeviceListActivity extends BaseActivity {
             return view;
         }
 
-        public void addDevice(BluetoothDevice device) {
+        void addDevice(BluetoothDevice device) {
             if(!mLeDevices.contains(device)) {
                 mLeDevices.add(device);
             }
         }
 
-        public BluetoothDevice getDevice(int position) {
+        BluetoothDevice getDevice(int position) {
             return mLeDevices.get(position);
         }
 
@@ -274,4 +273,22 @@ public class DeviceListActivity extends BaseActivity {
     }
 
     // endregion
+
+    @Override
+    public void onMessageReceived(String message) {
+    }
+
+    @Override
+    public void onDeviceConnected() {
+        pd.dismiss();
+
+        Log.d("DEVICE", "Called on main thread");
+        setResult(RESULT_OK);
+        finish();
+    }
+
+    @Override
+    public void onCancel(DialogInterface dialog) {
+        btHelper.disconnect();
+    }
 }

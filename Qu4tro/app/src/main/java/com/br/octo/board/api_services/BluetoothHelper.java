@@ -9,8 +9,6 @@ import android.bluetooth.BluetoothProfile;
 import android.content.Context;
 import android.util.Log;
 
-import com.br.octo.board.modules.DeviceListActivity;
-
 import java.util.List;
 import java.util.UUID;
 
@@ -30,7 +28,10 @@ public class BluetoothHelper {
         return btInstance;
     }
 
-    private BluetoothHelper() {
+    private BluetoothCallback callback;
+
+    public void setCallback(BluetoothCallback callback) {
+        this.callback = callback;
     }
 
     public void connectToDevice(Context context, BluetoothDevice device){
@@ -107,17 +108,22 @@ public class BluetoothHelper {
 
             if (!btConnected) {
                 if (answer.matches("<BOARD>")) {
+                    callback.onDeviceConnected();
                     btConnected = true;
                 }
             }
             else {
-                if (answer.matches("<OK>")) {
 
+                callback.onMessageReceived(answer);
+
+                if (answer.matches("<OK>")) {
+                    //TODO
                 }
                 else if (answer.startsWith("<U;")) {
-
+                    //TODO
                 }
                 else if (answer.startsWith("<B;")) {
+                    //TODO
 
                 }
             }
@@ -134,4 +140,12 @@ public class BluetoothHelper {
         characteristicRxTx.setWriteType(BluetoothGattCharacteristic.WRITE_TYPE_NO_RESPONSE);
         mGatt.writeCharacteristic(characteristicRxTx);
     }
+
+    public interface BluetoothCallback {
+        void onMessageReceived(String message);
+        void onDeviceConnected();
+    }
 }
+
+
+
