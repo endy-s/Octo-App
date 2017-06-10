@@ -39,8 +39,10 @@ public class BluetoothHelper {
         if (mGatt != null) {
             if (mGatt.getDevice() == device) {
                 Log.d("BLUETOOTH", "PREVIOUSLY CONNECTED TO THIS DEVICE");
-                mGatt.connect();
-                return;
+                if (mGatt.connect()) {
+                    mGatt.discoverServices();
+                    return;
+                }
             }
         }
 
@@ -65,7 +67,9 @@ public class BluetoothHelper {
                 case BluetoothProfile.STATE_DISCONNECTED:
                     Log.e("gattCallback", "STATE_DISCONNECTED");
                     mGatt.close();
+                    mGatt = null;
                     btConnected = false;
+                    callback.onDeviceDisconnected();
                     break;
                 default:
                     Log.e("gattCallback", "STATE_OTHER");
@@ -114,16 +118,16 @@ public class BluetoothHelper {
             }
             else {
 
-                callback.onMessageReceived(answer);
+                callback.onMessageReceived(answer.replaceAll("[<> ]", ""));
 
-                if (answer.matches("<OK>")) {
-                    //TODO
+                if (answer.startsWith("<B")) {
+                    sendMessage("<OK>");
+
                 }
                 else if (answer.startsWith("<U;")) {
                     //TODO
                 }
-                else if (answer.startsWith("<B;")) {
-                    //TODO
+                else if (answer.matches("<OK>")) {
 
                 }
             }
@@ -139,11 +143,13 @@ public class BluetoothHelper {
         characteristicRxTx.setValue(tx);
         characteristicRxTx.setWriteType(BluetoothGattCharacteristic.WRITE_TYPE_NO_RESPONSE);
         mGatt.writeCharacteristic(characteristicRxTx);
+        Log.d("SENT", "This message: " + message);
     }
 
     public interface BluetoothCallback {
         void onMessageReceived(String message);
         void onDeviceConnected();
+        void onDeviceDisconnected();
     }
 }
 

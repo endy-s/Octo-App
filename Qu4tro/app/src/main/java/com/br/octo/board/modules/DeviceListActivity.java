@@ -11,7 +11,6 @@ import android.bluetooth.le.ScanSettings;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +20,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.br.octo.board.R;
 import com.br.octo.board.api_services.BluetoothHelper;
@@ -109,7 +109,13 @@ public class DeviceListActivity extends BaseActivity implements BluetoothHelper.
 
         btHelper.connectToDevice(this, device);
 
-        pd = ProgressDialog.show(this, "Conectando", "Validando dispositivo...", true, true, this);
+        String deviceName = device.getName();
+        if (deviceName == null) {
+            deviceName = getResources().getString(R.string.unknown_device);
+        }
+
+        pd = ProgressDialog.show(this, getResources().getString(R.string.connecting) +  " " + deviceName,
+                getResources().getString(R.string.validating), true, true, this);
     }
 
     /**
@@ -132,9 +138,6 @@ public class DeviceListActivity extends BaseActivity implements BluetoothHelper.
             mBluetoothLEScanner.startScan(filters, settings, mScanCallback);
         }
     }
-
-
-
 
     // Adapter for holding devices found through scanning.
     private class LeDeviceListAdapter extends ArrayAdapter {
@@ -249,30 +252,9 @@ public class DeviceListActivity extends BaseActivity implements BluetoothHelper.
         }
     };
 
-
-    // NEW BLUETOOTH REGION
-
-    public void checkConnected (){
-        Log.d("DEVICE", "checked");
-
-        if (btHelper.getConnectionStatus()) {
-            pd.dismiss();
-
-            Log.d("DEVICE", "Called on main thread");
-            setResult(RESULT_OK);
-            finish();
-        } else {
-            final Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    checkConnected();
-                }
-            }, 500);
-        }
-    }
-
     // endregion
+
+    //region BT Callback
 
     @Override
     public void onMessageReceived(String message) {
@@ -282,10 +264,23 @@ public class DeviceListActivity extends BaseActivity implements BluetoothHelper.
     public void onDeviceConnected() {
         pd.dismiss();
 
-        Log.d("DEVICE", "Called on main thread");
         setResult(RESULT_OK);
         finish();
     }
+
+    @Override
+    public void onDeviceDisconnected() {
+        pd.dismiss();
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(getBaseContext(), "Connection error, try again", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    //endregion
 
     @Override
     public void onCancel(DialogInterface dialog) {

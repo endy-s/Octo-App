@@ -44,9 +44,9 @@ import butterknife.OnClick;
  * Created by Endy.
  */
 public class MainActivity extends BaseActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, BluetoothHelper.BluetoothCallback {
 
-// Intent request codes
+    // Intent request codes
     public static final int ACTIVITY_REQUEST_SCAN_DEVICE = 0;
     public static final int ACTIVITY_REQUEST_GENERAL_SETTINGS = 1;
     public static final int ACTIVITY_REQUEST_LIGHT_SETTINGS = 2;
@@ -102,14 +102,11 @@ public class MainActivity extends BaseActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-
-
         btHelper = BluetoothHelper.getInstance();
 
         if (!btHelper.getConnectionStatus()) {
-            showNotConnected();
+            showNotConnectedState();
         }
-
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -137,6 +134,7 @@ public class MainActivity extends BaseActivity
             Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivityForResult(enableIntent, ACTIVITY_REQUEST_ENABLE_BT);
         }
+        btHelper.setCallback(this);
     }
 
     @Override
@@ -177,7 +175,7 @@ public class MainActivity extends BaseActivity
         return true;
     }
 
-    // Menu and drawer region
+    //region Menu and drawer
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -199,21 +197,16 @@ public class MainActivity extends BaseActivity
         if (id == R.id.nav_bt) {
             // Launch the DeviceListActivity to see devices and do scan
             startActivityForResult(new Intent(getBaseContext(), DeviceListActivity.class), ACTIVITY_REQUEST_SCAN_DEVICE);
-            return true;
-        }
-        else if (id == R.id.nav_set) {
+        } else if (id == R.id.nav_set) {
             // Launch the SettingsActivity to change the preferences
             startActivityForResult(new Intent(getBaseContext(), SettingsActivity.class), ACTIVITY_REQUEST_GENERAL_SETTINGS);
-
-            return true;
-        }
-        else if (id == R.id.nav_history) {
+        } else if (id == R.id.nav_history) {
             // TODO: Call the History view (to be developed)
-        }
-        else if (id == R.id.nav_tutorial) {
+            Toast.makeText(getBaseContext(), "History", Toast.LENGTH_SHORT).show();
+        } else if (id == R.id.nav_tutorial) {
             // TODO: Call the Tutorial view (to be developed)
-        }
-        else if (id == R.id.nav_share) {
+            Toast.makeText(getBaseContext(), "Tutorial", Toast.LENGTH_SHORT).show();
+        } else if (id == R.id.nav_share) {
             Intent sendIntent = new Intent(Intent.ACTION_SEND);
 
             sendIntent.putExtra(Intent.EXTRA_TEXT, getResources().getString(R.string.share_texts));
@@ -223,16 +216,13 @@ public class MainActivity extends BaseActivity
             if (sendIntent.resolveActivity(getPackageManager()) != null) {
                 startActivity(Intent.createChooser(sendIntent, getResources().
                         getString(R.string.send_share)));
-            }
-            else {
+            } else {
                 Toast.makeText(getBaseContext(), getResources().
                                 getString(R.string.error_share),
                         Toast.LENGTH_SHORT).show();
             }
 
-            return true;
-        }
-        else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_send) {
             Intent mail_intent = new Intent(Intent.ACTION_SENDTO);
 
             mail_intent.setData(Uri.parse("mailto:")); // only email apps should handle this
@@ -243,32 +233,30 @@ public class MainActivity extends BaseActivity
             if (mail_intent.resolveActivity(getPackageManager()) != null) {
                 startActivity(Intent.createChooser(mail_intent, getResources()
                         .getString(R.string.send_mail)));
-            }
-            else {
+            } else {
                 Toast.makeText(getBaseContext(), getResources()
                                 .getString(R.string.error_mail),
                         Toast.LENGTH_SHORT).show();
             }
         }
 
+        drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
-    // end Region
+    //endregion
 
     //region click listeners
 
     @OnClick(R.id.btStart)
-    public void startClicked()
-    {
-        if (btHelper.getConnectionStatus())
-        {
+    public void startClicked() {
+        if (btHelper.getConnectionStatus()) {
             Intent trackingIntent = new Intent(getBaseContext(), PaddleActivity.class);
             startActivityForResult(trackingIntent, ACTIVITY_REQUEST_TRACKING_SCREEN);
         }
     }
 
-    //end region
+    //endregion
 
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -277,11 +265,9 @@ public class MainActivity extends BaseActivity
                 // When Settings returns with a Language change
                 if (resultCode == RESULT_OK) {
                     recreate();
-                }
-                else if (resultCode == Activity.RESULT_FIRST_USER) {
+                } else if (resultCode == Activity.RESULT_FIRST_USER) {
                     getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-                }
-                else {
+                } else {
                     getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
                 }
                 break;
@@ -298,24 +284,16 @@ public class MainActivity extends BaseActivity
             case ACTIVITY_REQUEST_SCAN_DEVICE:
                 // Check if connected
                 if (resultCode == RESULT_OK) {
-                    showBoardInfos();
+                    showConnectedState();
                 }
                 break;
         }
     }
 
 
-    // Region manage the info shown at the screen
+    //region manage the info shown at the screen
 
-    public void showBoardInfos() {
-        btStart.setColorFilter(null);
-        btStart.setImageAlpha(255);
-        btStart.setEnabled(true);
-
-        boardTV.setText(R.string.bt_board_on);
-    }
-
-    public void showNotConnected() {
+    public void showNotConnectedState() {
         ColorMatrix matrix = new ColorMatrix();
         matrix.setSaturation(0);
         ColorMatrixColorFilter filter = new ColorMatrixColorFilter(matrix);
@@ -323,10 +301,21 @@ public class MainActivity extends BaseActivity
         btStart.setImageAlpha(128);
         btStart.setEnabled(false);
 
+        tempWatterTV.setText(R.string.bt_unknown);
+        tempEnvTV.setText(R.string.bt_unknown);
+        batteryTV.setText(R.string.bt_unknown);
         boardTV.setText(R.string.bt_board_off);
     }
 
-    // end region
+    public void showConnectedState() {
+        btStart.setColorFilter(null);
+        btStart.setImageAlpha(255);
+        btStart.setEnabled(true);
+
+        boardTV.setText(R.string.bt_board_on);
+    }
+
+    //endregion
 
     @Override
     public void onRequestPermissionsResult(int requestCode,
@@ -351,4 +340,47 @@ public class MainActivity extends BaseActivity
             }
         }
     }
+
+    //region BT Callback
+
+    @Override
+    public void onMessageReceived(String message) {
+        Log.d("Main", "BT Received: " + message);
+        if (message.startsWith("B")) {
+            final String battValue = message.split(";")[0];
+            final String tempValue = message.split(";")[1];
+
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    batteryTV.setText(battValue.substring(2).trim().concat("%"));
+                    tempWatterTV.setText(tempValue.substring(2).trim().concat(" °C"));
+                }
+            });
+        }
+    }
+
+    @Override
+    public void onDeviceConnected() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                showConnectedState();
+            }
+        });
+    }
+
+    @Override
+    public void onDeviceDisconnected() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                showNotConnectedState();
+            }
+        });
+    }
+
+    //endregion
+
+
 }
