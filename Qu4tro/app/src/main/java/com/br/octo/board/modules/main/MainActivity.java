@@ -46,7 +46,7 @@ import butterknife.OnClick;
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener, BluetoothHelper.BluetoothCallback {
 
-// Intent request codes
+    // Intent request codes
     public static final int ACTIVITY_REQUEST_SCAN_DEVICE = 0;
     public static final int ACTIVITY_REQUEST_GENERAL_SETTINGS = 1;
     public static final int ACTIVITY_REQUEST_LIGHT_SETTINGS = 2;
@@ -102,13 +102,11 @@ public class MainActivity extends BaseActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-
         btHelper = BluetoothHelper.getInstance();
 
         if (!btHelper.getConnectionStatus()) {
             showNotConnectedState();
         }
-
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -200,22 +198,18 @@ public class MainActivity extends BaseActivity
             // Launch the DeviceListActivity to see devices and do scan
             startActivityForResult(new Intent(getBaseContext(), DeviceListActivity.class), ACTIVITY_REQUEST_SCAN_DEVICE);
             return true;
-        }
-        else if (id == R.id.nav_set) {
+        } else if (id == R.id.nav_set) {
             // Launch the SettingsActivity to change the preferences
             startActivityForResult(new Intent(getBaseContext(), SettingsActivity.class), ACTIVITY_REQUEST_GENERAL_SETTINGS);
 
             return true;
-        }
-        else if (id == R.id.nav_history) {
+        } else if (id == R.id.nav_history) {
             // TODO: Call the History view (to be developed)
             Toast.makeText(getBaseContext(), "History", Toast.LENGTH_SHORT).show();
-        }
-        else if (id == R.id.nav_tutorial) {
+        } else if (id == R.id.nav_tutorial) {
             // TODO: Call the Tutorial view (to be developed)
             Toast.makeText(getBaseContext(), "Tutorial", Toast.LENGTH_SHORT).show();
-        }
-        else if (id == R.id.nav_share) {
+        } else if (id == R.id.nav_share) {
             Intent sendIntent = new Intent(Intent.ACTION_SEND);
 
             sendIntent.putExtra(Intent.EXTRA_TEXT, getResources().getString(R.string.share_texts));
@@ -225,16 +219,14 @@ public class MainActivity extends BaseActivity
             if (sendIntent.resolveActivity(getPackageManager()) != null) {
                 startActivity(Intent.createChooser(sendIntent, getResources().
                         getString(R.string.send_share)));
-            }
-            else {
+            } else {
                 Toast.makeText(getBaseContext(), getResources().
                                 getString(R.string.error_share),
                         Toast.LENGTH_SHORT).show();
             }
 
             return true;
-        }
-        else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_send) {
             Intent mail_intent = new Intent(Intent.ACTION_SENDTO);
 
             mail_intent.setData(Uri.parse("mailto:")); // only email apps should handle this
@@ -245,8 +237,7 @@ public class MainActivity extends BaseActivity
             if (mail_intent.resolveActivity(getPackageManager()) != null) {
                 startActivity(Intent.createChooser(mail_intent, getResources()
                         .getString(R.string.send_mail)));
-            }
-            else {
+            } else {
                 Toast.makeText(getBaseContext(), getResources()
                                 .getString(R.string.error_mail),
                         Toast.LENGTH_SHORT).show();
@@ -261,10 +252,8 @@ public class MainActivity extends BaseActivity
     //region click listeners
 
     @OnClick(R.id.btStart)
-    public void startClicked()
-    {
-        if (btHelper.getConnectionStatus())
-        {
+    public void startClicked() {
+        if (btHelper.getConnectionStatus()) {
             Intent trackingIntent = new Intent(getBaseContext(), PaddleActivity.class);
             startActivityForResult(trackingIntent, ACTIVITY_REQUEST_TRACKING_SCREEN);
         }
@@ -279,11 +268,9 @@ public class MainActivity extends BaseActivity
                 // When Settings returns with a Language change
                 if (resultCode == RESULT_OK) {
                     recreate();
-                }
-                else if (resultCode == Activity.RESULT_FIRST_USER) {
+                } else if (resultCode == Activity.RESULT_FIRST_USER) {
                     getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-                }
-                else {
+                } else {
                     getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
                 }
                 break;
@@ -397,4 +384,6 @@ public class MainActivity extends BaseActivity
     }
 
     //endregion
+
+
 }

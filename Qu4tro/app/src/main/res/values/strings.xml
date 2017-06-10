@@ -1,4 +1,4 @@
-<resources xmlns:xliff="http://schemas.android.com/tools">
+<resources>
     <string name="app_name" translatable="false">OCTO</string>
     <string name="project_name">Board OCTO</string>
 
@@ -43,7 +43,7 @@
     <string name="bt_time">Board On</string>
 
     <string name="bt_tempin">WATER</string>
-    <string name="bt_tempout">AMBIENCE</string>
+    <string name="bt_tempout">AMBIENT</string>
     <string name="bt_bat">BATTERY</string>
     <string name="bt_board">BOARD</string>
     <string name="bt_last">LAST PADDLE</string>
@@ -183,16 +183,12 @@
     <string name="pref_key_light_freq" translatable="false">light_freq_key</string>
     <string-array name="pref_light_frequency_titles">
         <item>Slow</item>
-        <item>Medium Slow</item>
         <item>Medium</item>
-        <item>Medium Fast</item>
         <item>Fast</item>
     </string-array>
     <string-array name="pref_light_frequency_values">
         <item>"5"</item>
-        <item>"4"</item>
         <item>"3"</item>
-        <item>"2"</item>
         <item>"1"</item>
     </string-array>
 

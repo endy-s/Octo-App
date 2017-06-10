@@ -39,8 +39,9 @@ public class BluetoothHelper {
         if (mGatt != null) {
             if (mGatt.getDevice() == device) {
                 Log.d("BLUETOOTH", "PREVIOUSLY CONNECTED TO THIS DEVICE");
-                mGatt.connect();
-                return;
+                if (mGatt.connect()) {
+                    return;
+                }
             }
         }
 
@@ -118,7 +119,7 @@ public class BluetoothHelper {
                 callback.onMessageReceived(answer.replaceAll("[<> ]", ""));
 
                 if (answer.startsWith("<B")) {
-                    //TODO
+                    sendMessage("<OK>");
 
                 }
                 else if (answer.startsWith("<U;")) {
@@ -140,6 +141,7 @@ public class BluetoothHelper {
         characteristicRxTx.setValue(tx);
         characteristicRxTx.setWriteType(BluetoothGattCharacteristic.WRITE_TYPE_NO_RESPONSE);
         mGatt.writeCharacteristic(characteristicRxTx);
+        Log.d("SENT", "This message: " + message);
     }
 
     public interface BluetoothCallback {

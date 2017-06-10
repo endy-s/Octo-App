@@ -20,6 +20,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.br.octo.board.R;
 import com.br.octo.board.api_services.BluetoothHelper;
@@ -262,7 +263,16 @@ public class DeviceListActivity extends BaseActivity implements BluetoothHelper.
     }
 
     @Override
-    public void onDeviceDisconnected() {}
+    public void onDeviceDisconnected() {
+        pd.dismiss();
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(getBaseContext(), "Connection error, try again", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 
     //endregion
 

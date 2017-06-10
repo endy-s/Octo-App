@@ -63,7 +63,6 @@
     </string-array>
 
 
-
     <string-array name="pref_light_list_titles">
         <item>Sempre Ligado</item>
         <item>Fade</item>
@@ -77,16 +76,12 @@
 
     <string-array name="pref_light_frequency_titles">
         <item>Lento</item>
-        <item>Médio Lento</item>
         <item>Médio</item>
-        <item>Médio Rápido</item>
         <item>Rápido</item>
     </string-array>
     <string-array name="pref_light_frequency_values">
         <item>"5"</item>
-        <item>"4"</item>
         <item>"3"</item>
-        <item>"2"</item>
         <item>"1"</item>
     </string-array>
 
