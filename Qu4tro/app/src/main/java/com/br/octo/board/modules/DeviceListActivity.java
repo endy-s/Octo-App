@@ -109,7 +109,13 @@ public class DeviceListActivity extends BaseActivity implements BluetoothHelper.
 
         btHelper.connectToDevice(this, device);
 
-        pd = ProgressDialog.show(this, "Conectando", "Validando dispositivo...", true, true, this);
+        String deviceName = device.getName();
+        if (deviceName == null) {
+            deviceName = getResources().getString(R.string.unknown_device);
+        }
+
+        pd = ProgressDialog.show(this, getResources().getString(R.string.connecting) +  " " + deviceName,
+                getResources().getString(R.string.validating), true, true, this);
     }
 
     /**

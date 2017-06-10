@@ -40,6 +40,7 @@ public class BluetoothHelper {
             if (mGatt.getDevice() == device) {
                 Log.d("BLUETOOTH", "PREVIOUSLY CONNECTED TO THIS DEVICE");
                 if (mGatt.connect()) {
+                    mGatt.discoverServices();
                     return;
                 }
             }
@@ -66,6 +67,7 @@ public class BluetoothHelper {
                 case BluetoothProfile.STATE_DISCONNECTED:
                     Log.e("gattCallback", "STATE_DISCONNECTED");
                     mGatt.close();
+                    mGatt = null;
                     btConnected = false;
                     callback.onDeviceDisconnected();
                     break;

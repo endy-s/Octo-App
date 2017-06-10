@@ -10,6 +10,8 @@
     <string name="dialog_permission_description">The OCTO app needs location permission for its functionality.
         Please, accept the following permission request</string>
     <string name="dialog_next">NEXT</string>
+    <string name="connecting">Connecting to </string>
+    <string name="validating">Device validation…</string>
     <string name="power_down">Power Down the Board</string>
     <string name="confirmation">Are you sure?</string>
     <string name="cancel">Cancel</string>
@@ -17,15 +19,15 @@
     <!--Cool Version Main Screen-->
 
     <!--  Bluetooth Status -->
-    <string name="not_connected">Board not connected...</string>
+    <string name="not_connected">Board not connected…</string>
     <string name="bt_not_enabled_leaving">Bluetooth not enabled. Leaving the application.</string>
     <string name="ble_not_supported">Bluetooth Low Energy not supported. Leaving the application.</string>
-    <string name="title_connecting">Connecting...</string>
+    <string name="title_connecting">Connecting…</string>
     <string name="title_connected">Connected to the board</string>
     <string name="title_not_connected">Not connected</string>
 
     <!--  DeviceListActivity -->
-    <string name="scanning">Scanning...</string>
+    <string name="scanning">Scanning…</string>
     <string name="select_device">Select your board</string>
     <string name="none_paired">No devices have been paired</string>
     <string name="none_found">No devices found. Please, turn your board device on</string>

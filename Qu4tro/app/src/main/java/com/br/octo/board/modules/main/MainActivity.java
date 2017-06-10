@@ -197,12 +197,9 @@ public class MainActivity extends BaseActivity
         if (id == R.id.nav_bt) {
             // Launch the DeviceListActivity to see devices and do scan
             startActivityForResult(new Intent(getBaseContext(), DeviceListActivity.class), ACTIVITY_REQUEST_SCAN_DEVICE);
-            return true;
         } else if (id == R.id.nav_set) {
             // Launch the SettingsActivity to change the preferences
             startActivityForResult(new Intent(getBaseContext(), SettingsActivity.class), ACTIVITY_REQUEST_GENERAL_SETTINGS);
-
-            return true;
         } else if (id == R.id.nav_history) {
             // TODO: Call the History view (to be developed)
             Toast.makeText(getBaseContext(), "History", Toast.LENGTH_SHORT).show();
@@ -225,7 +222,6 @@ public class MainActivity extends BaseActivity
                         Toast.LENGTH_SHORT).show();
             }
 
-            return true;
         } else if (id == R.id.nav_send) {
             Intent mail_intent = new Intent(Intent.ACTION_SENDTO);
 
@@ -244,6 +240,7 @@ public class MainActivity extends BaseActivity
             }
         }
 
+        drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 

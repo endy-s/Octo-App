@@ -10,11 +10,11 @@
     <string name="button_scan">Procure por sua prancha</string>
     <string name="none_found">Nenhum dispositivo foi encontrado. Por favor, ligue o dispositivo da sua prancha.</string>
     <string name="none_paired">Nenhum dispositivo emparelhado</string>
-    <string name="not_connected">Prancha não conectada...</string>
-    <string name="scanning">Escaneando...</string>
+    <string name="not_connected">Prancha não conectada…</string>
+    <string name="scanning">Escaneando…</string>
     <string name="select_device">Escolha sua prancha</string>
     <string name="title_connected">Conectado a prancha</string>
-    <string name="title_connecting">Conectando...</string>
+    <string name="title_connecting">Conectando…</string>
     <string name="title_not_connected">Não conectado</string>
     <string name="title_other_devices">Outros dispositivos disponíveis</string>
     <string name="title_paired_devices">Dispositivos Pairados</string>
@@ -99,4 +99,6 @@
     <string name="dialog_permission_request">Solicitação de Permissão</string>
     <string name="dialog_permission_description">O app OCTO precisa das permissões de localização para suas funcionalidades.
         Por favor, aceite a próxima solicitação de permissão.</string>
+    <string name="connecting">Conectando a </string>
+    <string name="validating">Validando dispositivo…</string>
 </resources>
