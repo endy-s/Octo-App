@@ -11,7 +11,6 @@ import android.bluetooth.le.ScanSettings;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -133,9 +132,6 @@ public class DeviceListActivity extends BaseActivity implements BluetoothHelper.
         }
     }
 
-
-
-
     // Adapter for holding devices found through scanning.
     private class LeDeviceListAdapter extends ArrayAdapter {
         private Context context;
@@ -249,30 +245,9 @@ public class DeviceListActivity extends BaseActivity implements BluetoothHelper.
         }
     };
 
-
-    // NEW BLUETOOTH REGION
-
-    public void checkConnected (){
-        Log.d("DEVICE", "checked");
-
-        if (btHelper.getConnectionStatus()) {
-            pd.dismiss();
-
-            Log.d("DEVICE", "Called on main thread");
-            setResult(RESULT_OK);
-            finish();
-        } else {
-            final Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    checkConnected();
-                }
-            }, 500);
-        }
-    }
-
     // endregion
+
+    //region BT Callback
 
     @Override
     public void onMessageReceived(String message) {
@@ -282,10 +257,14 @@ public class DeviceListActivity extends BaseActivity implements BluetoothHelper.
     public void onDeviceConnected() {
         pd.dismiss();
 
-        Log.d("DEVICE", "Called on main thread");
         setResult(RESULT_OK);
         finish();
     }
+
+    @Override
+    public void onDeviceDisconnected() {}
+
+    //endregion
 
     @Override
     public void onCancel(DialogInterface dialog) {

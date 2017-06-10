@@ -44,7 +44,7 @@ import butterknife.OnClick;
  * Created by Endy.
  */
 public class MainActivity extends BaseActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, BluetoothHelper.BluetoothCallback {
 
 // Intent request codes
     public static final int ACTIVITY_REQUEST_SCAN_DEVICE = 0;
@@ -103,11 +103,10 @@ public class MainActivity extends BaseActivity
 
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
-
         btHelper = BluetoothHelper.getInstance();
 
         if (!btHelper.getConnectionStatus()) {
-            showNotConnected();
+            showNotConnectedState();
         }
 
 
@@ -137,6 +136,7 @@ public class MainActivity extends BaseActivity
             Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivityForResult(enableIntent, ACTIVITY_REQUEST_ENABLE_BT);
         }
+        btHelper.setCallback(this);
     }
 
     @Override
@@ -177,7 +177,7 @@ public class MainActivity extends BaseActivity
         return true;
     }
 
-    // Menu and drawer region
+    //region Menu and drawer
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -209,9 +209,11 @@ public class MainActivity extends BaseActivity
         }
         else if (id == R.id.nav_history) {
             // TODO: Call the History view (to be developed)
+            Toast.makeText(getBaseContext(), "History", Toast.LENGTH_SHORT).show();
         }
         else if (id == R.id.nav_tutorial) {
             // TODO: Call the Tutorial view (to be developed)
+            Toast.makeText(getBaseContext(), "Tutorial", Toast.LENGTH_SHORT).show();
         }
         else if (id == R.id.nav_share) {
             Intent sendIntent = new Intent(Intent.ACTION_SEND);
@@ -254,7 +256,7 @@ public class MainActivity extends BaseActivity
         return true;
     }
 
-    // end Region
+    //endregion
 
     //region click listeners
 
@@ -268,7 +270,7 @@ public class MainActivity extends BaseActivity
         }
     }
 
-    //end region
+    //endregion
 
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -298,24 +300,16 @@ public class MainActivity extends BaseActivity
             case ACTIVITY_REQUEST_SCAN_DEVICE:
                 // Check if connected
                 if (resultCode == RESULT_OK) {
-                    showBoardInfos();
+                    showConnectedState();
                 }
                 break;
         }
     }
 
 
-    // Region manage the info shown at the screen
+    //region manage the info shown at the screen
 
-    public void showBoardInfos() {
-        btStart.setColorFilter(null);
-        btStart.setImageAlpha(255);
-        btStart.setEnabled(true);
-
-        boardTV.setText(R.string.bt_board_on);
-    }
-
-    public void showNotConnected() {
+    public void showNotConnectedState() {
         ColorMatrix matrix = new ColorMatrix();
         matrix.setSaturation(0);
         ColorMatrixColorFilter filter = new ColorMatrixColorFilter(matrix);
@@ -323,10 +317,21 @@ public class MainActivity extends BaseActivity
         btStart.setImageAlpha(128);
         btStart.setEnabled(false);
 
+        tempWatterTV.setText(R.string.bt_unknown);
+        tempEnvTV.setText(R.string.bt_unknown);
+        batteryTV.setText(R.string.bt_unknown);
         boardTV.setText(R.string.bt_board_off);
     }
 
-    // end region
+    public void showConnectedState() {
+        btStart.setColorFilter(null);
+        btStart.setImageAlpha(255);
+        btStart.setEnabled(true);
+
+        boardTV.setText(R.string.bt_board_on);
+    }
+
+    //endregion
 
     @Override
     public void onRequestPermissionsResult(int requestCode,
@@ -351,4 +356,45 @@ public class MainActivity extends BaseActivity
             }
         }
     }
+
+    //region BT Callback
+
+    @Override
+    public void onMessageReceived(String message) {
+        Log.d("Main", "BT Received: " + message);
+        if (message.startsWith("B")) {
+            final String battValue = message.split(";")[0];
+            final String tempValue = message.split(";")[1];
+
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    batteryTV.setText(battValue.substring(2).trim().concat("%"));
+                    tempWatterTV.setText(tempValue.substring(2).trim().concat(" °C"));
+                }
+            });
+        }
+    }
+
+    @Override
+    public void onDeviceConnected() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                showConnectedState();
+            }
+        });
+    }
+
+    @Override
+    public void onDeviceDisconnected() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                showNotConnectedState();
+            }
+        });
+    }
+
+    //endregion
 }

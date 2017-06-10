@@ -66,6 +66,7 @@ public class BluetoothHelper {
                     Log.e("gattCallback", "STATE_DISCONNECTED");
                     mGatt.close();
                     btConnected = false;
+                    callback.onDeviceDisconnected();
                     break;
                 default:
                     Log.e("gattCallback", "STATE_OTHER");
@@ -114,16 +115,16 @@ public class BluetoothHelper {
             }
             else {
 
-                callback.onMessageReceived(answer);
+                callback.onMessageReceived(answer.replaceAll("[<> ]", ""));
 
-                if (answer.matches("<OK>")) {
+                if (answer.startsWith("<B")) {
                     //TODO
+
                 }
                 else if (answer.startsWith("<U;")) {
                     //TODO
                 }
-                else if (answer.startsWith("<B;")) {
-                    //TODO
+                else if (answer.matches("<OK>")) {
 
                 }
             }
@@ -144,6 +145,7 @@ public class BluetoothHelper {
     public interface BluetoothCallback {
         void onMessageReceived(String message);
         void onDeviceConnected();
+        void onDeviceDisconnected();
     }
 }
 

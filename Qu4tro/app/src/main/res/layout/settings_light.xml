@@ -5,11 +5,11 @@
 
     <!--TODO: Set the correct background image-->
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="@drawable/img_paddle_octo"
-        android:scaleType="centerCrop"/>
+    <!--<ImageView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:src="@drawable/img_paddle_octo"-->
+        <!--android:scaleType="centerCrop"/>-->
 
     <ListView android:layout_width="match_parent"
         android:layout_height="match_parent"
