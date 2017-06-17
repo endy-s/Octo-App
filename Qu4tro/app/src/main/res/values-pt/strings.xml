@@ -101,4 +101,6 @@
         Por favor, aceite a próxima solicitação de permissão.</string>
     <string name="connecting">Conectando a </string>
     <string name="validating">Validando dispositivo…</string>
+    <string name="bt_error_title">Erro de Bluetooth</string>
+    <string name="bt_not_available">Bluetooth não disponível. Tente outro dispositivo.</string>
 </resources>

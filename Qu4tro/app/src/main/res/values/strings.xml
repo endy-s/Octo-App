@@ -16,12 +16,16 @@
     <string name="confirmation">Are you sure?</string>
     <string name="cancel">Cancel</string>
 
+    <!--Error Dialog-->
+    <string name="bt_error_title">Bluetooth Error</string>
+    <string name="bt_not_available">Bluetooth not available. Try with another device.</string>
+    <string name="bt_not_enabled_leaving">Bluetooth not enabled. Leaving the application.</string>
+    <string name="ble_not_supported">Bluetooth Low Energy not supported. Try with another device.</string>
+
     <!--Cool Version Main Screen-->
 
     <!--  Bluetooth Status -->
     <string name="not_connected">Board not connected…</string>
-    <string name="bt_not_enabled_leaving">Bluetooth not enabled. Leaving the application.</string>
-    <string name="ble_not_supported">Bluetooth Low Energy not supported. Leaving the application.</string>
     <string name="title_connecting">Connecting…</string>
     <string name="title_connected">Connected to the board</string>
     <string name="title_not_connected">Not connected</string>
