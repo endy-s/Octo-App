@@ -7,226 +7,6 @@
     android:background="@drawable/img_main_octo"
     android:orientation="vertical">
 
-    <ImageButton
-        android:id="@+id/btStart"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:background="@android:color/transparent"
-        android:padding="32dp"
-        android:src="@drawable/ic_btn_start"
-        app:srcCompat="@drawable/ic_btn_start" />
-
-    <LinearLayout
-        android:id="@+id/rowTemp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/rowBattBoard"
-        android:layout_margin="16dp">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/labelWater"
-                style="@style/MainPageLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/bt_tempin" />
-
-            <ImageView
-                android:id="@+id/divider1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/labelWater"
-                android:layout_centerHorizontal="true"
-                android:scaleY="0.5"
-                android:src="@drawable/img_divider"
-                app:srcCompat="@drawable/img_divider" />
-
-            <ImageView
-                android:id="@+id/icTherm1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/divider1"
-                android:layout_toStartOf="@id/txtWater"
-                android:cropToPadding="false"
-                android:scaleX="0.5"
-                android:scaleY="0.5"
-                android:src="@drawable/ic_therm"
-                app:srcCompat="@drawable/ic_therm" />
-
-            <TextView
-                android:id="@+id/txtWater"
-                style="@style/MainPageInfo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/divider1"
-                android:text="@string/bt_unknown" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/labelAmbience"
-                style="@style/MainPageLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/bt_tempout" />
-
-            <ImageView
-                android:id="@+id/divider2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/labelAmbience"
-                android:layout_centerHorizontal="true"
-                android:scaleY="0.5"
-                android:src="@drawable/img_divider" />
-
-
-            <ImageView
-                android:id="@+id/icTherm2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/divider2"
-                android:layout_toStartOf="@id/txtAmbient"
-                android:scaleX="0.5"
-                android:scaleY="0.5"
-                android:src="@drawable/ic_therm"
-                app:srcCompat="@drawable/ic_therm" />
-
-            <TextView
-                android:id="@+id/txtAmbient"
-                style="@style/MainPageInfo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/divider2"
-                android:text="@string/bt_unknown" />
-
-        </RelativeLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/rowBattBoard"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/labelLastPaddle"
-        android:layout_margin="16dp"
-        android:orientation="horizontal">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1">
-
-            <TextView
-                android:id="@+id/labelBattery"
-                style="@style/MainPageLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/bt_bat" />
-
-            <ImageView
-                android:id="@+id/divider3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/labelBattery"
-                android:layout_centerHorizontal="true"
-                android:scaleY="0.5"
-                android:src="@drawable/img_divider"
-                app:srcCompat="@drawable/img_divider" />
-
-            <ImageView
-                android:id="@+id/icBattery"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/divider3"
-                android:layout_toStartOf="@id/txtBattery"
-                android:scaleX="0.5"
-                android:scaleY="0.5"
-                android:src="@drawable/ic_battery"
-                app:srcCompat="@drawable/ic_battery" />
-
-            <TextView
-                android:id="@+id/txtBattery"
-                style="@style/MainPageInfo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/divider3"
-                android:text="@string/bt_unknown" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1">
-
-            <TextView
-                android:id="@+id/labelBoard"
-                style="@style/MainPageLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/bt_board" />
-
-            <ImageView
-                android:id="@+id/divider4"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/labelBoard"
-                android:scaleY="0.5"
-                android:src="@drawable/img_divider"
-                app:srcCompat="@drawable/img_divider" />
-
-            <ImageView
-                android:id="@+id/icBoard"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/divider4"
-                android:layout_toStartOf="@id/txtBoard"
-                android:scaleX="0.5"
-                android:scaleY="0.5"
-                android:src="@drawable/ic_board"
-                app:srcCompat="@drawable/ic_board" />
-
-            <TextView
-                android:id="@+id/txtBoard"
-                style="@style/MainPageInfo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/divider4"
-                android:text="@string/bt_board_off" />
-
-        </RelativeLayout>
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/labelLastPaddle"
-        style="@style/OCTOFont"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/divider5"
-        android:layout_centerHorizontal="true"
-        android:text="@string/bt_last"
-        android:textColor="@color/text_labels" />
-
-    <ImageView
-        android:id="@+id/divider5"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/lastPaddleResumeLayout"
-        android:scaleX="0.9"
-        android:scaleY="0.5"
-        android:src="@drawable/img_divider_big"
-        app:srcCompat="@drawable/img_divider_big" />
 
     <LinearLayout
         android:id="@+id/lastPaddleResumeLayout"
@@ -288,4 +68,227 @@
             android:textColor="@color/text_info" />
 
     </LinearLayout>
+
+    <ImageView
+        android:id="@+id/divider5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/lastPaddleResumeLayout"
+        android:scaleX="0.9"
+        android:scaleY="0.5"
+        android:src="@drawable/img_divider_big"
+        app:srcCompat="@drawable/img_divider_big" />
+
+    <TextView
+        android:id="@+id/labelLastPaddle"
+        style="@style/OCTOFont"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/divider5"
+        android:layout_centerHorizontal="true"
+        android:text="@string/bt_last"
+        android:textColor="@color/text_labels" />
+
+    <LinearLayout
+        android:id="@+id/rowBattBoard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/labelLastPaddle"
+        android:layout_margin="20dp"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/labelBattery"
+                style="@style/MainPageLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/bt_bat" />
+
+            <ImageView
+                android:id="@+id/divider3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/labelBattery"
+                android:layout_centerHorizontal="true"
+                android:scaleY="0.5"
+                android:src="@drawable/img_divider"
+                app:srcCompat="@drawable/img_divider" />
+
+
+            <TextView
+                android:id="@+id/txtBattery"
+                style="@style/MainPageInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/divider3"
+                android:text="@string/bt_unknown" />
+
+            <ImageView
+                android:id="@+id/icBattery"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/divider3"
+                android:layout_toStartOf="@id/txtBattery"
+                android:scaleX="0.5"
+                android:scaleY="0.5"
+                android:src="@drawable/ic_battery"
+                app:srcCompat="@drawable/ic_battery" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/labelBoard"
+                style="@style/MainPageLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/bt_board" />
+
+            <ImageView
+                android:id="@+id/divider4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/labelBoard"
+                android:scaleY="0.5"
+                android:src="@drawable/img_divider"
+                app:srcCompat="@drawable/img_divider" />
+
+            <TextView
+                android:id="@+id/txtBoard"
+                style="@style/MainPageInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/divider4"
+                android:text="@string/bt_board_off" />
+
+            <ImageView
+                android:id="@+id/icBoard"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/divider4"
+                android:layout_toStartOf="@id/txtBoard"
+                android:scaleX="0.5"
+                android:scaleY="0.5"
+                android:src="@drawable/ic_board"
+                app:srcCompat="@drawable/ic_board" />
+
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/rowTemp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/rowBattBoard"
+        android:layout_margin="20dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/labelWater"
+                style="@style/MainPageLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/bt_tempin" />
+
+            <ImageView
+                android:id="@+id/divider1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/labelWater"
+                android:layout_centerHorizontal="true"
+                android:scaleY="0.5"
+                android:src="@drawable/img_divider"
+                app:srcCompat="@drawable/img_divider" />
+
+            <TextView
+                android:id="@+id/txtWater"
+                style="@style/MainPageInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/divider1"
+                android:text="@string/bt_unknown" />
+
+            <ImageView
+                android:id="@+id/icTherm1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/divider1"
+                android:layout_toStartOf="@id/txtWater"
+                android:cropToPadding="false"
+                android:scaleX="0.5"
+                android:scaleY="0.5"
+                android:src="@drawable/ic_therm"
+                app:srcCompat="@drawable/ic_therm" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/labelAmbience"
+                style="@style/MainPageLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/bt_tempout" />
+
+            <ImageView
+                android:id="@+id/divider2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/labelAmbience"
+                android:layout_centerHorizontal="true"
+                android:scaleY="0.5"
+                android:src="@drawable/img_divider" />
+
+            <TextView
+                android:id="@+id/txtAmbient"
+                style="@style/MainPageInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/divider2"
+                android:text="@string/bt_unknown" />
+
+            <ImageView
+                android:id="@+id/icTherm2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/divider2"
+                android:layout_toStartOf="@id/txtAmbient"
+                android:scaleX="0.5"
+                android:scaleY="0.5"
+                android:src="@drawable/ic_therm"
+                app:srcCompat="@drawable/ic_therm" />
+
+        </RelativeLayout>
+    </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/btStart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/rowTemp"
+        android:layout_centerHorizontal="true"
+        android:background="@android:color/transparent"
+        android:padding="32dp"
+        android:src="@drawable/ic_btn_start"
+        app:srcCompat="@drawable/ic_btn_start" />
+
 </RelativeLayout>
