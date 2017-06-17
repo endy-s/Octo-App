@@ -40,7 +40,8 @@ public class DeviceListActivity extends BaseActivity implements BluetoothHelper.
 
     private LeDeviceListAdapter mLeDeviceListAdapter;
 
-    ArrayList<BluetoothDevice> mDevices = new ArrayList<>();;
+    ArrayList<BluetoothDevice> mDevices = new ArrayList<>();
+    ;
     private BluetoothLeScanner mBluetoothLEScanner;
     private ScanSettings settings;
     private List<ScanFilter> filters;
@@ -114,7 +115,7 @@ public class DeviceListActivity extends BaseActivity implements BluetoothHelper.
             deviceName = getResources().getString(R.string.unknown_device);
         }
 
-        pd = ProgressDialog.show(this, getResources().getString(R.string.connecting) +  " " + deviceName,
+        pd = ProgressDialog.show(this, getResources().getString(R.string.connecting) + " " + deviceName,
                 getResources().getString(R.string.validating), true, true, this);
     }
 
@@ -153,8 +154,8 @@ public class DeviceListActivity extends BaseActivity implements BluetoothHelper.
         }
 
         class LeDeviceViewHolder {
-            TextView     deviceAddress;
-            TextView     deviceName;
+            TextView deviceAddress;
+            TextView deviceName;
         }
 
         @Override
@@ -194,7 +195,7 @@ public class DeviceListActivity extends BaseActivity implements BluetoothHelper.
         }
 
         void addDevice(BluetoothDevice device) {
-            if(!mLeDevices.contains(device)) {
+            if (!mLeDevices.contains(device)) {
                 mLeDevices.add(device);
             }
         }
@@ -229,28 +230,28 @@ public class DeviceListActivity extends BaseActivity implements BluetoothHelper.
     private ScanCallback mScanCallback =
             new ScanCallback() {
 
-        @Override
-        public void onScanResult(int callbackType, ScanResult result) {
-            Log.i("callbackType", String.valueOf(callbackType));
-            Log.i("result", result.toString());
-            BluetoothDevice btDevice = result.getDevice();
+                @Override
+                public void onScanResult(int callbackType, ScanResult result) {
+                    Log.i("callbackType", String.valueOf(callbackType));
+                    Log.i("result", result.toString());
+                    BluetoothDevice btDevice = result.getDevice();
 
-            mLeDeviceListAdapter.addDevice(btDevice);
-            mLeDeviceListAdapter.notifyDataSetChanged();
-        }
+                    mLeDeviceListAdapter.addDevice(btDevice);
+                    mLeDeviceListAdapter.notifyDataSetChanged();
+                }
 
-        @Override
-        public void onBatchScanResults(List<ScanResult> results) {
-            for (ScanResult sr : results) {
-                Log.i("ScanResult - Results", sr.toString());
-            }
-        }
+                @Override
+                public void onBatchScanResults(List<ScanResult> results) {
+                    for (ScanResult sr : results) {
+                        Log.i("ScanResult - Results", sr.toString());
+                    }
+                }
 
-        @Override
-        public void onScanFailed(int errorCode) {
-            Log.e("Scan Failed", "Error Code: " + errorCode);
-        }
-    };
+                @Override
+                public void onScanFailed(int errorCode) {
+                    Log.e("Scan Failed", "Error Code: " + errorCode);
+                }
+            };
 
     // endregion
 

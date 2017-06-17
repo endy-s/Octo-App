@@ -66,7 +66,7 @@ public class MainActivity extends BaseActivity
     TextView batteryTV;
     @BindView(R.id.txtBoard)
     TextView boardTV;
-    @BindView(R.id.txtAmbience)
+    @BindView(R.id.txtAmbient)
     TextView tempEnvTV;
     @BindView(R.id.txtWater)
     TextView tempWatterTV;
