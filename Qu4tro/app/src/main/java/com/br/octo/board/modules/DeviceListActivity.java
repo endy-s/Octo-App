@@ -11,6 +11,7 @@ import android.bluetooth.le.ScanSettings;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,21 +36,20 @@ import butterknife.OnClick;
 import butterknife.OnItemClick;
 
 public class DeviceListActivity extends BaseActivity implements BluetoothHelper.BluetoothCallback, ProgressDialog.OnCancelListener {
-    // Tag for Log
-    private static final String TAG = "DeviceListActivity";
 
     private LeDeviceListAdapter mLeDeviceListAdapter;
 
     ArrayList<BluetoothDevice> mDevices = new ArrayList<>();
-    ;
+
     private BluetoothLeScanner mBluetoothLEScanner;
     private ScanSettings settings;
     private List<ScanFilter> filters;
 
     BluetoothHelper btHelper;
 
-    ProgressDialog pd;
-
+    ProgressDialog connectingProgressDialogs;
+    private Handler mHandler;
+    private static final int SCAN_PERIOD = 15000;
 
     @BindView(R.id.button_scan)
     Button scanButton;
@@ -79,6 +79,7 @@ public class DeviceListActivity extends BaseActivity implements BluetoothHelper.
 
         // Get the local Bluetooth adapter
         mBluetoothLEScanner = BluetoothAdapter.getDefaultAdapter().getBluetoothLeScanner();
+
         settings = new ScanSettings.Builder()
                 .setScanMode(ScanSettings.SCAN_MODE_LOW_LATENCY)
                 .build();
@@ -87,15 +88,14 @@ public class DeviceListActivity extends BaseActivity implements BluetoothHelper.
         btHelper = BluetoothHelper.getInstance();
         btHelper.setCallback(this);
 
-        scanLeDevice();
+        mHandler = new Handler();
+        scanLeDevice(true);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (mBluetoothLEScanner != null) {
-            mBluetoothLEScanner.stopScan(mScanCallback);
-        }
+        mBluetoothLEScanner.stopScan(mScanCallback);
     }
 
     @OnItemClick(R.id.ble_devices)
@@ -104,18 +104,11 @@ public class DeviceListActivity extends BaseActivity implements BluetoothHelper.
 
         if (device == null) return;
 
-        if (mBluetoothLEScanner != null) {
-            mBluetoothLEScanner.stopScan(mScanCallback);
-        }
+        mBluetoothLEScanner.stopScan(mScanCallback);
 
         btHelper.connectToDevice(this, device);
 
-        String deviceName = device.getName();
-        if (deviceName == null) {
-            deviceName = getResources().getString(R.string.unknown_device);
-        }
-
-        pd = ProgressDialog.show(this, getResources().getString(R.string.connecting) + " " + deviceName,
+        connectingProgressDialogs = ProgressDialog.show(this, getResources().getString(R.string.connecting) + " " + device.getName(),
                 getResources().getString(R.string.validating), true, true, this);
     }
 
@@ -123,20 +116,30 @@ public class DeviceListActivity extends BaseActivity implements BluetoothHelper.
      * Start device discover with the BluetoothAdapter when click at the button
      */
     @OnClick(R.id.button_scan)
-    public void scanLeDevice() {
-        Log.d(TAG, "scanLeDevice()");
-        scanButton.setEnabled(false);
+    public void scanClicked() {
+        scanLeDevice(true);
+    }
 
-        mLeDeviceListAdapter.clear();
+    public void scanLeDevice(boolean toScan) {
+        scanButton.setEnabled(!toScan);
 
-        // Indicate scanning in the title
-        //setProgressBarIndeterminateVisibility(true);
-        setTitle(R.string.scanning);
+        if (toScan) {
+            mLeDeviceListAdapter.clear();
 
-        // If we're already discovering, stop it
-        if (mBluetoothLEScanner != null) {
-            // Request discover from BluetoothAdapter
+            setTitle(R.string.scanning);
+
+            mHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    scanLeDevice(false);
+                }
+            }, SCAN_PERIOD);
+
             mBluetoothLEScanner.startScan(filters, settings, mScanCallback);
+        } else {
+            setTitle(R.string.select_device);
+
+            mBluetoothLEScanner.stopScan(mScanCallback);
         }
     }
 
@@ -236,6 +239,10 @@ public class DeviceListActivity extends BaseActivity implements BluetoothHelper.
                     Log.i("result", result.toString());
                     BluetoothDevice btDevice = result.getDevice();
 
+                    if (btDevice.getName() == null) {
+                        return;
+                    }
+
                     mLeDeviceListAdapter.addDevice(btDevice);
                     mLeDeviceListAdapter.notifyDataSetChanged();
                 }
@@ -263,7 +270,7 @@ public class DeviceListActivity extends BaseActivity implements BluetoothHelper.
 
     @Override
     public void onDeviceConnected() {
-        pd.dismiss();
+        connectingProgressDialogs.dismiss();
 
         setResult(RESULT_OK);
         finish();
@@ -271,7 +278,7 @@ public class DeviceListActivity extends BaseActivity implements BluetoothHelper.
 
     @Override
     public void onDeviceDisconnected() {
-        pd.dismiss();
+        connectingProgressDialogs.dismiss();
 
         runOnUiThread(new Runnable() {
             @Override
