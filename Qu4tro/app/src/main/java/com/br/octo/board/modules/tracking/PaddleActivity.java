@@ -9,7 +9,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.view.MenuItem;
 import android.widget.ImageButton;
@@ -17,6 +16,8 @@ import android.widget.Toast;
 
 import com.br.octo.board.Constants;
 import com.br.octo.board.R;
+import com.br.octo.board.modules.base.BaseActivity;
+import com.br.octo.board.modules.end.EndPadlleActivity;
 import com.br.octo.board.modules.settings.LightSettingsActivity;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -25,7 +26,6 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.LatLng;
@@ -36,7 +36,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class PaddleActivity extends FragmentActivity implements OnMapReadyCallback,
+public class PaddleActivity extends BaseActivity implements
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
         BottomNavigationView.OnNavigationItemSelectedListener {
 
@@ -50,6 +50,8 @@ public class PaddleActivity extends FragmentActivity implements OnMapReadyCallba
     public LocationRequest mLocationRequest;
     private long UPDATE_INTERVAL = 30000;  /* 30 secs */
     private long FASTEST_INTERVAL = 5000; /* 5 secs */
+
+    private boolean trackingRunning = true;
 
     //Widgets
     @BindView(R.id.btLight)
@@ -92,16 +94,6 @@ public class PaddleActivity extends FragmentActivity implements OnMapReadyCallba
     //end region
 
 
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
-    @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
@@ -220,13 +212,22 @@ public class PaddleActivity extends FragmentActivity implements OnMapReadyCallba
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.item_pause: {
-                item.setTitle(R.string.bt_play);
-                item.setIcon(R.drawable.ic_pause);
-                //TODO pause everything
+                if (trackingRunning) {
+                    item.setTitle(R.string.bt_play);
+                    item.setIcon(R.drawable.ic_play);
+                    trackingRunning = false;
+                    //TODO pause everything
+                } else {
+                    item.setTitle(R.string.bt_pause);
+                    item.setIcon(R.drawable.ic_pause);
+                    trackingRunning = true;
+                    //TODO pause everything
+                }
                 break;
             }
             case R.id.item_stop: {
-                //startAc
+
+                startActivity(new Intent(getBaseContext(), EndPadlleActivity.class));
             }
         }
         return false;
