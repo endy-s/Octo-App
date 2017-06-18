@@ -3,6 +3,7 @@ package com.br.octo.board.modules.main;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.ColorMatrix;
@@ -41,8 +42,7 @@ import butterknife.OnClick;
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener, BluetoothHelper.BluetoothCallback {
 
-// Bluetooth
-
+    // Bluetooth
     BluetoothHelper btHelper;
     private BluetoothAdapter mBluetoothAdapter = null;
 
@@ -93,7 +93,7 @@ public class MainActivity extends BaseActivity
         btHelper = BluetoothHelper.getInstance();
 
         if (!btHelper.getConnectionStatus()) {
-            showNotConnectedState();
+            showConnectedState();
         }
     }
 
@@ -124,9 +124,9 @@ public class MainActivity extends BaseActivity
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (btHelper.getConnectionStatus()) {
-            btHelper.disconnect();
-        }
+//        if (btHelper.getConnectionStatus()) {
+//            btHelper.disconnect();
+//        }
     }
 
     @Override
@@ -151,28 +151,25 @@ public class MainActivity extends BaseActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.action_connect) {
-            startActivityForResult(new Intent(getBaseContext(), DeviceListActivity.class), Constants.ACTIVITY_REQUEST_SCAN_DEVICE);
+        if (item.getItemId() == R.id.action_connect) {
+            startActivityForResult(new Intent(getBaseContext(), DeviceListActivity.class), Constants.REQUEST_SCAN_DEVICE);
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
 
         switch (id) {
             case R.id.nav_bt: {
-                startActivityForResult(new Intent(getBaseContext(), DeviceListActivity.class), Constants.ACTIVITY_REQUEST_SCAN_DEVICE);
+                startActivityForResult(new Intent(getBaseContext(), DeviceListActivity.class), Constants.REQUEST_SCAN_DEVICE);
                 break;
             }
             case R.id.nav_set: {
-                startActivityForResult(new Intent(getBaseContext(), SettingsActivity.class), Constants.ACTIVITY_REQUEST_GENERAL_SETTINGS);
+                startActivityForResult(new Intent(getBaseContext(), SettingsActivity.class), Constants.REQUEST_GENERAL_SETTINGS);
                 break;
             }
             case R.id.nav_history: {
@@ -191,32 +188,26 @@ public class MainActivity extends BaseActivity
                 sendIntent.putExtra(Intent.EXTRA_TEXT, getResources().getString(R.string.share_texts));
                 sendIntent.setType("text/plain");
 
-                // Verify that the intent will resolve to an activity
                 if (sendIntent.resolveActivity(getPackageManager()) != null) {
                     startActivity(Intent.createChooser(sendIntent, getResources().
                             getString(R.string.send_share)));
                 } else {
-                    Toast.makeText(getBaseContext(), getResources().
-                                    getString(R.string.error_share),
-                            Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getBaseContext(), getResources().getString(R.string.error_share), Toast.LENGTH_SHORT).show();
                 }
                 break;
             }
             case R.id.nav_send: {
                 Intent mail_intent = new Intent(Intent.ACTION_SENDTO);
 
-                mail_intent.setData(Uri.parse("mailto:")); // only email apps should handle this
+                mail_intent.setData(Uri.parse("mailto:"));
                 mail_intent.putExtra(Intent.EXTRA_EMAIL, getResources().getStringArray(R.array.email));
                 mail_intent.putExtra(Intent.EXTRA_SUBJECT, getResources().getString(R.string.subject_mail));
 
-                // Verify that the intent will resolve to an activity
                 if (mail_intent.resolveActivity(getPackageManager()) != null) {
                     startActivity(Intent.createChooser(mail_intent, getResources()
                             .getString(R.string.send_mail)));
                 } else {
-                    Toast.makeText(getBaseContext(), getResources()
-                                    .getString(R.string.error_mail),
-                            Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getBaseContext(), getResources().getString(R.string.error_mail), Toast.LENGTH_SHORT).show();
                 }
                 break;
             }
@@ -232,10 +223,10 @@ public class MainActivity extends BaseActivity
 
     @OnClick(R.id.btStart)
     public void startClicked() {
-        if (btHelper.getConnectionStatus()) {
+//        if (btHelper.getConnectionStatus()) {
             Intent trackingIntent = new Intent(getBaseContext(), PaddleActivity.class);
-            startActivityForResult(trackingIntent, Constants.ACTIVITY_REQUEST_TRACKING_SCREEN);
-        }
+            startActivityForResult(trackingIntent, Constants.REQUEST_TRACKING_SCREEN);
+//        }
     }
 
     //endregion
@@ -244,8 +235,7 @@ public class MainActivity extends BaseActivity
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
-            case Constants.ACTIVITY_REQUEST_GENERAL_SETTINGS:
-                // When Settings returns with a Language change
+            case Constants.REQUEST_GENERAL_SETTINGS:
                 if (resultCode == RESULT_OK) {
                     recreate();
                 } else if (resultCode == Activity.RESULT_FIRST_USER) {
@@ -258,14 +248,24 @@ public class MainActivity extends BaseActivity
             case Constants.REQUEST_ENABLE_BT:
                 if (resultCode != RESULT_OK) {
                     // User did not enable Bluetooth or an error occurred
-                    Toast.makeText(this, R.string.bt_not_enabled_leaving,
-                            Toast.LENGTH_SHORT).show();
-                    finish();
+                    createDialog(R.string.bt_error_title, R.string.bt_not_enabled_leaving)
+                            .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    finish();
+                                }
+                            })
+                            .setOnDismissListener(new DialogInterface.OnDismissListener() {
+                                @Override
+                                public void onDismiss(DialogInterface dialog) {
+                                    finish();
+                                }
+                            })
+                            .show();
                 }
                 break;
 
-            case Constants.ACTIVITY_REQUEST_SCAN_DEVICE:
-                // Check if connected
+            case Constants.REQUEST_SCAN_DEVICE:
                 if (resultCode == RESULT_OK) {
                     showConnectedState();
                 }

@@ -7,9 +7,11 @@ import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
+import android.view.MenuItem;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -35,8 +37,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class PaddleActivity extends FragmentActivity implements OnMapReadyCallback,
-        GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener {
+        GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
+        BottomNavigationView.OnNavigationItemSelectedListener {
 
     private GoogleMap mMap;
     SupportMapFragment mapFragment;
@@ -49,20 +51,15 @@ public class PaddleActivity extends FragmentActivity implements OnMapReadyCallba
     private long UPDATE_INTERVAL = 30000;  /* 30 secs */
     private long FASTEST_INTERVAL = 5000; /* 5 secs */
 
-    /*
-     * Define a request code to send to Google Play services This code is
-     * returned in Activity.onActivityResult
-     */
-    private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
-
-    private final static int MY_LOCATION_REQUEST_CODE = 1;
-
+    //Widgets
     @BindView(R.id.btLight)
     ImageButton btLight;
     @BindView(R.id.btShare)
     ImageButton btShare;
     @BindView(R.id.btMaps)
     ImageButton btMaps;
+    @BindView(R.id.bottomController)
+    BottomNavigationView bottomController;
 
 
     @Override
@@ -72,26 +69,24 @@ public class PaddleActivity extends FragmentActivity implements OnMapReadyCallba
 
         ButterKnife.bind(this);
 
-
-
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
 //        mapFragment = (SupportMapFragment) getSupportFragmentManager()
 //                .findFragmentById(R.id.map);
 
-
 //        startActivityForResult(new Intent(getBaseContext(), LightSettingsActivity.class),
-//                MainActivity.ACTIVITY_REQUEST_LIGHT_SETTINGS);
+//                MainActivity.REQUEST_LIGHT_SETTINGS);
 //        DialogFragment newFragment = new QuatroDialogFragment();
 //        newFragment.show(MainActivity.this.getFragmentManager(), "Confirm");
+
+        bottomController.setOnNavigationItemSelectedListener(this);
     }
 
     //region click listeners
 
     @OnClick(R.id.btLight)
-    public void LightClicked()
-    {
-        Intent trackingIntent = new Intent(getBaseContext(), LightSettingsActivity.class);
-        startActivityForResult(trackingIntent, Constants.ACTIVITY_REQUEST_LIGHT_SETTINGS);
+    public void LightClicked() {
+        Intent lightIntent = new Intent(getBaseContext(), LightSettingsActivity.class);
+        startActivityForResult(lightIntent, Constants.REQUEST_LIGHT_SETTINGS);
     }
 
     //end region
@@ -122,7 +117,7 @@ public class PaddleActivity extends FragmentActivity implements OnMapReadyCallba
             mMap.setMyLocationEnabled(true);
         } else {
             ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
-                    MY_LOCATION_REQUEST_CODE);
+                    Constants.MY_LOCATION_REQUEST_CODE);
         }
 
         mGoogleApiClient = new GoogleApiClient.Builder(getBaseContext())
@@ -138,7 +133,7 @@ public class PaddleActivity extends FragmentActivity implements OnMapReadyCallba
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        if (requestCode == MY_LOCATION_REQUEST_CODE) {
+        if (requestCode == Constants.MY_LOCATION_REQUEST_CODE) {
             if (permissions.length == 1 && permissions[0] == android.Manifest.permission.ACCESS_FINE_LOCATION &&
                     grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 mMap.setMyLocationEnabled(true);
@@ -195,7 +190,7 @@ public class PaddleActivity extends FragmentActivity implements OnMapReadyCallba
             try {
                 // Start an Activity that tries to resolve the error
                 connectionResult.startResolutionForResult(this,
-                        CONNECTION_FAILURE_RESOLUTION_REQUEST);
+                        Constants.CONNECTION_FAILURE_RESOLUTION_REQUEST);
                     /*
                      * Thrown if Google Play services canceled the original
                      * PendingIntent
@@ -204,7 +199,7 @@ public class PaddleActivity extends FragmentActivity implements OnMapReadyCallba
                 e.printStackTrace();    // Log the error
             }
         } else {
-            Toast.makeText(getBaseContext(),"Sorry. Location services not available to you",
+            Toast.makeText(getBaseContext(), "Sorry. Location services not available to you",
                     Toast.LENGTH_LONG).show();
         }
     }
@@ -219,5 +214,21 @@ public class PaddleActivity extends FragmentActivity implements OnMapReadyCallba
 //                onMapReady(mMap);
 //            }
 //        }
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.item_pause: {
+                item.setTitle(R.string.bt_play);
+                item.setIcon(R.drawable.ic_pause);
+                //TODO pause everything
+                break;
+            }
+            case R.id.item_stop: {
+                //startAc
+            }
+        }
+        return false;
     }
 }
