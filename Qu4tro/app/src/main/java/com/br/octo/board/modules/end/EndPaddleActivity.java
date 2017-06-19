@@ -4,6 +4,7 @@ import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
@@ -14,13 +15,17 @@ import android.widget.Toast;
 
 import com.br.octo.board.R;
 import com.br.octo.board.modules.base.BaseActivity;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -32,7 +37,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class EndPadlleActivity extends BaseActivity {
+public class EndPaddleActivity extends BaseActivity {
 
     private GoogleMap googleMap;
 
@@ -61,7 +66,6 @@ public class EndPadlleActivity extends BaseActivity {
 
         endMapView.onCreate(savedInstanceState);
 
-
         try {
             MapsInitializer.initialize(this.getApplicationContext());
         } catch (Exception e) {
@@ -74,10 +78,29 @@ public class EndPadlleActivity extends BaseActivity {
                 googleMap = mMap;
 
                 // For dropping a marker at a point on the Map
-                LatLng sydney = new LatLng(-34, 151);
-                googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker Title").snippet("Marker Description"));
+                Polyline line = googleMap.addPolyline(new PolylineOptions()
+                        .add(new LatLng(51.5, -0.1), new LatLng(40.7, -74.0))
+                        .width(5)
+                        .color(Color.RED));
+                LatLng london = new LatLng(51.5, -0.1);
+                LatLng newYork = new LatLng(40.7, -74.0);
 
-                googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+                LatLngBounds.Builder builder = new LatLngBounds.Builder();
+//                for (Marker marker : markers) {
+//                    builder.include(marker.getPosition());
+//                }
+                builder.include(london);
+                builder.include(newYork);
+                LatLngBounds bounds = builder.build();
+
+                googleMap.addMarker(new MarkerOptions().position(newYork).title("Marker Title").snippet("Marker Description"));
+                googleMap.addMarker(new MarkerOptions().position(london).title("Marker Title").snippet("Marker Description"));
+
+                int padding = 10;
+                CameraUpdate zoom = CameraUpdateFactory.newLatLngBounds(bounds, padding);
+                googleMap.moveCamera(zoom);
+                googleMap.animateCamera(zoom);
+                googleMap.setMyLocationEnabled(true);
 
                 endMapView.onResume(); // needed to get the map to display immediately
 
@@ -134,8 +157,8 @@ public class EndPadlleActivity extends BaseActivity {
                         backBitmap.getWidth(), backBitmap.getHeight(),
                         backBitmap.getConfig());
                 Canvas canvas = new Canvas(bmOverlay);
-                canvas.drawBitmap(backBitmap, 0, 0, null);
                 canvas.drawBitmap(snapshot, new Matrix(), null);
+                canvas.drawBitmap(backBitmap, 0, 0, null);
 
                 storeAndShare(bmOverlay, fileName);
             }

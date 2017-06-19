@@ -17,6 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/endShareButton"
+        android:layout_alignParentTop="true"
         android:background="@drawable/img_end_octo">
 
         <LinearLayout
@@ -200,6 +201,7 @@
             android:id="@+id/endMap"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@id/endTxtKm" />
+            android:layout_above="@id/endTxtKm"
+            android:layout_alignParentTop="true" />
     </RelativeLayout>
 </RelativeLayout>
