@@ -190,7 +190,7 @@
                 android:src="@drawable/img_divider"
                 app:srcCompat="@drawable/img_divider" />
 
-            <TextView
+            <Chronometer
                 android:id="@+id/txtTime"
                 style="@style/MainPageInfo"
                 android:layout_width="wrap_content"
