@@ -1,22 +1,27 @@
 package com.br.octo.board.modules.tracking;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.MenuItem;
+import android.widget.Chronometer;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.br.octo.board.Constants;
 import com.br.octo.board.R;
+import com.br.octo.board.modules.base.BaseActivity;
+import com.br.octo.board.modules.end.EndPaddleActivity;
 import com.br.octo.board.modules.settings.LightSettingsActivity;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -25,8 +30,6 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -35,14 +38,15 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import fr.quentinklein.slt.LocationTracker;
+import fr.quentinklein.slt.TrackerSettings;
 
-public class PaddleActivity extends FragmentActivity implements OnMapReadyCallback,
+public class PaddleActivity extends BaseActivity implements
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
         BottomNavigationView.OnNavigationItemSelectedListener {
 
-    private GoogleMap mMap;
-    SupportMapFragment mapFragment;
-    TrackingService track;
+    LocationTracker tracker;
+    GoogleMap mMap;
 
     static ArrayList<LatLng> route = new ArrayList();
 
@@ -50,6 +54,9 @@ public class PaddleActivity extends FragmentActivity implements OnMapReadyCallba
     public LocationRequest mLocationRequest;
     private long UPDATE_INTERVAL = 30000;  /* 30 secs */
     private long FASTEST_INTERVAL = 5000; /* 5 secs */
+
+    long timeWhenStopped = 0;
+    private boolean trackingRunning = true;
 
     //Widgets
     @BindView(R.id.btLight)
@@ -61,27 +68,75 @@ public class PaddleActivity extends FragmentActivity implements OnMapReadyCallba
     @BindView(R.id.bottomController)
     BottomNavigationView bottomController;
 
+    @BindView(R.id.txtTime)
+    Chronometer txtTime;
+
+    //region Lifecycle
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.content_tracking);
-
         ButterKnife.bind(this);
 
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-//        mapFragment = (SupportMapFragment) getSupportFragmentManager()
-//                .findFragmentById(R.id.map);
-
-//        startActivityForResult(new Intent(getBaseContext(), LightSettingsActivity.class),
-//                MainActivity.REQUEST_LIGHT_SETTINGS);
-//        DialogFragment newFragment = new QuatroDialogFragment();
-//        newFragment.show(MainActivity.this.getFragmentManager(), "Confirm");
-
         bottomController.setOnNavigationItemSelectedListener(this);
+
+        if (ContextCompat.checkSelfPermission(getBaseContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ContextCompat.checkSelfPermission(getBaseContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            Log.d("PERMISSION", "NOT GRANTED");
+        } else {
+
+            TrackerSettings settings = new TrackerSettings()
+                    .setUseGPS(true)
+                    .setUseNetwork(false)
+                    .setUsePassive(false)
+                    .setTimeBetweenUpdates(30)
+                    .setMetersBetweenUpdates(0.1f);
+
+            tracker = new LocationTracker(getBaseContext(), settings) {
+
+                @Override
+                public void onLocationFound(Location location) {
+                    LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+                    Log.d("Location Update", "New Location: " + latLng.toString());
+
+                    route.add(latLng);
+                }
+
+                @Override
+                public void onTimeout() {
+                    Log.d("Location Timeout", "Timeout! Restarting...");
+                    tracker.startListening();
+                }
+            };
+        }
     }
 
-    //region click listeners
+    @Override
+    public void onResume() {
+        super.onResume();
+        startTracking();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        pauseTracking();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    //endregion
+
+    //region widget listeners
 
     @OnClick(R.id.btLight)
     public void LightClicked() {
@@ -89,19 +144,66 @@ public class PaddleActivity extends FragmentActivity implements OnMapReadyCallba
         startActivityForResult(lightIntent, Constants.REQUEST_LIGHT_SETTINGS);
     }
 
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.item_pause: {
+                if (trackingRunning) {
+                    item.setTitle(R.string.bt_play);
+                    item.setIcon(R.drawable.ic_play);
+                    trackingRunning = false;
+                    pauseTracking();
+                } else {
+                    item.setTitle(R.string.bt_pause);
+                    item.setIcon(R.drawable.ic_pause);
+                    trackingRunning = true;
+                    startTracking();
+                }
+                break;
+            }
+            case R.id.item_stop: {
+                startActivity(new Intent(getBaseContext(), EndPaddleActivity.class));
+                //TODO Stop everythign
+            }
+        }
+        return false;
+    }
+
     //end region
 
+    //region Private
 
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
-    @Override
+    private void startTracking() {
+        if (!tracker.isListening()) {
+            tracker.startListening();
+            txtTime.setBase(SystemClock.elapsedRealtime() + timeWhenStopped);
+            txtTime.start();
+            trackingRunning = true;
+        }
+    }
+
+    private void pauseTracking() {
+        if (tracker.isListening()) {
+            tracker.stopListening();
+            timeWhenStopped = txtTime.getBase() - SystemClock.elapsedRealtime();
+            txtTime.stop();
+            trackingRunning = false;
+        }
+    }
+
+    private void stopTracking() {
+        //TODO add everything to the RealmClass
+        if (tracker.isListening()) {
+            tracker.stopListening();
+            timeWhenStopped = 0;
+            txtTime.stop();
+            trackingRunning = false;
+        }
+    }
+
+    //endregion
+
+
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
@@ -134,8 +236,8 @@ public class PaddleActivity extends FragmentActivity implements OnMapReadyCallba
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         if (requestCode == Constants.MY_LOCATION_REQUEST_CODE) {
-            if (permissions.length == 1 && permissions[0] == android.Manifest.permission.ACCESS_FINE_LOCATION &&
-                    grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            if ((permissions.length == 1) && (permissions[0] == android.Manifest.permission.ACCESS_FINE_LOCATION) &&
+                    (grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
                 mMap.setMyLocationEnabled(true);
             } else {
                 Toast.makeText(getBaseContext(), "Error with Permission!", Toast.LENGTH_SHORT).show();
@@ -202,33 +304,5 @@ public class PaddleActivity extends FragmentActivity implements OnMapReadyCallba
             Toast.makeText(getBaseContext(), "Sorry. Location services not available to you",
                     Toast.LENGTH_LONG).show();
         }
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-//        if (mMap == null) {
-//            startService(new Intent(this, TrackingService.class));
-//            mapFragment.getMapAsync(this);
-//            if (mMap != null) {
-//                onMapReady(mMap);
-//            }
-//        }
-    }
-
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.item_pause: {
-                item.setTitle(R.string.bt_play);
-                item.setIcon(R.drawable.ic_pause);
-                //TODO pause everything
-                break;
-            }
-            case R.id.item_stop: {
-                //startAc
-            }
-        }
-        return false;
     }
 }

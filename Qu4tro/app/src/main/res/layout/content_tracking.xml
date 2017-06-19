@@ -60,7 +60,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/rowButtons"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="24dp"
         android:orientation="horizontal">
 
         <RelativeLayout
@@ -133,7 +133,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/rowKcalKm"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="24dp"
         android:orientation="horizontal">
 
         <RelativeLayout
@@ -190,7 +190,7 @@
                 android:src="@drawable/img_divider"
                 app:srcCompat="@drawable/img_divider" />
 
-            <TextView
+            <Chronometer
                 android:id="@+id/txtTime"
                 style="@style/MainPageInfo"
                 android:layout_width="wrap_content"
@@ -208,7 +208,7 @@
         android:layout_height="wrap_content"
         android:layout_above="@id/rowTime"
         android:layout_alignParentTop="false"
-        android:layout_marginBottom="48dp"
+        android:layout_marginBottom="16dp"
         android:text="@string/bt_dist"
         android:textSize="24sp" />
 
@@ -218,7 +218,7 @@
         android:layout_height="wrap_content"
         android:layout_above="@id/labelKm"
         android:scaleX="0.7"
-        android:scaleY="0.7"
+        android:scaleY="0.5"
         android:src="@drawable/img_divider_big"
         app:srcCompat="@drawable/img_divider_big" />
 
@@ -228,6 +228,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@id/trackDivider0"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="16dp"
         android:text="@string/bt_unknown"
         android:textColor="@color/text_info"
         android:textSize="64sp" />

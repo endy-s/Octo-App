@@ -10,7 +10,7 @@ public class Constants {
     public static final int REQUEST_LIGHT_SETTINGS = 2;
     public static final int REQUEST_TRACKING_SCREEN = 3;
 
-    public static final int PERMISSION_REQUEST_COARSE_LOCATION = 89;
+    public static final int PERMISSION_REQUEST_LOCATION = 89;
     public static final int REQUEST_ENABLE_BT = 99;
 
     public final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
