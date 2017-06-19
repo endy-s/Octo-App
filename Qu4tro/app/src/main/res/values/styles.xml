@@ -23,15 +23,15 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <style name="PageTitle">
+    <style name="OCTOFont">
+        <item name="fontPath">fonts/segoeui.ttf</item>
+    </style>
+
+    <style name="PageTitle" parent="OCTOFont">
         <item name="android:textSize">20sp</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:lineSpacingExtra">13sp</item>
         <item name="android:gravity">center</item>
-    </style>
-
-    <style name="OCTOFont">
-        <item name="fontPath">fonts/segoeui.ttf</item>
     </style>
 
     <style name="MainPageLabel" parent="OCTOFont">

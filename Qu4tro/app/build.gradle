@@ -12,6 +12,7 @@ apply plugin: 'io.fabric'
 
 repositories {
     maven { url 'https://maven.fabric.io/public' }
+    maven { url "https://jitpack.io" }
 }
 
 
@@ -48,7 +49,7 @@ android {
 
 ext {
     supportLibraryVersion = '25.3.1'
-    playServicesVersion = '10.2.6'
+    playServicesVersion = '11.0.1'
     butterknifeVersion = '8.5.1'
 }
 
@@ -73,6 +74,9 @@ dependencies {
 
     //Caligraphy - Font
     compile 'uk.co.chrisjenx:calligraphy:2.3.0'
+
+    //LocationTracker
+    compile 'com.github.quentin7b:android-location-tracker:3.2'
 
     testCompile 'junit:junit:4.12'
 

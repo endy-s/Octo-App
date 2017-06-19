@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/endLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/endShareButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:scaleType="centerCrop"
+        android:src="@drawable/img_end_share_button" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/endShareButton"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/img_end_octo">
+
+        <LinearLayout
+            android:id="@+id/endRowKcalKm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="16dp"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/endLabelKcal"
+                    style="@style/MainPageLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/bt_cal" />
+
+                <ImageView
+                    android:id="@+id/endTrackDivider3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/endLabelKcal"
+                    android:layout_centerHorizontal="true"
+                    android:scaleY="0.5"
+                    android:src="@drawable/img_divider"
+                    app:srcCompat="@drawable/img_divider" />
+
+                <TextView
+                    android:id="@+id/endTxtKcal"
+                    style="@style/MainPageInfo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/endTrackDivider3"
+                    android:text="@string/bt_unknown"
+                    android:textSize="36sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/endLabelSpeed"
+                    style="@style/MainPageLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/bt_speed" />
+
+                <ImageView
+                    android:id="@+id/endTrackDivider4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/endLabelSpeed"
+                    android:layout_centerHorizontal="true"
+                    android:scaleY="0.5"
+                    android:src="@drawable/img_divider"
+                    app:srcCompat="@drawable/img_divider" />
+
+                <TextView
+                    android:id="@+id/endTxtSpeed"
+                    style="@style/MainPageInfo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/endTrackDivider4"
+                    android:text="@string/bt_unknown"
+                    android:textSize="36sp" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/endRowTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/endRowKcalKm"
+            android:layout_marginBottom="16dp"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/endLabelRows"
+                    style="@style/MainPageLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/bt_rows" />
+
+                <ImageView
+                    android:id="@+id/endTrackDivider1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/endLabelRows"
+                    android:layout_centerHorizontal="true"
+                    android:scaleY="0.5"
+                    android:src="@drawable/img_divider"
+                    app:srcCompat="@drawable/img_divider" />
+
+                <TextView
+                    android:id="@+id/endTxtRows"
+                    style="@style/MainPageInfo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/endTrackDivider1"
+                    android:text="@string/bt_unknown"
+                    android:textSize="36sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/endLabelTime"
+                    style="@style/MainPageLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/bt_sup" />
+
+                <ImageView
+                    android:id="@+id/endTrackDivider2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/endLabelTime"
+                    android:layout_centerHorizontal="true"
+                    android:scaleY="0.5"
+                    android:src="@drawable/img_divider"
+                    app:srcCompat="@drawable/img_divider" />
+
+                <TextView
+                    android:id="@+id/endTxtTime"
+                    style="@style/MainPageInfo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/endTrackDivider2"
+                    android:text="@string/bt_unknown"
+                    android:textSize="36sp" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/endLabelKm"
+            style="@style/MainPageLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/endRowTime"
+            android:layout_alignParentTop="false"
+            android:layout_marginBottom="8dp"
+            android:text="@string/bt_dist"
+            android:textSize="24sp" />
+
+        <ImageView
+            android:id="@+id/endTrackDivider0"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/endLabelKm"
+            android:scaleX="0.6"
+            android:scaleY="0.5"
+            android:src="@drawable/img_divider_big"
+            app:srcCompat="@drawable/img_divider_big" />
+
+        <TextView
+            android:id="@+id/endTxtKm"
+            style="@style/MainPageInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/endTrackDivider0"
+            android:text="@string/bt_unknown"
+            android:textColor="@color/text_info"
+            android:textSize="48sp" />
+
+        <com.google.android.gms.maps.MapView
+            android:id="@+id/endMap"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/endTxtKm"
+            android:layout_alignParentTop="true" />
+    </RelativeLayout>
+</RelativeLayout>

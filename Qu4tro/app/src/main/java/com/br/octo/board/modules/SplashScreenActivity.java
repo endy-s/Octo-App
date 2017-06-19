@@ -3,15 +3,12 @@ package com.br.octo.board.modules;
 import android.Manifest;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothManager;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -27,13 +24,10 @@ import com.br.octo.board.modules.main.MainActivity;
 public class SplashScreenActivity extends BaseActivity implements AlertDialog.OnClickListener,
         AlertDialog.OnDismissListener {
 
-    // Future: Add download of user data (if logged in)
+    //TODO - Future: Add download of user data (if logged in)
 
     //Local Bluetooth adapter
     private BluetoothAdapter mBluetoothAdapter = null;
-
-    // Intent request codes
-
 
     //region lifecycle
 
@@ -47,11 +41,6 @@ public class SplashScreenActivity extends BaseActivity implements AlertDialog.On
         if (!getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE)) {
             createSplashErrorDialog(R.string.bt_error_title, R.string.ble_not_supported);
         }
-
-        // Initializes a Bluetooth adapter.
-        // For API level 18 and above, get the reference through BluetoothManager.
-        final BluetoothManager bluetoothManager =
-                (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
 
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
@@ -90,11 +79,9 @@ public class SplashScreenActivity extends BaseActivity implements AlertDialog.On
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           @NonNull String permissions[],
-                                           @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {
-            case Constants.PERMISSION_REQUEST_COARSE_LOCATION: {
+            case Constants.PERMISSION_REQUEST_LOCATION: {
                 if (!(grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
                     createDialog(R.string.permission_error_title, R.string.permission_error_msg)
                             .setPositiveButton(android.R.string.ok, null)
@@ -109,8 +96,7 @@ public class SplashScreenActivity extends BaseActivity implements AlertDialog.On
     //region Private
 
     private void getScreenOnPreference() {
-        if (PreferenceManager.getDefaultSharedPreferences(this)
-                .getBoolean(getString(R.string.pref_key_keep_screen), false)) {
+        if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean(getString(R.string.pref_key_keep_screen), false)) {
             BaseActivity.keepScreen = true;
             AppCompatPreferenceActivity.keepScreen = true;
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
@@ -121,17 +107,17 @@ public class SplashScreenActivity extends BaseActivity implements AlertDialog.On
         if (mBluetoothAdapter.getBluetoothLeScanner() == null) {
             createSplashErrorDialog(R.string.bt_error_title, R.string.ble_not_supported);
         } else {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                    != PackageManager.PERMISSION_GRANTED) {
-
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                    && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 createDialog(R.string.dialog_permission_request, R.string.dialog_permission_description)
                         .setPositiveButton(R.string.dialog_next, null)
                         .setOnDismissListener(new DialogInterface.OnDismissListener() {
                             @Override
                             public void onDismiss(DialogInterface dialog) {
                                 ActivityCompat.requestPermissions(SplashScreenActivity.this,
-                                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                                        Constants.PERMISSION_REQUEST_COARSE_LOCATION);
+                                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
+                                                Manifest.permission.ACCESS_COARSE_LOCATION},
+                                        Constants.PERMISSION_REQUEST_LOCATION);
                             }
                         })
                         .show();

@@ -2,9 +2,6 @@
     <string name="app_name" translatable="false">OCTO</string>
     <string name="project_name">Board OCTO</string>
 
-    <!--  Map Activity -->
-    <string name="title_activity_maps" translatable="false">Map</string>
-
     <!--Dialog-->
     <string name="dialog_permission_request">Permission request</string>
     <string name="dialog_permission_description">The OCTO app needs location permission for its functionality.
