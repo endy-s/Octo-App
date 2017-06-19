@@ -18,10 +18,10 @@ public class BaseActivity extends AppCompatActivity {
         }
     }
 
-    public AlertDialog.Builder createDialog(String title, String message) {
+    public AlertDialog.Builder createDialog(int titleID, int messageID) {
         return new AlertDialog.Builder(this)
-                .setTitle(title)
-                .setMessage(message);
+                .setTitle(getString(titleID))
+                .setMessage(getString(messageID));
     }
 
 }
