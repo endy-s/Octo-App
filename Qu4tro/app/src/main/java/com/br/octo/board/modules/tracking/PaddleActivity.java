@@ -13,8 +13,8 @@ import android.support.v4.content.ContextCompat;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.br.octo.board.Constants;
 import com.br.octo.board.R;
-import com.br.octo.board.modules.main.MainActivity;
 import com.br.octo.board.modules.settings.LightSettingsActivity;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -91,7 +91,7 @@ public class PaddleActivity extends FragmentActivity implements OnMapReadyCallba
     public void LightClicked()
     {
         Intent trackingIntent = new Intent(getBaseContext(), LightSettingsActivity.class);
-        startActivityForResult(trackingIntent, MainActivity.ACTIVITY_REQUEST_LIGHT_SETTINGS);
+        startActivityForResult(trackingIntent, Constants.ACTIVITY_REQUEST_LIGHT_SETTINGS);
     }
 
     //end region

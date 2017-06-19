@@ -33,10 +33,9 @@
     <string name="bt_light">Iluminação</string>
     <string name="bt_power">Liga/Desliga</string>
     <string name="bt_track">Trajeto</string>
-    <string name="bt_sup">Tempo na Água</string>
-    <string name="bt_bat">Nível de Bateria</string>
-    <string name="bt_tempin">Temperatura da Água</string>
-    <string name="bt_tempout">Temperatura Ambiente</string>
+    <string name="bt_bat">BATERIA</string>
+    <string name="bt_tempin">ÁGUA</string>
+    <string name="bt_tempout">AMBIENTE</string>
     <string name="bt_time">Prancha ligada</string>
     <string name="cancel">Cancelar</string>
     <string name="confirmation">Você tem certeza?</string>
@@ -91,7 +90,7 @@
     <string name="unknown_device">Dispositivo Desconhecido</string>
     <string name="bt_board">PRANCHA</string>
     <string name="bt_last">ÚLTIMA REMADA</string>
-    <string name="bt_rows">Remadas</string>
+    <string name="bt_rows">REMADAS</string>
     <string name="bt_stop">PARAR</string>
     <string name="bt_pause">PAUSAR</string>
     <string name="bt_play">INICIAR</string>
@@ -101,4 +100,9 @@
         Por favor, aceite a próxima solicitação de permissão.</string>
     <string name="connecting">Conectando a </string>
     <string name="validating">Validando dispositivo…</string>
+    <string name="bt_error_title">Erro de Bluetooth</string>
+    <string name="bt_not_available">Bluetooth não disponível. Tente outro dispositivo.</string>
+    <string name="permission_error_title">Funcionalidades limitadas</string>
+    <string name="permission_error_msg">Sem o acesso a localização garantido, esse applicativo não será capaz de encontrar sua prancha. Altere essa configuração nas definições do sistema ou resintale o aplicativo e garanta a permissão.</string>
+    <string name="bt_sup">MIN:SEG</string>
 </resources>
