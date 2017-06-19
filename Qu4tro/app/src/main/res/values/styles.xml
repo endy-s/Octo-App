@@ -8,14 +8,14 @@
         <item name="colorAccent">@color/black_overlay</item>
     </style>
 
-    <style name="AppTheme.NoActionBar" parent = "AppTheme">
+    <style name="AppTheme.NoActionBar" parent="AppTheme">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
 
-    <style name="SplashTheme" parent = "AppTheme.NoActionBar">
+    <style name="SplashTheme" parent="AppTheme.NoActionBar">
         <item name="android:windowBackground">@drawable/background_splash</item>
     </style>
 
@@ -30,5 +30,22 @@
         <item name="android:gravity">center</item>
     </style>
 
+    <style name="OCTOFont">
+        <item name="fontPath">fonts/segoeui.ttf</item>
+    </style>
+
+    <style name="MainPageLabel" parent="OCTOFont">
+        <item name="android:layout_alignParentTop">true</item>
+        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:textColor">@color/text_labels</item>
+    </style>
+
+    <style name="MainPageInfo" parent="OCTOFont">
+        <item name="android:textSize">24sp</item>
+        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textColor">@color/text_info</item>
+    </style>
 
 </resources>
