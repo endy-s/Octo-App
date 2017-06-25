@@ -11,9 +11,11 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.br.octo.board.R;
+import com.br.octo.board.models.Paddle;
 import com.br.octo.board.modules.base.BaseActivity;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -23,9 +25,10 @@ import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
+
+import org.parceler.Parcels;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -40,6 +43,7 @@ import butterknife.OnClick;
 public class EndPaddleActivity extends BaseActivity {
 
     private GoogleMap googleMap;
+    Paddle endedPaddle;
 
     //Widgets
     @BindView(R.id.endLayout)
@@ -48,6 +52,17 @@ public class EndPaddleActivity extends BaseActivity {
     MapView endMapView;
     @BindView(R.id.endShareButton)
     ImageView endShareButton;
+
+    @BindView(R.id.endTxtKm)
+    TextView endKm;
+    @BindView(R.id.endTxtRows)
+    TextView endRows;
+    @BindView(R.id.endTxtTime)
+    TextView endTime;
+    @BindView(R.id.endTxtKcal)
+    TextView endKcal;
+    @BindView(R.id.endTxtSpeed)
+    TextView endSpeed;
 
     //region Lifecycle
 
@@ -63,6 +78,12 @@ public class EndPaddleActivity extends BaseActivity {
 //                .findFragmentById(R.id.endMap);
 //        mapFragment.getMapAsync(this);
 
+        if (getIntent().hasExtra(getString(R.string.paddle_extra))) {
+            endedPaddle = Parcels.unwrap(getIntent().getParcelableExtra(getString(R.string.paddle_extra)));
+            showPaddleInfo();
+        } else {
+            //TODO show error dialog
+        }
 
         endMapView.onCreate(savedInstanceState);
 
@@ -77,37 +98,34 @@ public class EndPaddleActivity extends BaseActivity {
             public void onMapReady(GoogleMap mMap) {
                 googleMap = mMap;
 
-                // For dropping a marker at a point on the Map
-                Polyline line = googleMap.addPolyline(new PolylineOptions()
-                        .add(new LatLng(51.5, -0.1), new LatLng(40.7, -74.0))
-                        .width(5)
-                        .color(Color.RED));
-                LatLng london = new LatLng(51.5, -0.1);
-                LatLng newYork = new LatLng(40.7, -74.0);
+                int numberPoints = endedPaddle.getTrack().size();
 
+//                LatLng start = new LatLng(endedPaddle.getTrack().get(0).getLatitude(), endedPaddle.getTrack().get(0).getLongitude());
+//                LatLng stop = new LatLng(endedPaddle.getTrack().get(numberPoints - 1).getLatitude(), endedPaddle.getTrack().get(numberPoints - 1).getLongitude());
+//
+//                googleMap.addMarker(new MarkerOptions().position(start).title("Start").snippet("Start of Paddling"));
+//                googleMap.addMarker(new MarkerOptions().position(stop).title("End").snippet("End of Paddling"));
+
+
+                PolylineOptions lineOptions = new PolylineOptions().width(5).color(Color.RED);
                 LatLngBounds.Builder builder = new LatLngBounds.Builder();
-//                for (Marker marker : markers) {
-//                    builder.include(marker.getPosition());
-//                }
-                builder.include(london);
-                builder.include(newYork);
+
+                for (int index = 0; index < numberPoints; index++) {
+                    LatLng point = new LatLng(endedPaddle.getTrack().get(index).getLatitude(), endedPaddle.getTrack().get(index).getLongitude());
+                    lineOptions.add(point);
+                    builder.include(point);
+                }
+
+                Polyline line = googleMap.addPolyline(lineOptions);
                 LatLngBounds bounds = builder.build();
 
-                googleMap.addMarker(new MarkerOptions().position(newYork).title("Marker Title").snippet("Marker Description"));
-                googleMap.addMarker(new MarkerOptions().position(london).title("Marker Title").snippet("Marker Description"));
-
-                int padding = 10;
-                CameraUpdate zoom = CameraUpdateFactory.newLatLngBounds(bounds, padding);
+                int height = endMapView.getHeight();
+                int width = endMapView.getWidth();
+                int padding = 25;
+                CameraUpdate zoom = CameraUpdateFactory.newLatLngBounds(bounds, width, height, padding);
                 googleMap.moveCamera(zoom);
-                googleMap.animateCamera(zoom);
-                googleMap.setMyLocationEnabled(true);
 
                 endMapView.onResume(); // needed to get the map to display immediately
-
-
-                // For zooming automatically to the location of the marker
-//                CameraPosition cameraPosition = new CameraPosition.Builder().target(sydney).zoom(12).build();
-//                googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
             }
         });
     }
@@ -122,25 +140,8 @@ public class EndPaddleActivity extends BaseActivity {
 
     //endregion
 
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
-//    @Override
-//    public void onMapReady(GoogleMap googleMap) {
-//        mMap = googleMap;
-//
-//        // Add a marker in Sydney and move the camera
-//        LatLng sydney = new LatLng(-34, 151);
-//        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-//    }
-
     //region click listeners
+
     @OnClick(R.id.endShareButton)
     public void shareClicked() {
         SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd-HH-mm", Locale.US);
@@ -167,9 +168,17 @@ public class EndPaddleActivity extends BaseActivity {
 
     //endregion
 
-    //region public
+    //region private
 
-    public void storeAndShare(Bitmap bm, String fileName) {
+    private void showPaddleInfo() {
+        endKm.setText(endedPaddle.getDistance());
+        endRows.setText(endedPaddle.getRows());
+        endTime.setText(endedPaddle.getDuration());
+        endKcal.setText(endedPaddle.getKcal());
+        endSpeed.setText(endedPaddle.getSpeed());
+    }
+
+    private void storeAndShare(Bitmap bm, String fileName) {
         final String dirPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Screenshots";
         File dir = new File(dirPath);
         if (!dir.exists())

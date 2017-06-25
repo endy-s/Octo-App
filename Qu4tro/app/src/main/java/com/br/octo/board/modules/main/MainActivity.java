@@ -26,6 +26,7 @@ import android.widget.Toast;
 import com.br.octo.board.Constants;
 import com.br.octo.board.R;
 import com.br.octo.board.api_services.BluetoothHelper;
+import com.br.octo.board.models.Paddle;
 import com.br.octo.board.modules.DeviceListActivity;
 import com.br.octo.board.modules.base.BaseActivity;
 import com.br.octo.board.modules.settings.LocaleHelper;
@@ -35,6 +36,8 @@ import com.br.octo.board.modules.tracking.PaddleActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
 
 /**
  * Created by Endy.
@@ -56,6 +59,16 @@ public class MainActivity extends BaseActivity
     TextView tempEnvTV;
     @BindView(R.id.txtWater)
     TextView tempWatterTV;
+
+    // Last Paddle Info
+    @BindView(R.id.lastDistTV)
+    TextView lastDist;
+    @BindView(R.id.lastTimeTV)
+    TextView lastDuration;
+    @BindView(R.id.lastKcalTV)
+    TextView lastKcal;
+    @BindView(R.id.lastDateTV)
+    TextView lastDate;
 
     // Button
     @BindView(R.id.btStart)
@@ -86,6 +99,8 @@ public class MainActivity extends BaseActivity
         toggle.syncState();
 
         navigationView.setNavigationItemSelectedListener(this);
+
+        showLastPaddleInfo();
 
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         btHelper = BluetoothHelper.getInstance();
@@ -222,8 +237,8 @@ public class MainActivity extends BaseActivity
     @OnClick(R.id.btStart)
     public void startClicked() {
 //        if (btHelper.getConnectionStatus()) {
-            Intent trackingIntent = new Intent(getBaseContext(), PaddleActivity.class);
-            startActivityForResult(trackingIntent, Constants.REQUEST_TRACKING_SCREEN);
+        Intent trackingIntent = new Intent(getBaseContext(), PaddleActivity.class);
+        startActivityForResult(trackingIntent, Constants.REQUEST_TRACKING_SCREEN);
 //        }
     }
 
@@ -275,7 +290,22 @@ public class MainActivity extends BaseActivity
 
     //region Private - manage the info shown at the screen
 
-    public void showNotConnectedState() {
+    private void showLastPaddleInfo() {
+        RealmConfiguration realmConfiguration = new RealmConfiguration.Builder().build();
+        Realm realm = Realm.getInstance(realmConfiguration);
+        Paddle lastPaddle = realm.where(Paddle.class).findFirst();
+
+        if (lastPaddle != null) {
+            lastDist.setText(lastPaddle.getDistance());
+            lastDuration.setText(lastPaddle.getDuration());
+            lastKcal.setText(lastPaddle.getKcal());
+            lastDate.setText(lastPaddle.getDate());
+        }
+
+        realm.close();
+    }
+
+    private void showNotConnectedState() {
         ColorMatrix matrix = new ColorMatrix();
         matrix.setSaturation(0);
         ColorMatrixColorFilter filter = new ColorMatrixColorFilter(matrix);
@@ -289,7 +319,7 @@ public class MainActivity extends BaseActivity
         boardTV.setText(R.string.bt_board_off);
     }
 
-    public void showConnectedState() {
+    private void showConnectedState() {
         btStart.setColorFilter(null);
         btStart.setImageAlpha(255);
         btStart.setEnabled(true);
