@@ -33,6 +33,9 @@ import com.br.octo.board.modules.settings.LocaleHelper;
 import com.br.octo.board.modules.settings.SettingsActivity;
 import com.br.octo.board.modules.tracking.PaddleActivity;
 
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -283,6 +286,9 @@ public class MainActivity extends BaseActivity
                     showConnectedState();
                 }
                 break;
+            case Constants.REQUEST_TRACKING_SCREEN:
+                showLastPaddleInfo();
+                break;
         }
     }
 
@@ -292,16 +298,24 @@ public class MainActivity extends BaseActivity
 
     private void showLastPaddleInfo() {
         RealmConfiguration realmConfiguration = new RealmConfiguration.Builder().build();
+//        Realm.deleteRealm(realmConfiguration);
         Realm realm = Realm.getInstance(realmConfiguration);
-        Paddle lastPaddle = realm.where(Paddle.class).findFirst();
+        if (realm.where(Paddle.class).findAllSorted("date").size() > 0) {
+            Paddle lastPaddle = realm.where(Paddle.class).findAllSorted("date").last();
 
-        if (lastPaddle != null) {
-            lastDist.setText(lastPaddle.getDistance());
-            lastDuration.setText(lastPaddle.getDuration());
-            lastKcal.setText(lastPaddle.getKcal());
-            lastDate.setText(lastPaddle.getDate());
+            if (lastPaddle != null) {
+                lastDist.setText(String.format(Locale.US, "%.2f %s", lastPaddle.getDistance(), getString(R.string.bt_dist)));
+                lastKcal.setText(String.format(Locale.US, "%d %s", lastPaddle.getKcal(), getString(R.string.bt_kcal)));
+
+                int hour = (int) lastPaddle.getDuration() / (60 * 60);
+                int minutes = (int) (lastPaddle.getDuration() / 60) % 60;
+                int seconds = (int) lastPaddle.getDuration() % 60;
+                lastDuration.setText(String.format(Locale.US, "%02d:%02d:%02d %s", hour, minutes, seconds, getString(R.string.bt_hour)));
+
+                SimpleDateFormat dateFormatter = new SimpleDateFormat("dd.MM.yyyy", Locale.US);
+                lastDate.setText(dateFormatter.format(lastPaddle.getDate()));
+            }
         }
-
         realm.close();
     }
 

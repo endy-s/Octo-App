@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/img_main_octo">
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/img_main_octo">
 
     <include
         android:id="@+id/mainToolbar"
@@ -15,7 +15,10 @@
         android:id="@+id/lastPaddleResumeLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:weightSum="9">
 
         <ImageView
             android:id="@+id/icRow"
@@ -24,7 +27,7 @@
             android:layout_weight="1"
             android:scaleX="0.5"
             android:scaleY="0.5"
-            app:srcCompat="@drawable/ic_rowing" />
+            app:srcCompat="@drawable/ic_rowing"/>
 
         <TextView
             android:id="@+id/lastDistTV"
@@ -35,7 +38,8 @@
             android:gravity="center"
             android:text="@string/bt_unknown"
             android:textAlignment="gravity"
-            android:textColor="@color/text_labels" />
+            android:textColor="@color/text_labels"
+            android:textSize="12sp"/>
 
         <TextView
             android:id="@+id/lastTimeTV"
@@ -46,7 +50,8 @@
             android:gravity="center"
             android:text="@string/bt_unknown"
             android:textAlignment="gravity"
-            android:textColor="@color/text_info" />
+            android:textColor="@color/text_info"
+            android:textSize="12sp"/>
 
         <TextView
             android:id="@+id/lastKcalTV"
@@ -57,7 +62,8 @@
             android:gravity="center"
             android:text="@string/bt_unknown"
             android:textAlignment="gravity"
-            android:textColor="@color/text_info" />
+            android:textColor="@color/text_info"
+            android:textSize="12sp"/>
 
         <TextView
             android:id="@+id/lastDateTV"
@@ -68,7 +74,8 @@
             android:gravity="center"
             android:text="@string/bt_unknown"
             android:textAlignment="gravity"
-            android:textColor="@color/text_info" />
+            android:textColor="@color/text_info"
+            android:textSize="12sp"/>
 
     </LinearLayout>
 
@@ -80,7 +87,7 @@
         android:scaleX="0.9"
         android:scaleY="0.5"
         android:src="@drawable/img_divider_big"
-        app:srcCompat="@drawable/img_divider_big" />
+        app:srcCompat="@drawable/img_divider_big"/>
 
     <TextView
         android:id="@+id/labelLastPaddle"
@@ -90,7 +97,7 @@
         android:layout_above="@id/divider5"
         android:layout_centerHorizontal="true"
         android:text="@string/bt_last"
-        android:textColor="@color/text_labels" />
+        android:textColor="@color/text_labels"/>
 
     <LinearLayout
         android:id="@+id/rowBattBoard"
@@ -110,7 +117,7 @@
                 style="@style/MainPageLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/bt_bat" />
+                android:text="@string/bt_bat"/>
 
             <ImageView
                 android:id="@+id/divider3"
@@ -120,7 +127,7 @@
                 android:layout_centerHorizontal="true"
                 android:scaleY="0.5"
                 android:src="@drawable/img_divider"
-                app:srcCompat="@drawable/img_divider" />
+                app:srcCompat="@drawable/img_divider"/>
 
 
             <TextView
@@ -129,7 +136,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/divider3"
-                android:text="@string/bt_unknown" />
+                android:text="@string/bt_unknown"/>
 
             <ImageView
                 android:id="@+id/icBattery"
@@ -140,7 +147,7 @@
                 android:scaleX="0.5"
                 android:scaleY="0.5"
                 android:src="@drawable/ic_battery"
-                app:srcCompat="@drawable/ic_battery" />
+                app:srcCompat="@drawable/ic_battery"/>
 
         </RelativeLayout>
 
@@ -154,7 +161,7 @@
                 style="@style/MainPageLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/bt_board" />
+                android:text="@string/bt_board"/>
 
             <ImageView
                 android:id="@+id/divider4"
@@ -163,7 +170,7 @@
                 android:layout_below="@id/labelBoard"
                 android:scaleY="0.5"
                 android:src="@drawable/img_divider"
-                app:srcCompat="@drawable/img_divider" />
+                app:srcCompat="@drawable/img_divider"/>
 
             <TextView
                 android:id="@+id/txtBoard"
@@ -171,7 +178,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/divider4"
-                android:text="@string/bt_board_off" />
+                android:text="@string/bt_board_off"/>
 
             <ImageView
                 android:id="@+id/icBoard"
@@ -182,7 +189,7 @@
                 android:scaleX="0.5"
                 android:scaleY="0.5"
                 android:src="@drawable/ic_board"
-                app:srcCompat="@drawable/ic_board" />
+                app:srcCompat="@drawable/ic_board"/>
 
         </RelativeLayout>
     </LinearLayout>
@@ -205,7 +212,7 @@
                 style="@style/MainPageLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/bt_tempin" />
+                android:text="@string/bt_tempin"/>
 
             <ImageView
                 android:id="@+id/divider1"
@@ -215,7 +222,7 @@
                 android:layout_centerHorizontal="true"
                 android:scaleY="0.5"
                 android:src="@drawable/img_divider"
-                app:srcCompat="@drawable/img_divider" />
+                app:srcCompat="@drawable/img_divider"/>
 
             <TextView
                 android:id="@+id/txtWater"
@@ -223,7 +230,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/divider1"
-                android:text="@string/bt_unknown" />
+                android:text="@string/bt_unknown"/>
 
             <ImageView
                 android:id="@+id/icTherm1"
@@ -235,7 +242,7 @@
                 android:scaleX="0.5"
                 android:scaleY="0.5"
                 android:src="@drawable/ic_therm"
-                app:srcCompat="@drawable/ic_therm" />
+                app:srcCompat="@drawable/ic_therm"/>
 
         </RelativeLayout>
 
@@ -250,7 +257,7 @@
                 style="@style/MainPageLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/bt_tempout" />
+                android:text="@string/bt_tempout"/>
 
             <ImageView
                 android:id="@+id/divider2"
@@ -259,7 +266,7 @@
                 android:layout_below="@id/labelAmbience"
                 android:layout_centerHorizontal="true"
                 android:scaleY="0.5"
-                android:src="@drawable/img_divider" />
+                android:src="@drawable/img_divider"/>
 
             <TextView
                 android:id="@+id/txtAmbient"
@@ -267,7 +274,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/divider2"
-                android:text="@string/bt_unknown" />
+                android:text="@string/bt_unknown"/>
 
             <ImageView
                 android:id="@+id/icTherm2"
@@ -278,7 +285,7 @@
                 android:scaleX="0.5"
                 android:scaleY="0.5"
                 android:src="@drawable/ic_therm"
-                app:srcCompat="@drawable/ic_therm" />
+                app:srcCompat="@drawable/ic_therm"/>
 
         </RelativeLayout>
     </LinearLayout>
@@ -293,6 +300,6 @@
         android:background="@android:color/transparent"
         android:padding="32dp"
         android:src="@drawable/ic_btn_start"
-        app:srcCompat="@drawable/ic_btn_start" />
+        app:srcCompat="@drawable/ic_btn_start"/>
 
 </RelativeLayout>

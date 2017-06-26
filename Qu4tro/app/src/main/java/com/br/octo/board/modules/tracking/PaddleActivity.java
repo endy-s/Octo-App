@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Chronometer;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.br.octo.board.Constants;
@@ -38,6 +39,7 @@ import com.google.android.gms.maps.model.LatLng;
 import org.parceler.Parcels;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -55,13 +57,14 @@ public class PaddleActivity extends BaseActivity implements
     LocationTracker tracker;
     GoogleMap mMap;
 
-    static ArrayList<LatLng> route = new ArrayList<>();
+    static ArrayList<TrackingPoints> route = new ArrayList<>();
 
     public static GoogleApiClient mGoogleApiClient;
     public LocationRequest mLocationRequest;
     private long UPDATE_INTERVAL = 30000;  /* 30 secs */
     private long FASTEST_INTERVAL = 5000; /* 5 secs */
 
+    float totalKm = 0;
     long timeWhenStopped = 0;
     private boolean trackingRunning = true;
 
@@ -75,8 +78,16 @@ public class PaddleActivity extends BaseActivity implements
     @BindView(R.id.bottomController)
     BottomNavigationView bottomController;
 
+    @BindView(R.id.txtKm)
+    TextView txtKm;
+    @BindView(R.id.txtRows)
+    TextView txtRows;
     @BindView(R.id.txtTime)
     Chronometer txtTime;
+    @BindView(R.id.txtKcal)
+    TextView txtKcal;
+    @BindView(R.id.txtSpeed)
+    TextView txtSpeed;
 
     //region Lifecycle
 
@@ -88,13 +99,21 @@ public class PaddleActivity extends BaseActivity implements
 
         bottomController.setOnNavigationItemSelectedListener(this);
 
-        route.add(new LatLng(-27.614140, -48.540296));
-        route.add(new LatLng(-27.617762, -48.541219));
-        route.add(new LatLng(-27.619616, -48.546176));
-        route.add(new LatLng(-27.617667, -48.549652));
-        route.add(new LatLng(-27.613237, -48.549824));
-        route.add(new LatLng(-27.613446, -48.554319));
-        route.add(new LatLng(-27.617097, -48.550778));
+        route.add(new TrackingPoints(-27.614140, -48.540296));
+        route.add(new TrackingPoints(-27.617762, -48.541219));
+        route.add(new TrackingPoints(-27.619616, -48.546176));
+        route.add(new TrackingPoints(-27.617667, -48.549652));
+        route.add(new TrackingPoints(-27.613237, -48.549824));
+        route.add(new TrackingPoints(-27.613446, -48.554319));
+        route.add(new TrackingPoints(-27.617097, -48.550778));
+
+//        route.add(new LatLng(-27.614140, -48.540296));
+//        route.add(new LatLng(-27.617762, -48.541219));
+//        route.add(new LatLng(-27.619616, -48.546176));
+//        route.add(new LatLng(-27.617667, -48.549652));
+//        route.add(new LatLng(-27.613237, -48.549824));
+//        route.add(new LatLng(-27.613446, -48.554319));
+//        route.add(new LatLng(-27.617097, -48.550778));
 
 
         if (ContextCompat.checkSelfPermission(getBaseContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
@@ -116,7 +135,19 @@ public class PaddleActivity extends BaseActivity implements
                     LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
                     Log.d("Location Update", "New Location: " + latLng.toString());
 
-                    route.add(latLng);
+                    float[] results = new float[3];
+                    Location.distanceBetween(route.get(route.size() - 1).getLatitude(),
+                            route.get(route.size() - 1).getLongitude(),
+                            location.getLatitude(),
+                            location.getLongitude(),
+                            results);
+
+                    totalKm += results[0];
+                    txtKm.setText(String.valueOf(totalKm));
+                    txtSpeed.setText(String.valueOf(totalKm / (SystemClock.elapsedRealtime() - txtTime.getBase()) / (60 * 60 * 1000)));
+
+//                    route.add(latLng);
+                    route.add(new TrackingPoints(location.getLatitude(), location.getLongitude()));
                 }
 
                 @Override
@@ -179,18 +210,21 @@ public class PaddleActivity extends BaseActivity implements
             }
             case R.id.item_stop: {
                 RealmList<TrackingPoints> paddlePoints = new RealmList<>();
+                paddlePoints.clear();
+
                 for (int index = 0; index < route.size(); index++) {
-                    paddlePoints.add(new TrackingPoints(route.get(index).latitude, route.get(index).longitude));
+//                    paddlePoints.add(new TrackingPoints(route.get(index).latitude, route.get(index).longitude));
+                    paddlePoints.add(route.get(index));
                 }
 
 //                Paddle actualPaddle = new Paddle("10", "20", "07", "17.06.2017", "10.8", "200", paddlePoints);
                 Paddle actualPaddle = new Paddle();
-                actualPaddle.setDate("17.06.2017");
-                actualPaddle.setDistance("10");
-                actualPaddle.setDuration("200");
-                actualPaddle.setRows("410");
-                actualPaddle.setKcal("700");
-                actualPaddle.setSpeed("10.8");
+                actualPaddle.setDate(Calendar.getInstance().getTime().getTime());
+                actualPaddle.setDistance(10f);
+                actualPaddle.setDuration((SystemClock.elapsedRealtime() - txtTime.getBase()) / 1000);
+                actualPaddle.setRows(410);
+                actualPaddle.setKcal(700);
+                actualPaddle.setSpeed(10.8f);
                 actualPaddle.setTrack(paddlePoints);
 
                 stopTracking(true);
