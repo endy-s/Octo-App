@@ -12,8 +12,10 @@ import io.realm.RealmObject;
 
 @Parcel
 public class Paddle extends RealmObject {
-    private String distance, duration, kcal, date, speed, rows;
-    @ParcelPropertyConverter(TrackListParcelConverter.class)
+    private long date, duration;
+    private Integer kcal, rows;
+    private float distance, speed;
+    @ParcelPropertyConverter(RealmListParcelConverter.class)
     private RealmList<TrackingPoints> track;
 
     public Paddle() {
@@ -31,51 +33,51 @@ public class Paddle extends RealmObject {
 //        this.track = track;
 //    }
 
-    public String getDistance() {
+    public float getDistance() {
         return distance;
     }
 
-    public String getDuration() {
+    public long getDuration() {
         return duration;
     }
 
-    public String getKcal() {
+    public Integer getKcal() {
         return kcal;
     }
 
-    public String getDate() {
+    public long getDate() {
         return date;
     }
 
-    public String getSpeed() {
+    public float getSpeed() {
         return speed;
     }
 
-    public String getRows() {
+    public Integer getRows() {
         return rows;
     }
 
-    public void setDistance(String distance) {
+    public void setDistance(float distance) {
         this.distance = distance;
     }
 
-    public void setDuration(String duration) {
+    public void setDuration(long duration) {
         this.duration = duration;
     }
 
-    public void setKcal(String kcal) {
+    public void setKcal(Integer kcal) {
         this.kcal = kcal;
     }
 
-    public void setDate(String date) {
+    public void setDate(long date) {
         this.date = date;
     }
 
-    public void setSpeed(String speed) {
+    public void setSpeed(float speed) {
         this.speed = speed;
     }
 
-    public void setRows(String rows) {
+    public void setRows(Integer rows) {
         this.rows = rows;
     }
 

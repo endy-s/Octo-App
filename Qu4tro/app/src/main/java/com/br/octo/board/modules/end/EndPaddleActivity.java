@@ -100,13 +100,6 @@ public class EndPaddleActivity extends BaseActivity {
 
                 int numberPoints = endedPaddle.getTrack().size();
 
-//                LatLng start = new LatLng(endedPaddle.getTrack().get(0).getLatitude(), endedPaddle.getTrack().get(0).getLongitude());
-//                LatLng stop = new LatLng(endedPaddle.getTrack().get(numberPoints - 1).getLatitude(), endedPaddle.getTrack().get(numberPoints - 1).getLongitude());
-//
-//                googleMap.addMarker(new MarkerOptions().position(start).title("Start").snippet("Start of Paddling"));
-//                googleMap.addMarker(new MarkerOptions().position(stop).title("End").snippet("End of Paddling"));
-
-
                 PolylineOptions lineOptions = new PolylineOptions().width(5).color(Color.RED);
                 LatLngBounds.Builder builder = new LatLngBounds.Builder();
 
@@ -171,11 +164,15 @@ public class EndPaddleActivity extends BaseActivity {
     //region private
 
     private void showPaddleInfo() {
-        endKm.setText(endedPaddle.getDistance());
-        endRows.setText(endedPaddle.getRows());
-        endTime.setText(endedPaddle.getDuration());
-        endKcal.setText(endedPaddle.getKcal());
-        endSpeed.setText(endedPaddle.getSpeed());
+        endKm.setText(String.format(Locale.US, "%.2f", endedPaddle.getDistance()));
+        endRows.setText(String.format(Locale.US, "%d", endedPaddle.getRows()));
+        endKcal.setText(String.format(Locale.US, "%d", endedPaddle.getKcal()));
+        endSpeed.setText(String.format(Locale.US, "%.2f", endedPaddle.getSpeed()));
+
+        int hour = (int) endedPaddle.getDuration() / (60 * 60);
+        int minutes = (int) (endedPaddle.getDuration() / 60) % 60;
+        int seconds = (int) endedPaddle.getDuration() % 60;
+        endTime.setText(String.format(Locale.US, "%02d:%02d:%02d", hour, minutes, seconds));
     }
 
     private void storeAndShare(Bitmap bm, String fileName) {

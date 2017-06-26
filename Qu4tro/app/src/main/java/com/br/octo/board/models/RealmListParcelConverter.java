@@ -1,6 +1,10 @@
 package com.br.octo.board.models;
 
-import org.parceler.converter.CollectionParcelConverter;
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import org.parceler.Parcels;
+import org.parceler.TypeRangeParcelConverter;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;
@@ -9,10 +13,40 @@ import io.realm.RealmObject;
  * Created by endysilveira on 25/06/17.
  */
 
-// Abstract class for working with RealmLists
-public abstract class RealmListParcelConverter<T extends RealmObject> extends CollectionParcelConverter<T, RealmList<T>> {
+public class RealmListParcelConverter implements TypeRangeParcelConverter<RealmList<? extends RealmObject>, RealmList<? extends RealmObject>> {
+    private static final int NULL = -1;
+
     @Override
-    public RealmList<T> createCollection() {
-        return new RealmList<T>();
+    public void toParcel(RealmList<? extends RealmObject> input, Parcel parcel) {
+        if (input == null) {
+            parcel.writeInt(NULL);
+        } else {
+            parcel.writeInt(input.size());
+            for (RealmObject item : input) {
+                parcel.writeParcelable(Parcels.wrap(item), 0);
+            }
+        }
+    }
+
+    @Override
+    public RealmList fromParcel(Parcel parcel) {
+        int size = parcel.readInt();
+        RealmList list = new RealmList();
+
+        for (int i = 0; i < size; i++) {
+            Parcelable parcelable = parcel.readParcelable(getClass().getClassLoader());
+            list.add((RealmObject) Parcels.unwrap(parcelable));
+        }
+
+        return list;
     }
 }
+
+// Abstract class for working with RealmLists
+//public abstract class RealmListParcelConverter<T extends RealmObject> extends CollectionParcelConverter<T, RealmList<T>> {
+//    @Override
+//    public RealmList<T> createCollection() {
+//        return new RealmList<T>();
+//    }
+//}
+//

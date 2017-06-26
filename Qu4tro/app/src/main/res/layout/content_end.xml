@@ -2,7 +2,6 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/endLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -15,6 +14,7 @@
         android:src="@drawable/img_end_share_button"/>
 
     <RelativeLayout
+        android:id="@+id/endLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/endShareButton"
@@ -39,7 +39,7 @@
                     style="@style/MainPageLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/bt_cal"/>
+                    android:text="@string/bt_kcal"/>
 
                 <ImageView
                     android:id="@+id/endTrackDivider3"

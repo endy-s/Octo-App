@@ -62,7 +62,7 @@
 
     <!--Both Screens-->
     <string name="bt_dist" translatable="false">KM</string>
-    <string name="bt_cal" translatable="false">KCAL</string>
+    <string name="bt_kcal" translatable="false">KCAL</string>
 
     <!--Tracking Screen-->
     <string name="bt_sup">MIN:SEC</string>
