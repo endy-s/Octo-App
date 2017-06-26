@@ -20,6 +20,8 @@ import android.widget.Toast;
 
 import com.br.octo.board.Constants;
 import com.br.octo.board.R;
+import com.br.octo.board.models.Paddle;
+import com.br.octo.board.models.TrackingPoints;
 import com.br.octo.board.modules.base.BaseActivity;
 import com.br.octo.board.modules.end.EndPaddleActivity;
 import com.br.octo.board.modules.settings.LightSettingsActivity;
@@ -33,6 +35,8 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.LatLng;
 
+import org.parceler.Parcels;
+
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -40,6 +44,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import fr.quentinklein.slt.LocationTracker;
 import fr.quentinklein.slt.TrackerSettings;
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
+import io.realm.RealmList;
 
 public class PaddleActivity extends BaseActivity implements
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
@@ -48,7 +55,7 @@ public class PaddleActivity extends BaseActivity implements
     LocationTracker tracker;
     GoogleMap mMap;
 
-    static ArrayList<LatLng> route = new ArrayList();
+    static ArrayList<LatLng> route = new ArrayList<>();
 
     public static GoogleApiClient mGoogleApiClient;
     public LocationRequest mLocationRequest;
@@ -80,6 +87,15 @@ public class PaddleActivity extends BaseActivity implements
         ButterKnife.bind(this);
 
         bottomController.setOnNavigationItemSelectedListener(this);
+
+        route.add(new LatLng(-27.614140, -48.540296));
+        route.add(new LatLng(-27.617762, -48.541219));
+        route.add(new LatLng(-27.619616, -48.546176));
+        route.add(new LatLng(-27.617667, -48.549652));
+        route.add(new LatLng(-27.613237, -48.549824));
+        route.add(new LatLng(-27.613446, -48.554319));
+        route.add(new LatLng(-27.617097, -48.550778));
+
 
         if (ContextCompat.checkSelfPermission(getBaseContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ContextCompat.checkSelfPermission(getBaseContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -121,7 +137,7 @@ public class PaddleActivity extends BaseActivity implements
     @Override
     protected void onPause() {
         super.onPause();
-        pauseTracking();
+        stopTracking(false);
     }
 
     @Override
@@ -152,7 +168,7 @@ public class PaddleActivity extends BaseActivity implements
                     item.setTitle(R.string.bt_play);
                     item.setIcon(R.drawable.ic_play);
                     trackingRunning = false;
-                    pauseTracking();
+                    stopTracking(false);
                 } else {
                     item.setTitle(R.string.bt_pause);
                     item.setIcon(R.drawable.ic_pause);
@@ -162,8 +178,29 @@ public class PaddleActivity extends BaseActivity implements
                 break;
             }
             case R.id.item_stop: {
-                startActivity(new Intent(getBaseContext(), EndPaddleActivity.class));
-                //TODO Stop everythign
+                RealmList<TrackingPoints> paddlePoints = new RealmList<>();
+                for (int index = 0; index < route.size(); index++) {
+                    paddlePoints.add(new TrackingPoints(route.get(index).latitude, route.get(index).longitude));
+                }
+
+//                Paddle actualPaddle = new Paddle("10", "20", "07", "17.06.2017", "10.8", "200", paddlePoints);
+                Paddle actualPaddle = new Paddle();
+                actualPaddle.setDate("17.06.2017");
+                actualPaddle.setDistance("10");
+                actualPaddle.setDuration("200");
+                actualPaddle.setRows("410");
+                actualPaddle.setKcal("700");
+                actualPaddle.setSpeed("10.8");
+                actualPaddle.setTrack(paddlePoints);
+
+                stopTracking(true);
+
+                storePaddleInfo(actualPaddle);
+
+                Intent endPaddleIntent = new Intent(getBaseContext(), EndPaddleActivity.class);
+
+                endPaddleIntent.putExtra(getString(R.string.paddle_extra), Parcels.wrap(actualPaddle));
+                startActivity(endPaddleIntent);
             }
         }
         return false;
@@ -182,23 +219,25 @@ public class PaddleActivity extends BaseActivity implements
         }
     }
 
-    private void pauseTracking() {
+    private void stopTracking(Boolean stop) {
         if (tracker.isListening()) {
             tracker.stopListening();
-            timeWhenStopped = txtTime.getBase() - SystemClock.elapsedRealtime();
+
+            if (stop) timeWhenStopped = 0;
+            else timeWhenStopped = txtTime.getBase() - SystemClock.elapsedRealtime();
+
             txtTime.stop();
             trackingRunning = false;
         }
     }
 
-    private void stopTracking() {
-        //TODO add everything to the RealmClass
-        if (tracker.isListening()) {
-            tracker.stopListening();
-            timeWhenStopped = 0;
-            txtTime.stop();
-            trackingRunning = false;
-        }
+    public void storePaddleInfo(Paddle actualPaddleInfo) {
+        RealmConfiguration realmConfiguration = new RealmConfiguration.Builder().build();
+        Realm realm = Realm.getInstance(realmConfiguration);
+        realm.beginTransaction();
+        realm.copyToRealm(actualPaddleInfo);
+        realm.commitTransaction();
+        realm.close();
     }
 
     //endregion
