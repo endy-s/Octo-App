@@ -73,10 +73,6 @@ public class EndPaddleActivity extends BaseActivity {
         ButterKnife.bind(this);
 
         //TODO check if need to show a progressDialog running while the map is not Ready
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-//        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-//                .findFragmentById(R.id.endMap);
-//        mapFragment.getMapAsync(this);
 
         if (getIntent().hasExtra(getString(R.string.paddle_extra))) {
             endedPaddle = Parcels.unwrap(getIntent().getParcelableExtra(getString(R.string.paddle_extra)));
@@ -100,25 +96,26 @@ public class EndPaddleActivity extends BaseActivity {
 
                 int numberPoints = endedPaddle.getTrack().size();
 
-                PolylineOptions lineOptions = new PolylineOptions().width(5).color(Color.RED);
-                LatLngBounds.Builder builder = new LatLngBounds.Builder();
+                if (numberPoints > 0) {
+                    PolylineOptions lineOptions = new PolylineOptions().width(5).color(Color.RED);
+                    LatLngBounds.Builder builder = new LatLngBounds.Builder();
 
-                for (int index = 0; index < numberPoints; index++) {
-                    LatLng point = new LatLng(endedPaddle.getTrack().get(index).getLatitude(), endedPaddle.getTrack().get(index).getLongitude());
-                    lineOptions.add(point);
-                    builder.include(point);
+                    for (int index = 0; index < numberPoints; index++) {
+                        LatLng point = new LatLng(endedPaddle.getTrack().get(index).getLatitude(), endedPaddle.getTrack().get(index).getLongitude());
+                        lineOptions.add(point);
+                        builder.include(point);
+                    }
+
+                    Polyline line = googleMap.addPolyline(lineOptions);
+                    LatLngBounds bounds = builder.build();
+
+                    int height = endMapView.getHeight();
+                    int width = endMapView.getWidth();
+                    int padding = 25;
+                    CameraUpdate zoom = CameraUpdateFactory.newLatLngBounds(bounds, padding);
+
+                    googleMap.moveCamera(zoom);
                 }
-
-                Polyline line = googleMap.addPolyline(lineOptions);
-                LatLngBounds bounds = builder.build();
-
-                int height = endMapView.getHeight();
-                int width = endMapView.getWidth();
-                int padding = 25;
-                CameraUpdate zoom = CameraUpdateFactory.newLatLngBounds(bounds, width, height, padding);
-                googleMap.moveCamera(zoom);
-
-                endMapView.onResume(); // needed to get the map to display immediately
             }
         });
     }
@@ -127,7 +124,7 @@ public class EndPaddleActivity extends BaseActivity {
     public void onResume() {
         super.onResume();
 
-        endMapView.onResume(); // needed to get the map to display immediately
+        endMapView.onResume();
     }
 
 

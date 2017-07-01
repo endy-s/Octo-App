@@ -15,15 +15,15 @@ public class Paddle extends RealmObject {
     private long date, duration;
     private Integer kcal, rows;
     private float distance, speed;
-    @ParcelPropertyConverter(RealmListParcelConverter.class)
+    @ParcelPropertyConverter(TrackListParcelConverter.class)
     private RealmList<TrackingPoints> track;
 
     public Paddle() {
     }
 
 //    @ParcelConstructor
-//    public Paddle(String distance, String duration, String kcal, String date, String speed,
-//                  String rows, RealmList<TrackingPoints> track) {
+//    public Paddle(float distance, long duration, Integer kcal, long date, float speed,
+//                  Integer rows, RealmList<TrackingPoints> track) {
 //        this.distance = distance;
 //        this.duration = duration;
 //        this.kcal = kcal;

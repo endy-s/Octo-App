@@ -23,7 +23,6 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.br.octo.board.Constants;
 import com.br.octo.board.R;
 import com.br.octo.board.api_services.BluetoothHelper;
 import com.br.octo.board.models.Paddle;
@@ -41,6 +40,11 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
+
+import static com.br.octo.board.Constants.REQUEST_ENABLE_BT;
+import static com.br.octo.board.Constants.REQUEST_GENERAL_SETTINGS;
+import static com.br.octo.board.Constants.REQUEST_SCAN_DEVICE;
+import static com.br.octo.board.Constants.REQUEST_TRACKING_SCREEN;
 
 /**
  * Created by Endy.
@@ -118,7 +122,7 @@ public class MainActivity extends BaseActivity
         super.onResume();
         if (!mBluetoothAdapter.isEnabled()) {
             Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-            startActivityForResult(enableIntent, Constants.REQUEST_ENABLE_BT);
+            startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
         }
         btHelper.setCallback(this);
     }
@@ -168,7 +172,7 @@ public class MainActivity extends BaseActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_connect) {
-            startActivityForResult(new Intent(getBaseContext(), DeviceListActivity.class), Constants.REQUEST_SCAN_DEVICE);
+            startActivityForResult(new Intent(getBaseContext(), DeviceListActivity.class), REQUEST_SCAN_DEVICE);
             return true;
         }
 
@@ -181,11 +185,11 @@ public class MainActivity extends BaseActivity
 
         switch (id) {
             case R.id.nav_bt: {
-                startActivityForResult(new Intent(getBaseContext(), DeviceListActivity.class), Constants.REQUEST_SCAN_DEVICE);
+                startActivityForResult(new Intent(getBaseContext(), DeviceListActivity.class), REQUEST_SCAN_DEVICE);
                 break;
             }
             case R.id.nav_set: {
-                startActivityForResult(new Intent(getBaseContext(), SettingsActivity.class), Constants.REQUEST_GENERAL_SETTINGS);
+                startActivityForResult(new Intent(getBaseContext(), SettingsActivity.class), REQUEST_GENERAL_SETTINGS);
                 break;
             }
             case R.id.nav_history: {
@@ -241,7 +245,7 @@ public class MainActivity extends BaseActivity
     public void startClicked() {
 //        if (btHelper.getConnectionStatus()) {
         Intent trackingIntent = new Intent(getBaseContext(), PaddleActivity.class);
-        startActivityForResult(trackingIntent, Constants.REQUEST_TRACKING_SCREEN);
+        startActivityForResult(trackingIntent, REQUEST_TRACKING_SCREEN);
 //        }
     }
 
@@ -251,7 +255,7 @@ public class MainActivity extends BaseActivity
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
-            case Constants.REQUEST_GENERAL_SETTINGS:
+            case REQUEST_GENERAL_SETTINGS:
                 if (resultCode == RESULT_OK) {
                     recreate();
                 } else if (resultCode == Activity.RESULT_FIRST_USER) {
@@ -261,7 +265,7 @@ public class MainActivity extends BaseActivity
                 }
                 break;
 
-            case Constants.REQUEST_ENABLE_BT:
+            case REQUEST_ENABLE_BT:
                 if (resultCode != RESULT_OK) {
                     // User did not enable Bluetooth or an error occurred
                     createDialog(R.string.bt_error_title, R.string.bt_not_enabled_leaving)
@@ -281,12 +285,12 @@ public class MainActivity extends BaseActivity
                 }
                 break;
 
-            case Constants.REQUEST_SCAN_DEVICE:
+            case REQUEST_SCAN_DEVICE:
                 if (resultCode == RESULT_OK) {
                     showConnectedState();
                 }
                 break;
-            case Constants.REQUEST_TRACKING_SCREEN:
+            case REQUEST_TRACKING_SCREEN:
                 showLastPaddleInfo();
                 break;
         }

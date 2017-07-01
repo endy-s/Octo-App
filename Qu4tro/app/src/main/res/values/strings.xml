@@ -15,6 +15,10 @@
     <string name="confirmation">Are you sure?</string>
     <string name="cancel">Cancel</string>
 
+    <!--Progress Dialog-->
+    <string name="end_progress_title">Ending paddle…</string>
+    <string name="end_progress_message">Saving and rendering…</string>
+
     <!--Error Dialog-->
     <string name="bt_error_title">Bluetooth Error</string>
     <string name="bt_not_available">Bluetooth not available. Try with another device.</string>
