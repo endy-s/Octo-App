@@ -2,9 +2,10 @@
     <!--System-->
     <string name="app_name" translatable="false">OCTO</string>
     <string name="project_name">Board OCTO</string>
-    <string name="paddle_extra">actual_paddle</string>
+    <string name="paddle_extra" translatable="false">actual_paddle</string>
 
     <!--Dialog-->
+    <string name="ok" translatable="false">OK</string>
     <string name="dialog_permission_request">Permission request</string>
     <string name="dialog_permission_description">The OCTO app needs location permission for its functionality.
         Please, accept the following permission request</string>

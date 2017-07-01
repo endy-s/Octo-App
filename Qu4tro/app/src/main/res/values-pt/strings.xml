@@ -105,4 +105,6 @@
     <string name="permission_error_title">Funcionalidades limitadas</string>
     <string name="permission_error_msg">Sem o acesso a localização garantido, esse applicativo não será capaz de encontrar sua prancha. Altere essa configuração nas definições do sistema ou resintale o aplicativo e garanta a permissão.</string>
     <string name="bt_sup">MIN:SEG</string>
+    <string name="end_progress_message">Salvando e renderizando…</string>
+    <string name="end_progress_title">Terminando paddle…</string>
 </resources>

@@ -269,7 +269,7 @@ public class MainActivity extends BaseActivity
                 if (resultCode != RESULT_OK) {
                     // User did not enable Bluetooth or an error occurred
                     createDialog(R.string.bt_error_title, R.string.bt_not_enabled_leaving)
-                            .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                            .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     finish();
@@ -354,13 +354,13 @@ public class MainActivity extends BaseActivity
         Log.d("Main", "BT Received: " + message);
         if (message.startsWith("B")) {
             final String battValue = message.split(";")[0];
-            final String tempValue = message.split(";")[1];
+//            final String tempValue = message.split(";")[1];
 
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     batteryTV.setText(battValue.substring(2).trim().concat("%"));
-                    tempWatterTV.setText(tempValue.substring(2).trim().concat(" °C"));
+//                    tempWatterTV.setText(tempValue.substring(2).trim().concat(" °C"));
                 }
             });
         }
