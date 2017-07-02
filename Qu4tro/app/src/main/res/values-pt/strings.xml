@@ -107,4 +107,7 @@
     <string name="bt_sup">MIN:SEG</string>
     <string name="end_progress_message">Salvando e renderizando…</string>
     <string name="end_progress_title">Terminando paddle…</string>
+    <string name="bt_temp_NA">ND</string>
+    <string name="no_location_message">Nenhuma localização encontrada ainda… Tente novamente mais tarde.</string>
+    <string name="no_location_title">Nenhuma localização encontrada.</string>
 </resources>

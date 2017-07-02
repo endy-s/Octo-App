@@ -16,23 +16,23 @@ import android.widget.TextView;
 
 import com.br.octo.board.Constants;
 import com.br.octo.board.R;
+import com.br.octo.board.api_services.BluetoothHelper;
 import com.br.octo.board.models.Paddle;
 import com.br.octo.board.models.TrackingPoints;
 import com.br.octo.board.modules.base.BaseActivity;
 import com.br.octo.board.modules.end.EndPaddleActivity;
 import com.br.octo.board.modules.settings.LightSettingsActivity;
-import com.google.android.gms.maps.model.LatLng;
 
 import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import fr.quentinklein.slt.LocationTracker;
+import fr.quentinklein.slt.ProviderError;
 import fr.quentinklein.slt.TrackerSettings;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
@@ -41,10 +41,9 @@ import io.realm.RealmList;
 import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static android.content.pm.PackageManager.PERMISSION_GRANTED;
-import static com.br.octo.board.Constants.REQUEST_END_SCREEN;
 
 public class PaddleActivity extends BaseActivity implements
-        BottomNavigationView.OnNavigationItemSelectedListener {
+        BottomNavigationView.OnNavigationItemSelectedListener, BluetoothHelper.BluetoothCallback {
 
     LocationTracker tracker;
 
@@ -60,8 +59,8 @@ public class PaddleActivity extends BaseActivity implements
     //Widgets
     @BindView(R.id.btLight)
     ImageButton btLight;
-    @BindView(R.id.btShare)
-    ImageButton btShare;
+    @BindView(R.id.txtBatteryPaddle)
+    TextView txtBat;
     @BindView(R.id.btMaps)
     ImageButton btMaps;
     @BindView(R.id.bottomController)
@@ -102,28 +101,30 @@ public class PaddleActivity extends BaseActivity implements
             tracker = new LocationTracker(getBaseContext(), settings) {
                 @Override
                 public void onLocationFound(Location location) {
-                    //TODO remove this, used only for testing @ dev
-                    LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-                    Log.d("Location Update", "New Location: " + latLng.toString());
+                    averageSpeed += (location.getSpeed() * 3.6f);
+
+                    if (route.size() > 1) {
+                        averageSpeed = averageSpeed / 2;
+
+                        float[] results = new float[3];
+                        Location.distanceBetween(
+                                route.get(route.size() - 1).getLatitude(),
+                                route.get(route.size() - 1).getLongitude(),
+                                location.getLatitude(),
+                                location.getLongitude(),
+                                results);
+
+                        kmPaddling += results[0];
+
+                        Log.d("Distance and Speed", String.format("Distance: %.2f and Speed: %.2f", results[0], location.getSpeed()));
+                    } else {
+                        kmPaddling = 0;
+                    }
 
                     route.add(new TrackingPoints(location.getLatitude(), location.getLongitude()));
 
-                    float[] results = new float[3];
-                    Location.distanceBetween(
-                            route.get(route.size() - 1).getLatitude(),
-                            route.get(route.size() - 1).getLongitude(),
-                            location.getLatitude(),
-                            location.getLongitude(),
-                            results);
-
-                    kmPaddling += results[0];
-                    txtKm.setText(String.format(Locale.US, "%.2f", kmPaddling));
-
-                    averageSpeed += (location.getSpeed() * 3.6f);
-                    if (route.size() > 0) averageSpeed = averageSpeed / 2;
-                    txtSpeed.setText(String.format(Locale.US, "%.2f", averageSpeed));
-
-                    Log.d("Distance and Speed", String.format("Distance: %.2f and Speed: %.2f", results[0], location.getSpeed()));
+                    txtKm.setText(String.format("%.2f", kmPaddling));
+                    txtSpeed.setText(String.format("%.2f", averageSpeed));
                 }
 
                 @Override
@@ -148,6 +149,19 @@ public class PaddleActivity extends BaseActivity implements
     }
 
     @Override
+    protected void onDestroy() {
+        txtKm.setText(R.string.bt_unknown);
+        txtRows.setText(R.string.bt_unknown);
+        txtKcal.setText(R.string.bt_unknown);
+        txtSpeed.setText(R.string.bt_unknown);
+        txtBat.setText(R.string.bt_unknown);
+        route.clear();
+        if ((endingProgressDialogs != null) && (endingProgressDialogs.isShowing()))
+            endingProgressDialogs.dismiss();
+        super.onDestroy();
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
             onBackPressed();
@@ -155,14 +169,6 @@ public class PaddleActivity extends BaseActivity implements
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode) {
-            case Constants.REQUEST_END_SCREEN:
-                endingProgressDialogs.dismiss();
-                break;
-        }
     }
 
     //endregion
@@ -173,6 +179,16 @@ public class PaddleActivity extends BaseActivity implements
     public void LightClicked() {
         Intent lightIntent = new Intent(getBaseContext(), LightSettingsActivity.class);
         startActivityForResult(lightIntent, Constants.REQUEST_LIGHT_SETTINGS);
+    }
+
+    @OnClick(R.id.btMaps)
+    public void showMap() {
+        if (route.size() > 0) {
+
+        } else {
+            createDialog(R.string.no_location_title, R.string.no_location_message)
+                    .setPositiveButton(R.string.ok, null).show();
+        }
     }
 
     @Override
@@ -219,7 +235,7 @@ public class PaddleActivity extends BaseActivity implements
                 Intent endPaddleIntent = new Intent(getBaseContext(), EndPaddleActivity.class);
 
                 endPaddleIntent.putExtra(getString(R.string.paddle_extra), Parcels.wrap(actualPaddle));
-                startActivityForResult(endPaddleIntent, REQUEST_END_SCREEN);
+                startActivity(endPaddleIntent);
             }
         }
         return false;
@@ -242,12 +258,7 @@ public class PaddleActivity extends BaseActivity implements
             tracker.stopListening();
 
             if (stop) {
-                txtKm.setText(getString(R.string.bt_unknown));
-                txtRows.setText(getString(R.string.bt_unknown));
-                txtKcal.setText(getString(R.string.bt_unknown));
-                txtSpeed.setText(getString(R.string.bt_unknown));
                 timeWhenStopped = 0;
-                route.clear();
             } else {
                 timeWhenStopped = txtTime.getBase() - SystemClock.elapsedRealtime();
             }
@@ -263,6 +274,47 @@ public class PaddleActivity extends BaseActivity implements
         realm.copyToRealm(actualPaddleInfo);
         realm.commitTransaction();
         realm.close();
+    }
+
+    //endregion
+
+    //region BT Callback
+
+    @Override
+    public void onMessageReceived(String message) {
+        Log.d("Main", "BT Received: " + message);
+        if (message.startsWith("B")) {
+            final String battValue = message.split(";")[0];
+//            final String tempValue = message.split(";")[1];
+
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    txtBat.setText(battValue.substring(2).trim());
+//                    tempWatterTV.setText(tempValue.substring(2).trim().concat(" °C"));
+                }
+            });
+        }
+    }
+
+    @Override
+    public void onDeviceConnected() {
+//        runOnUiThread(new Runnable() {
+//            @Override
+//            public void run() {
+//                showConnectedState();
+//            }
+//        });
+    }
+
+    @Override
+    public void onDeviceDisconnected() {
+//        runOnUiThread(new Runnable() {
+//            @Override
+//            public void run() {
+//                showNotConnectedState();
+//            }
+//        });
     }
 
     //endregion

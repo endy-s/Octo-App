@@ -83,6 +83,9 @@ dependencies {
     compile 'org.parceler:parceler-api:1.1.8'
     annotationProcessor 'org.parceler:parceler:1.1.8'
 
+    //Yahoo Weather Getter
+    compile 'zh.wang.android:yweathergetter4a:1.3.0'
+
     testCompile 'junit:junit:4.12'
 
     compile('com.crashlytics.sdk.android:crashlytics:2.6.7@aar') {

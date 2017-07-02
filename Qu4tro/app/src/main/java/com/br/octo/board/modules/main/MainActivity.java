@@ -40,6 +40,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
+import zh.wang.android.yweathergetter4a.WeatherInfo;
+import zh.wang.android.yweathergetter4a.YahooWeather;
+import zh.wang.android.yweathergetter4a.YahooWeatherInfoListener;
 
 import static com.br.octo.board.Constants.REQUEST_ENABLE_BT;
 import static com.br.octo.board.Constants.REQUEST_GENERAL_SETTINGS;
@@ -49,8 +52,8 @@ import static com.br.octo.board.Constants.REQUEST_TRACKING_SCREEN;
 /**
  * Created by Endy.
  */
-public class MainActivity extends BaseActivity
-        implements NavigationView.OnNavigationItemSelectedListener, BluetoothHelper.BluetoothCallback {
+public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener,
+        BluetoothHelper.BluetoothCallback, YahooWeatherInfoListener {
 
     // Bluetooth
     BluetoothHelper btHelper;
@@ -115,6 +118,9 @@ public class MainActivity extends BaseActivity
         if (!btHelper.getConnectionStatus()) {
             showConnectedState();
         }
+
+        YahooWeather weather = YahooWeather.getInstance();
+        weather.queryYahooWeatherByGPS(this, this);
     }
 
     @Override
@@ -384,6 +390,22 @@ public class MainActivity extends BaseActivity
                 showNotConnectedState();
             }
         });
+    }
+
+    //endregion
+
+    //region Yahoo Weather Callback
+
+    @Override
+    public void gotWeatherInfo(WeatherInfo weatherInfo, YahooWeather.ErrorType errorType) {
+        if (errorType != null) {
+            tempEnvTV.setText(R.string.bt_temp_NA);
+            tempWatterTV.setText(R.string.bt_temp_NA);
+        }
+        if (weatherInfo != null) {
+            tempEnvTV.setText(String.valueOf(weatherInfo.getCurrentTemp()).concat(" °C"));
+            tempWatterTV.setText(String.valueOf(weatherInfo.getCurrentTemp() - 5).concat(" °C"));
+        }
     }
 
     //endregion

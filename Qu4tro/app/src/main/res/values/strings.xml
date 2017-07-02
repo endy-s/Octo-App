@@ -27,6 +27,8 @@
     <string name="ble_not_supported">Bluetooth Low Energy not supported. Try with another device.</string>
     <string name="permission_error_title">Functionality limited</string>
     <string name="permission_error_msg">Without the location access granted, this app will not be able to discover your board. Change this configuration at the system Settings or reinstall the application and grant the permission.</string>
+    <string name="no_location_title">No Location found.</string>
+    <string name="no_location_message">There\'s no location found yet… Try again later.</string>
 
     <!--Cool Version Main Screen-->
 
@@ -63,6 +65,7 @@
     <string name="bt_unknown" translatable="false">---</string>
     <string name="bt_board_on" translatable="false">ON</string>
     <string name="bt_board_off" translatable="false">OFF</string>
+    <string name="bt_temp_NA">NA</string>
 
 
     <!--Both Screens-->
