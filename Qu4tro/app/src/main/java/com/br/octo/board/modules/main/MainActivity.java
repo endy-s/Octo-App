@@ -40,6 +40,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
+import zh.wang.android.yweathergetter4a.WeatherInfo;
+import zh.wang.android.yweathergetter4a.YahooWeather;
+import zh.wang.android.yweathergetter4a.YahooWeatherInfoListener;
 
 import static com.br.octo.board.Constants.REQUEST_ENABLE_BT;
 import static com.br.octo.board.Constants.REQUEST_GENERAL_SETTINGS;
@@ -49,8 +52,8 @@ import static com.br.octo.board.Constants.REQUEST_TRACKING_SCREEN;
 /**
  * Created by Endy.
  */
-public class MainActivity extends BaseActivity
-        implements NavigationView.OnNavigationItemSelectedListener, BluetoothHelper.BluetoothCallback {
+public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener,
+        BluetoothHelper.BluetoothCallback, YahooWeatherInfoListener {
 
     // Bluetooth
     BluetoothHelper btHelper;
@@ -115,6 +118,9 @@ public class MainActivity extends BaseActivity
         if (!btHelper.getConnectionStatus()) {
             showConnectedState();
         }
+
+        YahooWeather weather = YahooWeather.getInstance();
+        weather.queryYahooWeatherByGPS(this, this);
     }
 
     @Override
@@ -269,7 +275,7 @@ public class MainActivity extends BaseActivity
                 if (resultCode != RESULT_OK) {
                     // User did not enable Bluetooth or an error occurred
                     createDialog(R.string.bt_error_title, R.string.bt_not_enabled_leaving)
-                            .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                            .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     finish();
@@ -308,13 +314,13 @@ public class MainActivity extends BaseActivity
             Paddle lastPaddle = realm.where(Paddle.class).findAllSorted("date").last();
 
             if (lastPaddle != null) {
-                lastDist.setText(String.format(Locale.US, "%.2f %s", lastPaddle.getDistance(), getString(R.string.bt_dist)));
-                lastKcal.setText(String.format(Locale.US, "%d %s", lastPaddle.getKcal(), getString(R.string.bt_kcal)));
+                lastDist.setText(String.format("%.2f %s", lastPaddle.getDistance(), getString(R.string.bt_dist)));
+                lastKcal.setText(String.format("%d %s", lastPaddle.getKcal(), getString(R.string.bt_kcal)));
 
                 int hour = (int) lastPaddle.getDuration() / (60 * 60);
                 int minutes = (int) (lastPaddle.getDuration() / 60) % 60;
-                int seconds = (int) lastPaddle.getDuration() % 60;
-                lastDuration.setText(String.format(Locale.US, "%02d:%02d:%02d %s", hour, minutes, seconds, getString(R.string.bt_hour)));
+//                int seconds = (int) lastPaddle.getDuration() % 60;
+                lastDuration.setText(String.format("%02d:%02d:%02d %s", hour, minutes, getString(R.string.bt_hour)));
 
                 SimpleDateFormat dateFormatter = new SimpleDateFormat("dd.MM.yyyy", Locale.US);
                 lastDate.setText(dateFormatter.format(lastPaddle.getDate()));
@@ -354,13 +360,13 @@ public class MainActivity extends BaseActivity
         Log.d("Main", "BT Received: " + message);
         if (message.startsWith("B")) {
             final String battValue = message.split(";")[0];
-            final String tempValue = message.split(";")[1];
+//            final String tempValue = message.split(";")[1];
 
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     batteryTV.setText(battValue.substring(2).trim().concat("%"));
-                    tempWatterTV.setText(tempValue.substring(2).trim().concat(" °C"));
+//                    tempWatterTV.setText(tempValue.substring(2).trim().concat(" °C"));
                 }
             });
         }
@@ -384,6 +390,22 @@ public class MainActivity extends BaseActivity
                 showNotConnectedState();
             }
         });
+    }
+
+    //endregion
+
+    //region Yahoo Weather Callback
+
+    @Override
+    public void gotWeatherInfo(WeatherInfo weatherInfo, YahooWeather.ErrorType errorType) {
+        if (errorType != null) {
+            tempEnvTV.setText(R.string.bt_temp_NA);
+            tempWatterTV.setText(R.string.bt_temp_NA);
+        }
+        if (weatherInfo != null) {
+            tempEnvTV.setText(String.valueOf(weatherInfo.getCurrentTemp()).concat(" °C"));
+            tempWatterTV.setText(String.valueOf(weatherInfo.getCurrentTemp() - 5).concat(" °C"));
+        }
     }
 
     //endregion

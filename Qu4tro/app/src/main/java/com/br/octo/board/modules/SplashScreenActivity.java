@@ -89,7 +89,7 @@ public class SplashScreenActivity extends BaseActivity implements AlertDialog.On
                     callMainActivity();
                 } else {
                     createDialog(R.string.permission_error_title, R.string.permission_error_msg)
-                            .setPositiveButton(android.R.string.ok, null)
+                            .setPositiveButton(R.string.ok, null)
                             .show();
                 }
             }
@@ -148,7 +148,7 @@ public class SplashScreenActivity extends BaseActivity implements AlertDialog.On
 
     private void createSplashErrorDialog(int titleID, int messageID) {
         createDialog(titleID, messageID)
-                .setPositiveButton(android.R.string.ok, this)
+                .setPositiveButton(R.string.ok, this)
                 .setOnDismissListener(this)
                 .show();
     }
