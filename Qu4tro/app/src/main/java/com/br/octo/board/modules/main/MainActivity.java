@@ -297,7 +297,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 }
                 break;
             case REQUEST_TRACKING_SCREEN:
-                showLastPaddleInfo();
+//                showLastPaddleInfo();
                 break;
         }
     }
@@ -320,7 +320,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 int hour = (int) lastPaddle.getDuration() / (60 * 60);
                 int minutes = (int) (lastPaddle.getDuration() / 60) % 60;
 //                int seconds = (int) lastPaddle.getDuration() % 60;
-                lastDuration.setText(String.format("%02d:%02d:%02d %s", hour, minutes, getString(R.string.bt_hour)));
+                lastDuration.setText(String.format("%02d:%02d %s", hour, minutes, getString(R.string.bt_hour)));
 
                 SimpleDateFormat dateFormatter = new SimpleDateFormat("dd.MM.yyyy", Locale.US);
                 lastDate.setText(dateFormatter.format(lastPaddle.getDate()));
