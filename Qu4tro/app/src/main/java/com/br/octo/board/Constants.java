@@ -15,4 +15,6 @@ public class Constants {
 
     public final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
     public final static int MY_LOCATION_REQUEST_CODE = 10;
+
+    public final static String actualPaddleId = "actual_paddle_id";
 }

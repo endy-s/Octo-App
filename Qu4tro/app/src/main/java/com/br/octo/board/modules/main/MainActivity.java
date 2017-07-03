@@ -48,6 +48,7 @@ import static com.br.octo.board.Constants.REQUEST_ENABLE_BT;
 import static com.br.octo.board.Constants.REQUEST_GENERAL_SETTINGS;
 import static com.br.octo.board.Constants.REQUEST_SCAN_DEVICE;
 import static com.br.octo.board.Constants.REQUEST_TRACKING_SCREEN;
+import static com.br.octo.board.Constants.actualPaddleId;
 
 /**
  * Created by Endy.
@@ -58,6 +59,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     // Bluetooth
     BluetoothHelper btHelper;
     private BluetoothAdapter mBluetoothAdapter = null;
+
+    // Paddle Keep Info flag
+    private int paddleId = 0;
 
     // Widgets
     // Status TextViews
@@ -116,7 +120,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         btHelper = BluetoothHelper.getInstance();
 
         if (!btHelper.getConnectionStatus()) {
-            showConnectedState();
+            showConnectedState();   // TODO change for showNotConnectedState()
         }
 
         YahooWeather weather = YahooWeather.getInstance();
@@ -251,6 +255,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     public void startClicked() {
 //        if (btHelper.getConnectionStatus()) {
         Intent trackingIntent = new Intent(getBaseContext(), PaddleActivity.class);
+        trackingIntent.putExtra(actualPaddleId, paddleId);
         startActivityForResult(trackingIntent, REQUEST_TRACKING_SCREEN);
 //        }
     }
@@ -310,10 +315,12 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         RealmConfiguration realmConfiguration = new RealmConfiguration.Builder().build();
 //        Realm.deleteRealm(realmConfiguration);
         Realm realm = Realm.getInstance(realmConfiguration);
-        if (realm.where(Paddle.class).findAllSorted("date").size() > 0) {
-            Paddle lastPaddle = realm.where(Paddle.class).findAllSorted("date").last();
+        if (realm.where(Paddle.class).findAllSorted("id").size() > 0) {
+            Paddle lastPaddle = realm.where(Paddle.class).findAllSorted("id").last();
 
             if (lastPaddle != null) {
+                paddleId = lastPaddle.getId() + 1;
+
                 lastDist.setText(String.format("%.2f %s", lastPaddle.getDistance(), getString(R.string.bt_dist)));
                 lastKcal.setText(String.format("%d %s", lastPaddle.getKcal(), getString(R.string.bt_kcal)));
 
@@ -337,8 +344,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         btStart.setImageAlpha(128);
         btStart.setEnabled(false);
 
-        tempWatterTV.setText(R.string.bt_unknown);
-        tempEnvTV.setText(R.string.bt_unknown);
+//        tempWatterTV.setText(R.string.bt_unknown);
+//        tempEnvTV.setText(R.string.bt_unknown);
         batteryTV.setText(R.string.bt_unknown);
         boardTV.setText(R.string.bt_board_off);
     }
