@@ -314,13 +314,13 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             Paddle lastPaddle = realm.where(Paddle.class).findAllSorted("date").last();
 
             if (lastPaddle != null) {
-                lastDist.setText(String.format(Locale.US, "%.2f %s", lastPaddle.getDistance(), getString(R.string.bt_dist)));
-                lastKcal.setText(String.format(Locale.US, "%d %s", lastPaddle.getKcal(), getString(R.string.bt_kcal)));
+                lastDist.setText(String.format("%.2f %s", lastPaddle.getDistance(), getString(R.string.bt_dist)));
+                lastKcal.setText(String.format("%d %s", lastPaddle.getKcal(), getString(R.string.bt_kcal)));
 
                 int hour = (int) lastPaddle.getDuration() / (60 * 60);
                 int minutes = (int) (lastPaddle.getDuration() / 60) % 60;
-                int seconds = (int) lastPaddle.getDuration() % 60;
-                lastDuration.setText(String.format(Locale.US, "%02d:%02d:%02d %s", hour, minutes, seconds, getString(R.string.bt_hour)));
+//                int seconds = (int) lastPaddle.getDuration() % 60;
+                lastDuration.setText(String.format("%02d:%02d:%02d %s", hour, minutes, getString(R.string.bt_hour)));
 
                 SimpleDateFormat dateFormatter = new SimpleDateFormat("dd.MM.yyyy", Locale.US);
                 lastDate.setText(dateFormatter.format(lastPaddle.getDate()));
