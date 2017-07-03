@@ -23,7 +23,6 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.br.octo.board.Constants;
 import com.br.octo.board.R;
 import com.br.octo.board.api_services.BluetoothHelper;
 import com.br.octo.board.models.Paddle;
@@ -41,12 +40,20 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
+import zh.wang.android.yweathergetter4a.WeatherInfo;
+import zh.wang.android.yweathergetter4a.YahooWeather;
+import zh.wang.android.yweathergetter4a.YahooWeatherInfoListener;
+
+import static com.br.octo.board.Constants.REQUEST_ENABLE_BT;
+import static com.br.octo.board.Constants.REQUEST_GENERAL_SETTINGS;
+import static com.br.octo.board.Constants.REQUEST_SCAN_DEVICE;
+import static com.br.octo.board.Constants.REQUEST_TRACKING_SCREEN;
 
 /**
  * Created by Endy.
  */
-public class MainActivity extends BaseActivity
-        implements NavigationView.OnNavigationItemSelectedListener, BluetoothHelper.BluetoothCallback {
+public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener,
+        BluetoothHelper.BluetoothCallback, YahooWeatherInfoListener {
 
     // Bluetooth
     BluetoothHelper btHelper;
@@ -111,6 +118,9 @@ public class MainActivity extends BaseActivity
         if (!btHelper.getConnectionStatus()) {
             showConnectedState();
         }
+
+        YahooWeather weather = YahooWeather.getInstance();
+        weather.queryYahooWeatherByGPS(this, this);
     }
 
     @Override
@@ -118,7 +128,7 @@ public class MainActivity extends BaseActivity
         super.onResume();
         if (!mBluetoothAdapter.isEnabled()) {
             Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-            startActivityForResult(enableIntent, Constants.REQUEST_ENABLE_BT);
+            startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
         }
         btHelper.setCallback(this);
     }
@@ -168,7 +178,7 @@ public class MainActivity extends BaseActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_connect) {
-            startActivityForResult(new Intent(getBaseContext(), DeviceListActivity.class), Constants.REQUEST_SCAN_DEVICE);
+            startActivityForResult(new Intent(getBaseContext(), DeviceListActivity.class), REQUEST_SCAN_DEVICE);
             return true;
         }
 
@@ -181,11 +191,11 @@ public class MainActivity extends BaseActivity
 
         switch (id) {
             case R.id.nav_bt: {
-                startActivityForResult(new Intent(getBaseContext(), DeviceListActivity.class), Constants.REQUEST_SCAN_DEVICE);
+                startActivityForResult(new Intent(getBaseContext(), DeviceListActivity.class), REQUEST_SCAN_DEVICE);
                 break;
             }
             case R.id.nav_set: {
-                startActivityForResult(new Intent(getBaseContext(), SettingsActivity.class), Constants.REQUEST_GENERAL_SETTINGS);
+                startActivityForResult(new Intent(getBaseContext(), SettingsActivity.class), REQUEST_GENERAL_SETTINGS);
                 break;
             }
             case R.id.nav_history: {
@@ -241,7 +251,7 @@ public class MainActivity extends BaseActivity
     public void startClicked() {
 //        if (btHelper.getConnectionStatus()) {
         Intent trackingIntent = new Intent(getBaseContext(), PaddleActivity.class);
-        startActivityForResult(trackingIntent, Constants.REQUEST_TRACKING_SCREEN);
+        startActivityForResult(trackingIntent, REQUEST_TRACKING_SCREEN);
 //        }
     }
 
@@ -251,7 +261,7 @@ public class MainActivity extends BaseActivity
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
-            case Constants.REQUEST_GENERAL_SETTINGS:
+            case REQUEST_GENERAL_SETTINGS:
                 if (resultCode == RESULT_OK) {
                     recreate();
                 } else if (resultCode == Activity.RESULT_FIRST_USER) {
@@ -261,11 +271,11 @@ public class MainActivity extends BaseActivity
                 }
                 break;
 
-            case Constants.REQUEST_ENABLE_BT:
+            case REQUEST_ENABLE_BT:
                 if (resultCode != RESULT_OK) {
                     // User did not enable Bluetooth or an error occurred
                     createDialog(R.string.bt_error_title, R.string.bt_not_enabled_leaving)
-                            .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                            .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     finish();
@@ -281,12 +291,12 @@ public class MainActivity extends BaseActivity
                 }
                 break;
 
-            case Constants.REQUEST_SCAN_DEVICE:
+            case REQUEST_SCAN_DEVICE:
                 if (resultCode == RESULT_OK) {
                     showConnectedState();
                 }
                 break;
-            case Constants.REQUEST_TRACKING_SCREEN:
+            case REQUEST_TRACKING_SCREEN:
                 showLastPaddleInfo();
                 break;
         }
@@ -304,13 +314,13 @@ public class MainActivity extends BaseActivity
             Paddle lastPaddle = realm.where(Paddle.class).findAllSorted("date").last();
 
             if (lastPaddle != null) {
-                lastDist.setText(String.format(Locale.US, "%.2f %s", lastPaddle.getDistance(), getString(R.string.bt_dist)));
-                lastKcal.setText(String.format(Locale.US, "%d %s", lastPaddle.getKcal(), getString(R.string.bt_kcal)));
+                lastDist.setText(String.format("%.2f %s", lastPaddle.getDistance(), getString(R.string.bt_dist)));
+                lastKcal.setText(String.format("%d %s", lastPaddle.getKcal(), getString(R.string.bt_kcal)));
 
                 int hour = (int) lastPaddle.getDuration() / (60 * 60);
                 int minutes = (int) (lastPaddle.getDuration() / 60) % 60;
-                int seconds = (int) lastPaddle.getDuration() % 60;
-                lastDuration.setText(String.format(Locale.US, "%02d:%02d:%02d %s", hour, minutes, seconds, getString(R.string.bt_hour)));
+//                int seconds = (int) lastPaddle.getDuration() % 60;
+                lastDuration.setText(String.format("%02d:%02d:%02d %s", hour, minutes, getString(R.string.bt_hour)));
 
                 SimpleDateFormat dateFormatter = new SimpleDateFormat("dd.MM.yyyy", Locale.US);
                 lastDate.setText(dateFormatter.format(lastPaddle.getDate()));
@@ -350,13 +360,13 @@ public class MainActivity extends BaseActivity
         Log.d("Main", "BT Received: " + message);
         if (message.startsWith("B")) {
             final String battValue = message.split(";")[0];
-            final String tempValue = message.split(";")[1];
+//            final String tempValue = message.split(";")[1];
 
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     batteryTV.setText(battValue.substring(2).trim().concat("%"));
-                    tempWatterTV.setText(tempValue.substring(2).trim().concat(" °C"));
+//                    tempWatterTV.setText(tempValue.substring(2).trim().concat(" °C"));
                 }
             });
         }
@@ -380,6 +390,22 @@ public class MainActivity extends BaseActivity
                 showNotConnectedState();
             }
         });
+    }
+
+    //endregion
+
+    //region Yahoo Weather Callback
+
+    @Override
+    public void gotWeatherInfo(WeatherInfo weatherInfo, YahooWeather.ErrorType errorType) {
+        if (errorType != null) {
+            tempEnvTV.setText(R.string.bt_temp_NA);
+            tempWatterTV.setText(R.string.bt_temp_NA);
+        }
+        if (weatherInfo != null) {
+            tempEnvTV.setText(String.valueOf(weatherInfo.getCurrentTemp()).concat(" °C"));
+            tempWatterTV.setText(String.valueOf(weatherInfo.getCurrentTemp() - 5).concat(" °C"));
+        }
     }
 
     //endregion
