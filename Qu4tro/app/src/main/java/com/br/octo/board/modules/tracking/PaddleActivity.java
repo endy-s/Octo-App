@@ -163,12 +163,6 @@ public class PaddleActivity extends BaseActivity implements
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
-        stopTracking(false);
-    }
-
-    @Override
     protected void onDestroy() {
         txtKm.setText(R.string.bt_unknown);
         txtRows.setText(R.string.bt_unknown);
