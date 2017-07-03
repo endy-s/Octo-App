@@ -14,7 +14,6 @@ import android.widget.Chronometer;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.br.octo.board.Constants;
 import com.br.octo.board.R;
 import com.br.octo.board.api_services.BluetoothHelper;
 import com.br.octo.board.models.Paddle;
@@ -40,6 +39,8 @@ import io.realm.RealmList;
 import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static android.content.pm.PackageManager.PERMISSION_GRANTED;
+import static com.br.octo.board.Constants.REQUEST_LIGHT_SETTINGS;
+import static com.br.octo.board.Constants.actualPaddleId;
 
 public class PaddleActivity extends BaseActivity implements
         BottomNavigationView.OnNavigationItemSelectedListener, BluetoothHelper.BluetoothCallback {
@@ -52,6 +53,7 @@ public class PaddleActivity extends BaseActivity implements
     float actualSpeed = 0;
     long timeWhenStopped = 0;
     private boolean trackingRunning = true;
+    private int paddleId = 0;
 
     ProgressDialog endingProgressDialogs;
 
@@ -95,6 +97,20 @@ public class PaddleActivity extends BaseActivity implements
                 cArg.setText(String.format("%02d:%02d", hour, minutes));
             }
         });
+
+        if (getIntent().hasExtra(actualPaddleId)) {
+            paddleId = getIntent().getIntExtra(actualPaddleId, 0);
+
+            RealmConfiguration realmConfiguration = new RealmConfiguration.Builder().build();
+            Realm realm = Realm.getInstance(realmConfiguration);
+
+            if (realm.where(Paddle.class).equalTo("id", paddleId).findFirst() != null) {
+                Paddle resumingPaddle = realm.copyFromRealm(realm.where(Paddle.class).equalTo("id", paddleId).findFirst());
+                setResumingPaddleInfo(resumingPaddle);
+            }
+
+            realm.close();
+        }
 
         if (ContextCompat.checkSelfPermission(getBaseContext(), ACCESS_FINE_LOCATION) != PERMISSION_GRANTED && ContextCompat.checkSelfPermission(getBaseContext(), ACCESS_COARSE_LOCATION) != PERMISSION_GRANTED) {
             Log.d("PERMISSION", "NOT GRANTED");
@@ -147,12 +163,6 @@ public class PaddleActivity extends BaseActivity implements
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
-        stopTracking(false);
-    }
-
-    @Override
     protected void onDestroy() {
         txtKm.setText(R.string.bt_unknown);
         txtRows.setText(R.string.bt_unknown);
@@ -175,6 +185,13 @@ public class PaddleActivity extends BaseActivity implements
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        storePaddleInfo();
+        finish();
+    }
+
     //endregion
 
     //region widget listeners
@@ -182,7 +199,7 @@ public class PaddleActivity extends BaseActivity implements
     @OnClick(R.id.btLight)
     public void LightClicked() {
         Intent lightIntent = new Intent(getBaseContext(), LightSettingsActivity.class);
-        startActivityForResult(lightIntent, Constants.REQUEST_LIGHT_SETTINGS);
+        startActivityForResult(lightIntent, REQUEST_LIGHT_SETTINGS);
     }
 
     @OnClick(R.id.btMaps)
@@ -215,31 +232,10 @@ public class PaddleActivity extends BaseActivity implements
             case R.id.item_stop: {
                 endingProgressDialogs = ProgressDialog.show(this, getResources().getString(R.string.end_progress_title), getResources().getString(R.string.end_progress_message), true, false);
 
-                RealmList<TrackingPoints> paddlePoints = new RealmList<>();
-                paddlePoints.clear();
-
-                for (int index = 0; index < route.size(); index++) {
-                    paddlePoints.add(route.get(index));
-                }
-
-                long duration = (SystemClock.elapsedRealtime() - txtTime.getBase()) / 1000;
-
-//                Paddle actualPaddle = new Paddle("10", "20", "07", "17.06.2017", "10.8", "200", paddlePoints);
-                Paddle actualPaddle = new Paddle();
-                actualPaddle.setDate(Calendar.getInstance().getTime().getTime());
-                actualPaddle.setDistance(kmPaddling);
-                actualPaddle.setDuration(duration);
-                actualPaddle.setRows(1);
-                actualPaddle.setKcal(2);
-                actualPaddle.setSpeed(((kmPaddling * 1000) / duration) * 3.6f);
-                actualPaddle.setTrack(paddlePoints);
-
                 stopTracking(true);
 
-                storePaddleInfo(actualPaddle);
-
+                Paddle actualPaddle = storePaddleInfo();
                 Intent endPaddleIntent = new Intent(getBaseContext(), EndPaddleActivity.class);
-
                 endPaddleIntent.putExtra(getString(R.string.paddle_extra), Parcels.wrap(actualPaddle));
                 startActivity(endPaddleIntent);
             }
@@ -273,13 +269,52 @@ public class PaddleActivity extends BaseActivity implements
         }
     }
 
-    public void storePaddleInfo(Paddle actualPaddleInfo) {
+    private void setResumingPaddleInfo(Paddle resumingPaddle) {
+        kmPaddling = resumingPaddle.getDistance();
+        txtKm.setText(String.format("%.2f", kmPaddling));
+
+        actualSpeed = 0;
+        txtSpeed.setText(String.format("%.2f", actualSpeed));
+
+        timeWhenStopped = resumingPaddle.getDuration() * (-1000);
+
+        RealmList<TrackingPoints> resumePaddlePoints = resumingPaddle.getTrack();
+
+        for (int index = 0; index < resumePaddlePoints.size(); index++) {
+            route.add(resumePaddlePoints.get(index));
+        }
+    }
+
+    public Paddle storePaddleInfo() {
+        RealmList<TrackingPoints> paddlePoints = new RealmList<>();
+
+        for (int index = 0; index < route.size(); index++) {
+            paddlePoints.add(route.get(index));
+        }
+
+        long duration = (SystemClock.elapsedRealtime() - txtTime.getBase()) / 1000;
+
+//                Paddle actualPaddle = new Paddle(paddleId, "10", "20", "07", "17.06.2017", "10.8", "200", paddlePoints);
+        Paddle actualPaddleInfo = new Paddle();
+        actualPaddleInfo.setId(paddleId);
+        actualPaddleInfo.setDate(Calendar.getInstance().getTime().getTime());
+        actualPaddleInfo.setDistance(kmPaddling);
+        actualPaddleInfo.setDuration(duration);
+        actualPaddleInfo.setRows(1);
+        actualPaddleInfo.setKcal(2);
+        actualPaddleInfo.setSpeed(((kmPaddling * 1000) / duration) * 3.6f);
+        actualPaddleInfo.setTrack(paddlePoints);
+
         RealmConfiguration realmConfiguration = new RealmConfiguration.Builder().build();
         Realm realm = Realm.getInstance(realmConfiguration);
+
         realm.beginTransaction();
-        realm.copyToRealm(actualPaddleInfo);
+        realm.copyToRealmOrUpdate(actualPaddleInfo);
         realm.commitTransaction();
+
         realm.close();
+
+        return actualPaddleInfo;
     }
 
     //endregion

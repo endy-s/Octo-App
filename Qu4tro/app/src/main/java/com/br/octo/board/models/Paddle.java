@@ -5,6 +5,7 @@ import org.parceler.ParcelPropertyConverter;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by endysilveira on 24/06/17.
@@ -12,6 +13,10 @@ import io.realm.RealmObject;
 
 @Parcel
 public class Paddle extends RealmObject {
+
+    @PrimaryKey
+    private int id;
+
     private long date, duration;
     private Integer kcal, rows;
     private float distance, speed;
@@ -22,8 +27,9 @@ public class Paddle extends RealmObject {
     }
 
 //    @ParcelConstructor
-//    public Paddle(float distance, long duration, Integer kcal, long date, float speed,
+//    public Paddle(int id, float distance, long duration, Integer kcal, long date, float speed,
 //                  Integer rows, RealmList<TrackingPoints> track) {
+//        this.id = id;
 //        this.distance = distance;
 //        this.duration = duration;
 //        this.kcal = kcal;
@@ -32,6 +38,11 @@ public class Paddle extends RealmObject {
 //        this.rows = rows;
 //        this.track = track;
 //    }
+
+
+    public int getId() {
+        return id;
+    }
 
     public float getDistance() {
         return distance;
@@ -55,6 +66,10 @@ public class Paddle extends RealmObject {
 
     public Integer getRows() {
         return rows;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public void setDistance(float distance) {

@@ -24,8 +24,10 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
@@ -96,6 +98,9 @@ public class EndPaddleActivity extends BaseActivity {
                 googleMap = mMap;
 
                 int numberPoints = endedPaddle.getTrack().size();
+
+                LatLng stop = new LatLng(endedPaddle.getTrack().get(numberPoints - 1).getLatitude(), endedPaddle.getTrack().get(numberPoints - 1).getLongitude());
+                googleMap.addMarker(new MarkerOptions().position(stop).title("End").snippet("End of Paddling")).setIcon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker));
 
                 if (numberPoints > 0) {
                     PolylineOptions lineOptions = new PolylineOptions().width(5).color(Color.RED);
