@@ -34,8 +34,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@color/transparent"
-            android:src="@drawable/ic_light"
-            app:srcCompat="@drawable/ic_light"/>
+            android:src="@drawable/ic_lamp"
+            app:srcCompat="@drawable/ic_lamp"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -67,8 +67,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@color/transparent"
-            android:src="@drawable/ic_tracking"
-            app:srcCompat="@drawable/ic_tracking"/>
+            android:src="@drawable/ic_maps"
+            app:srcCompat="@drawable/ic_maps"/>
 
     </LinearLayout>
 
