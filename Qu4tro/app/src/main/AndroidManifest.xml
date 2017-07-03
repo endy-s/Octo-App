@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.br.octo.board">
+          package="com.br.octo.board">
 
-    <uses-permission android:name="android.permission.BLUETOOTH" />
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <uses-feature
         android:name="android.hardware.bluetooth_le"
-        android:required="true" />
+        android:required="true"/>
 
     <application
         android:name=".MainApplication"
@@ -25,50 +25,50 @@
             android:name=".modules.main.MainActivity"
             android:configChanges="locale|layoutDirection"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".modules.SplashScreenActivity"
             android:screenOrientation="portrait"
             android:theme="@style/SplashTheme">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
         <activity
             android:name=".modules.DeviceListActivity"
             android:parentActivityName=".modules.main.MainActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".modules.settings.SettingsActivity"
             android:parentActivityName=".modules.main.MainActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".modules.settings.LightSettingsActivity"
             android:parentActivityName=".modules.main.MainActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".modules.tracking.PaddleActivity"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".modules.main.MainActivity" />
+                android:value=".modules.main.MainActivity"/>
         </activity>
         <activity
             android:name=".modules.end.EndPaddleActivity"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.br.octo.board.modules.tracking.PaddleActivity" />
+                android:value="com.br.octo.board.modules.main.MainActivity"/>
         </activity>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key" />
+            android:value="@string/google_maps_key"/>
         <meta-data
             android:name="io.fabric.ApiKey"
-            android:value="37f823ac90b1b11443514a9d32c0da7164d30520" />
+            android:value="37f823ac90b1b11443514a9d32c0da7164d30520"/>
 
     </application>
 

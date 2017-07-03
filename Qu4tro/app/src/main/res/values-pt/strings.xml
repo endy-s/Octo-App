@@ -104,7 +104,10 @@
     <string name="bt_not_available">Bluetooth não disponível. Tente outro dispositivo.</string>
     <string name="permission_error_title">Funcionalidades limitadas</string>
     <string name="permission_error_msg">Sem o acesso a localização garantido, esse applicativo não será capaz de encontrar sua prancha. Altere essa configuração nas definições do sistema ou resintale o aplicativo e garanta a permissão.</string>
-    <string name="bt_sup">MIN:SEG</string>
+    <string name="bt_sup">HR:MIN</string>
     <string name="end_progress_message">Salvando e renderizando…</string>
     <string name="end_progress_title">Terminando paddle…</string>
+    <string name="bt_temp_NA">ND</string>
+    <string name="no_location_message">Nenhuma localização encontrada ainda… Tente novamente mais tarde.</string>
+    <string name="no_location_title">Nenhuma localização encontrada.</string>
 </resources>
