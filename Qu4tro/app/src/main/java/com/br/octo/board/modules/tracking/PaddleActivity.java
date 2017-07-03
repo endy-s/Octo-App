@@ -32,7 +32,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import fr.quentinklein.slt.LocationTracker;
-import fr.quentinklein.slt.ProviderError;
 import fr.quentinklein.slt.TrackerSettings;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
@@ -50,7 +49,7 @@ public class PaddleActivity extends BaseActivity implements
     static ArrayList<TrackingPoints> route = new ArrayList<>();
 
     float kmPaddling = 0;
-    float averageSpeed = 0;
+    float actualSpeed = 0;
     long timeWhenStopped = 0;
     private boolean trackingRunning = true;
 
@@ -87,10 +86,19 @@ public class PaddleActivity extends BaseActivity implements
 
         bottomController.setOnNavigationItemSelectedListener(this);
 
+        txtTime.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
+            public void onChronometerTick(Chronometer cArg) {
+                long actualTime = (SystemClock.elapsedRealtime() - cArg.getBase()) / 1000;
+
+                int hour = (int) actualTime / (60 * 60);
+                int minutes = (int) (actualTime / 60) % 60;
+                cArg.setText(String.format("%02d:%02d", hour, minutes));
+            }
+        });
+
         if (ContextCompat.checkSelfPermission(getBaseContext(), ACCESS_FINE_LOCATION) != PERMISSION_GRANTED && ContextCompat.checkSelfPermission(getBaseContext(), ACCESS_COARSE_LOCATION) != PERMISSION_GRANTED) {
             Log.d("PERMISSION", "NOT GRANTED");
         } else {
-
             TrackerSettings settings = new TrackerSettings()
                     .setUseGPS(true)
                     .setUseNetwork(false)
@@ -101,11 +109,9 @@ public class PaddleActivity extends BaseActivity implements
             tracker = new LocationTracker(getBaseContext(), settings) {
                 @Override
                 public void onLocationFound(Location location) {
-                    averageSpeed += (location.getSpeed() * 3.6f);
+                    actualSpeed = (location.getSpeed() * 3.6f);
 
                     if (route.size() > 1) {
-                        averageSpeed = averageSpeed / 2;
-
                         float[] results = new float[3];
                         Location.distanceBetween(
                                 route.get(route.size() - 1).getLatitude(),
@@ -114,9 +120,7 @@ public class PaddleActivity extends BaseActivity implements
                                 location.getLongitude(),
                                 results);
 
-                        kmPaddling += results[0];
-
-                        Log.d("Distance and Speed", String.format("Distance: %.2f and Speed: %.2f", results[0], location.getSpeed()));
+                        kmPaddling += results[0] / 1000;
                     } else {
                         kmPaddling = 0;
                     }
@@ -124,7 +128,7 @@ public class PaddleActivity extends BaseActivity implements
                     route.add(new TrackingPoints(location.getLatitude(), location.getLongitude()));
 
                     txtKm.setText(String.format("%.2f", kmPaddling));
-                    txtSpeed.setText(String.format("%.2f", averageSpeed));
+                    txtSpeed.setText(String.format("%.2f", actualSpeed));
                 }
 
                 @Override
@@ -218,14 +222,16 @@ public class PaddleActivity extends BaseActivity implements
                     paddlePoints.add(route.get(index));
                 }
 
+                long duration = (SystemClock.elapsedRealtime() - txtTime.getBase()) / 1000;
+
 //                Paddle actualPaddle = new Paddle("10", "20", "07", "17.06.2017", "10.8", "200", paddlePoints);
                 Paddle actualPaddle = new Paddle();
                 actualPaddle.setDate(Calendar.getInstance().getTime().getTime());
                 actualPaddle.setDistance(kmPaddling);
-                actualPaddle.setDuration((SystemClock.elapsedRealtime() - txtTime.getBase()) / 1000);
+                actualPaddle.setDuration(duration);
                 actualPaddle.setRows(1);
                 actualPaddle.setKcal(2);
-                actualPaddle.setSpeed(averageSpeed);
+                actualPaddle.setSpeed(((kmPaddling * 1000) / duration) * 3.6f);
                 actualPaddle.setTrack(paddlePoints);
 
                 stopTracking(true);

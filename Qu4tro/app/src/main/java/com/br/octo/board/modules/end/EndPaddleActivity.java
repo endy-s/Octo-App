@@ -167,15 +167,15 @@ public class EndPaddleActivity extends BaseActivity {
     //region private
 
     private void showPaddleInfo() {
-        endKm.setText(String.format(Locale.US, "%.2f", endedPaddle.getDistance()));
-        endRows.setText(String.format(Locale.US, "%d", endedPaddle.getRows()));
-        endKcal.setText(String.format(Locale.US, "%d", endedPaddle.getKcal()));
-        endSpeed.setText(String.format(Locale.US, "%.2f", endedPaddle.getSpeed()));
+        endKm.setText(String.format("%.2f", endedPaddle.getDistance()));
+        endRows.setText(String.format("%d", endedPaddle.getRows()));
+        endKcal.setText(String.format("%d", endedPaddle.getKcal()));
+        endSpeed.setText(String.format("%.2f", endedPaddle.getSpeed()));
 
         int hour = (int) endedPaddle.getDuration() / (60 * 60);
         int minutes = (int) (endedPaddle.getDuration() / 60) % 60;
-        int seconds = (int) endedPaddle.getDuration() % 60;
-        endTime.setText(String.format(Locale.US, "%02d:%02d:%02d", hour, minutes, seconds));
+//        int seconds = (int) endedPaddle.getDuration() % 60;
+        endTime.setText(String.format("%02d:%02d", hour, minutes));
     }
 
     private void storeAndShare(Bitmap bm, String fileName) {
