@@ -99,10 +99,10 @@ public class EndPaddleActivity extends BaseActivity {
 
                 int numberPoints = endedPaddle.getTrack().size();
 
-                LatLng stop = new LatLng(endedPaddle.getTrack().get(numberPoints - 1).getLatitude(), endedPaddle.getTrack().get(numberPoints - 1).getLongitude());
-                googleMap.addMarker(new MarkerOptions().position(stop).title("End").snippet("End of Paddling")).setIcon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker));
-
                 if (numberPoints > 0) {
+                    LatLng stop = new LatLng(endedPaddle.getTrack().get(numberPoints - 1).getLatitude(), endedPaddle.getTrack().get(numberPoints - 1).getLongitude());
+                    googleMap.addMarker(new MarkerOptions().position(stop).title("End").snippet("End of Paddling")).setIcon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker));
+
                     PolylineOptions lineOptions = new PolylineOptions().width(5).color(Color.RED);
                     LatLngBounds.Builder builder = new LatLngBounds.Builder();
 
