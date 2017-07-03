@@ -326,7 +326,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
                 int hour = (int) lastPaddle.getDuration() / (60 * 60);
                 int minutes = (int) (lastPaddle.getDuration() / 60) % 60;
-//                int seconds = (int) lastPaddle.getDuration() % 60;
                 lastDuration.setText(String.format("%02d:%02d %s", hour, minutes, getString(R.string.bt_hour)));
 
                 SimpleDateFormat dateFormatter = new SimpleDateFormat("dd.MM.yyyy", Locale.US);
@@ -344,8 +343,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         btStart.setImageAlpha(128);
         btStart.setEnabled(false);
 
-//        tempWatterTV.setText(R.string.bt_unknown);
-//        tempEnvTV.setText(R.string.bt_unknown);
         batteryTV.setText(R.string.bt_unknown);
         boardTV.setText(R.string.bt_board_off);
     }
@@ -408,6 +405,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         if (errorType != null) {
             tempEnvTV.setText(R.string.bt_temp_NA);
             tempWatterTV.setText(R.string.bt_temp_NA);
+            //TODO show a dialog warning that the GPS is off and temp will not be updated, restart app
         }
         if (weatherInfo != null) {
             tempEnvTV.setText(String.valueOf(weatherInfo.getCurrentTemp()).concat(" °C"));
