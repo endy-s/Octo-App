@@ -16,8 +16,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
         android:weightSum="9">
 
         <ImageView
@@ -297,7 +297,7 @@
         android:layout_above="@id/rowTemp"
         android:layout_below="@id/mainToolbar"
         android:layout_centerHorizontal="true"
-        android:background="@android:color/transparent"
+        android:background="@color/transparent"
         android:padding="32dp"
         android:src="@drawable/ic_btn_start"
         app:srcCompat="@drawable/ic_btn_start"/>

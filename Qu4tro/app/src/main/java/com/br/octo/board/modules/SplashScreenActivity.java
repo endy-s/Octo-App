@@ -1,6 +1,5 @@
 package com.br.octo.board.modules;
 
-import android.Manifest;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.content.DialogInterface;
@@ -19,6 +18,10 @@ import com.br.octo.board.R;
 import com.br.octo.board.modules.base.AppCompatPreferenceActivity;
 import com.br.octo.board.modules.base.BaseActivity;
 import com.br.octo.board.modules.main.MainActivity;
+
+import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
+import static android.Manifest.permission.ACCESS_FINE_LOCATION;
+import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 
 
 public class SplashScreenActivity extends BaseActivity implements AlertDialog.OnClickListener,
@@ -58,7 +61,7 @@ public class SplashScreenActivity extends BaseActivity implements AlertDialog.On
             Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivityForResult(enableIntent, Constants.REQUEST_ENABLE_BT);
         } else {
-            startMainActivity();
+            checkPermissions();
         }
     }
 
@@ -70,7 +73,7 @@ public class SplashScreenActivity extends BaseActivity implements AlertDialog.On
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == Constants.REQUEST_ENABLE_BT) {
             if (resultCode == Activity.RESULT_OK) {
-                startMainActivity();
+                checkPermissions();
             } else {
                 createSplashErrorDialog(R.string.bt_error_title, R.string.bt_not_enabled_leaving);
             }
@@ -82,9 +85,11 @@ public class SplashScreenActivity extends BaseActivity implements AlertDialog.On
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {
             case Constants.PERMISSION_REQUEST_LOCATION: {
-                if (!(grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                if (grantResults[0] == PERMISSION_GRANTED) {
+                    callMainActivity();
+                } else {
                     createDialog(R.string.permission_error_title, R.string.permission_error_msg)
-                            .setPositiveButton(android.R.string.ok, null)
+                            .setPositiveButton(R.string.ok, null)
                             .show();
                 }
             }
@@ -103,52 +108,54 @@ public class SplashScreenActivity extends BaseActivity implements AlertDialog.On
         }
     }
 
-    private void startMainActivity() {
+    private void checkPermissions() {
         if (mBluetoothAdapter.getBluetoothLeScanner() == null) {
             createSplashErrorDialog(R.string.bt_error_title, R.string.ble_not_supported);
         } else {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                    && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                createDialog(R.string.dialog_permission_request, R.string.dialog_permission_description)
-                        .setPositiveButton(R.string.dialog_next, null)
-                        .setOnDismissListener(new DialogInterface.OnDismissListener() {
-                            @Override
-                            public void onDismiss(DialogInterface dialog) {
-                                ActivityCompat.requestPermissions(SplashScreenActivity.this,
-                                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
-                                                Manifest.permission.ACCESS_COARSE_LOCATION},
-                                        Constants.PERMISSION_REQUEST_LOCATION);
-                            }
-                        })
-                        .show();
+            if (ContextCompat.checkSelfPermission(this, ACCESS_FINE_LOCATION) != PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this, ACCESS_COARSE_LOCATION) != PERMISSION_GRANTED) {
+//                createDialog(R.string.dialog_permission_request, R.string.dialog_permission_description)
+//                        .setPositiveButton(R.string.dialog_next, null)
+//                        .setOnDismissListener(new DialogInterface.OnDismissListener() {
+//                            @Override
+//                            public void onDismiss(DialogInterface dialog) {
+                ActivityCompat.requestPermissions(SplashScreenActivity.this,
+                        new String[]{ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION},
+                        Constants.PERMISSION_REQUEST_LOCATION);
+//                            }
+//                        })
+//                        .show();
+            } else {
+                callMainActivity();
             }
-
-            int SPLASH_TIME_OUT = 1000;
-
-            final Runnable r = new Runnable() {
-                @Override
-                public void run() {
-                    startActivity(new Intent(SplashScreenActivity.this, MainActivity.class));
-
-                    overridePendingTransition(R.anim.main_in, R.anim.splash_out);
-                    finish();
-                }
-            };
-
-            new Handler().postDelayed(r, SPLASH_TIME_OUT);
         }
+    }
+
+    private void callMainActivity() {
+        int SPLASH_TIME_OUT = 1000;
+
+        final Runnable r = new Runnable() {
+            @Override
+            public void run() {
+                startActivity(new Intent(SplashScreenActivity.this, MainActivity.class));
+
+                overridePendingTransition(R.anim.main_in, R.anim.splash_out);
+                finish();
+            }
+        };
+
+        new Handler().postDelayed(r, SPLASH_TIME_OUT);
     }
 
     private void createSplashErrorDialog(int titleID, int messageID) {
         createDialog(titleID, messageID)
-                .setPositiveButton(android.R.string.ok, this)
+                .setPositiveButton(R.string.ok, this)
                 .setOnDismissListener(this)
                 .show();
     }
 
     //endregion
 
-    //region Dialog Listener
+    //region Error Dialog Listener
 
     @Override
     public void onClick(DialogInterface dialog, int which) {
