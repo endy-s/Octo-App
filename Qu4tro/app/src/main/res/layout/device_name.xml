@@ -1,17 +1,21 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="8dp">
 
-    <TextView android:id="@+id/device_name"
+    <TextView
+        android:id="@+id/device_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="24sp"
-        android:text="@string/device_name"/>
+        android:text="@string/device_name"
+        android:textSize="24sp"/>
 
-    <TextView android:id="@+id/device_address"
+    <TextView
+        android:id="@+id/device_address"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="12sp"
-        android:text="@string/device_addr"/>
+        android:text="@string/device_addr"
+        android:textSize="12sp"/>
 </LinearLayout>

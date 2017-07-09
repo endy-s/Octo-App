@@ -142,17 +142,20 @@ public class BluetoothHelper {
     }
 
     private void sendLightState() {
-        String initialString = "<W=2;", endingString = ";>";
-        String lightMode = "L=", lightFreq = ";F=";
+        String initialString = "<W=3;", endingString = ";>";
+        String lightMode = "L=", lightFreq = ";F=", lightInt = ";I=";
 
         if (sharedPref.getBoolean(resources.getString(R.string.pref_key_light_enabled), false)) {
-            lightMode = lightMode.concat(sharedPref.getString(resources.getString(R.string.pref_key_light_mode), "0"));
+            lightMode += sharedPref.getString(resources.getString(R.string.pref_key_light_mode), "0");
         } else {
-            lightMode = lightMode.concat("0");
+            lightMode += "0";
         }
-        lightFreq = lightFreq.concat(sharedPref.getString(resources.getString(R.string.pref_key_light_freq), "0"));
 
-        sendMessage(initialString + lightMode + lightFreq + endingString);
+        lightFreq += sharedPref.getString(resources.getString(R.string.pref_key_light_freq), "0");
+
+        lightInt += sharedPref.getInt(resources.getString(R.string.pref_key_light_intensity), 50);
+
+        sendMessage(initialString + lightMode + lightFreq + lightInt + endingString);
     }
 
     private void updateLightState(int newState) {

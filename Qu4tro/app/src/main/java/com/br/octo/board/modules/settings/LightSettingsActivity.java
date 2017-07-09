@@ -11,6 +11,7 @@ import android.support.v7.app.ActionBar;
 
 import com.br.octo.board.R;
 import com.br.octo.board.api_services.BluetoothHelper;
+import com.br.octo.board.models.SeekBarPreference;
 import com.br.octo.board.modules.base.AppCompatPreferenceActivity;
 
 /**
@@ -37,15 +38,14 @@ public class LightSettingsActivity extends AppCompatPreferenceActivity implement
 
         sharedLightPref = getPreferenceScreen().getSharedPreferences();
 
-        ListPreference modePreference = (ListPreference) findPreference(res.
-                getString(R.string.pref_key_light_mode));
-        ListPreference freqPreference = (ListPreference) findPreference(res.getString(R.string.pref_key_light_freq));
+        ListPreference modePreference = (ListPreference) findPreference(res.getString(R.string.pref_key_light_mode));
+        setFreqEnabled(modePreference.findIndexOfValue(sharedLightPref.getString(res.getString(R.string.pref_key_light_mode), "")));
 
-        setFreqEnabled(modePreference.findIndexOfValue(sharedLightPref.
-                getString(res.getString(R.string.pref_key_light_mode), "")));
+        SeekBarPreference intensityPreference = (SeekBarPreference) this.findPreference(res.getString(R.string.pref_key_light_intensity));
+        // Set seekbar summary :
+        int radius = sharedLightPref.getInt(res.getString(R.string.pref_key_light_intensity), 50);
+        intensityPreference.setSummary(this.getString(R.string.pref_light_intensity_summary).replace("$1", "" + radius));
 
-        modePreference.setEntryValues(res.getStringArray(R.array.pref_light_list_values));
-        freqPreference.setEntryValues(res.getStringArray(R.array.pref_light_frequency_values));
 
         btHelper = BluetoothHelper.getInstance();
     }
@@ -86,22 +86,17 @@ public class LightSettingsActivity extends AppCompatPreferenceActivity implement
             int index = listPreference.findIndexOfValue(sharedPreferences.getString(key, ""));
 
             // Set the summary to reflect the new value.
-            listPreference.setSummary(
-                    index >= 0
-                            ? listPreference.getEntries()[index]
-                            : null);
+            listPreference.setSummary(index >= 0 ? listPreference.getEntries()[index] : null);
 
             if (key.matches(res.getString(R.string.pref_key_light_mode))) {
                 setFreqEnabled(index);
 
                 newStateMsg += "L=" + listPreference.getValue() + ";>";
-            }
-            else if (key.matches(res.getString(R.string.pref_key_light_freq))) {
+            } else if (key.matches(res.getString(R.string.pref_key_light_freq))) {
                 newStateMsg += "F=" + listPreference.getValue() + ";>";
-               // TODO: check if there's current change at the board. If yes, show a warning
+                // TODO: check if there's current change at the board. If yes, show a warning
             }
-        }
-        else if (preference instanceof SwitchPreference) {
+        } else if (preference instanceof SwitchPreference) {
             SwitchPreference switchPreference = (SwitchPreference) preference;
 
             if (key.matches(res.getString(R.string.pref_key_light_enabled))) {
@@ -114,10 +109,18 @@ public class LightSettingsActivity extends AppCompatPreferenceActivity implement
                     newStateMsg += "0;>";
                 }
             }
+        } else if (preference instanceof SeekBarPreference) {
+            newStateMsg += "I=";
+
+            if (key.matches(res.getString(R.string.pref_key_light_intensity))) {
+                int radius = sharedLightPref.getInt(res.getString(R.string.pref_key_light_intensity), 50);
+                preference.setSummary(this.getString(R.string.pref_light_intensity_summary).replace("$1", "" + radius));
+                newStateMsg += radius + ";>";
+            }
         }
 
         if (btHelper.getConnectionStatus()) {
-            btHelper.sendMessage(newStateMsg) ;
+            btHelper.sendMessage(newStateMsg);
         }
     }
 
@@ -126,8 +129,7 @@ public class LightSettingsActivity extends AppCompatPreferenceActivity implement
 
         if (index == 0) {
             preference_freq.setEnabled(false);
-        }
-        else {
+        } else {
             preference_freq.setEnabled(true);
         }
     }

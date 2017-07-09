@@ -55,6 +55,7 @@ import io.realm.RealmList;
 import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static android.content.pm.PackageManager.PERMISSION_GRANTED;
+import static com.br.octo.board.Constants.REQUEST_END_SCREEN;
 import static com.br.octo.board.Constants.REQUEST_LIGHT_SETTINGS;
 import static com.br.octo.board.Constants.actualPaddleId;
 import static com.br.octo.board.Constants.battValue;
@@ -66,9 +67,11 @@ public class PaddleActivity extends BaseActivity implements
 
     static ArrayList<TrackingPoints> route = new ArrayList<>();
 
-    float kmPaddling = 0;
-    float actualSpeed = 0;
-    long timeWhenStopped = 0;
+    private float kmPaddling = 0;
+    private int rowCount = 0;
+    private long timeWhenStopped = 0;
+    private int kcalCount = 0;
+    private float actualSpeed = 0;
     private boolean trackingRunning = true;
     private int paddleId = 0;
 
@@ -124,25 +127,16 @@ public class PaddleActivity extends BaseActivity implements
         if (getIntent().hasExtra(actualPaddleId)) {
             paddleId = getIntent().getIntExtra(actualPaddleId, 0);
 
-            RealmConfiguration realmConfiguration = new RealmConfiguration.Builder().build();
-            Realm realm = Realm.getInstance(realmConfiguration);
-
-            if (realm.where(Paddle.class).equalTo("id", paddleId).findFirst() != null) {
-                Paddle resumingPaddle = realm.copyFromRealm(realm.where(Paddle.class).equalTo("id", paddleId).findFirst());
-                setResumingPaddleInfo(resumingPaddle);
-            }
-
-            realm.close();
+            retrieveResumingPaddleInfo();
         }
-
 
         if (getIntent().hasExtra(battValue)) {
             txtBatPaddle.setText(getIntent().getStringExtra(battValue));
         }
 
-        if (ContextCompat.checkSelfPermission(getBaseContext(), ACCESS_FINE_LOCATION) != PERMISSION_GRANTED && ContextCompat.checkSelfPermission(getBaseContext(), ACCESS_COARSE_LOCATION) != PERMISSION_GRANTED) {
-            Log.d("PERMISSION", "NOT GRANTED");
-        } else {
+        bindPaddleInfoToWidgets();
+
+        if (ContextCompat.checkSelfPermission(getBaseContext(), ACCESS_FINE_LOCATION) == PERMISSION_GRANTED && ContextCompat.checkSelfPermission(getBaseContext(), ACCESS_COARSE_LOCATION) == PERMISSION_GRANTED) {
             TrackerSettings settings = new TrackerSettings()
                     .setUseGPS(true)
                     .setUseNetwork(false)
@@ -181,6 +175,8 @@ public class PaddleActivity extends BaseActivity implements
                     tracker.startListening();
                 }
             };
+        } else {
+            //TODO show GSP warning
         }
     }
 
@@ -189,19 +185,6 @@ public class PaddleActivity extends BaseActivity implements
         super.onResume();
         startTracking();
         btHelperPaddle.setCallback(this);
-    }
-
-    @Override
-    protected void onDestroy() {
-        txtKm.setText(R.string.bt_unknown);
-        txtRows.setText(R.string.bt_unknown);
-        txtKcal.setText(R.string.bt_unknown);
-        txtSpeed.setText(R.string.bt_unknown);
-        txtBatPaddle.setText(R.string.bt_unknown);
-        route.clear();
-        if ((endingProgressDialogs != null) && (endingProgressDialogs.isShowing()))
-            endingProgressDialogs.dismiss();
-        super.onDestroy();
     }
 
     @Override
@@ -219,6 +202,27 @@ public class PaddleActivity extends BaseActivity implements
         super.onBackPressed();
         storePaddleInfo();
         finish();
+    }
+
+    //endregion
+
+    //region Results
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case REQUEST_END_SCREEN:
+                setResult(RESULT_OK);
+                txtKm.setText(R.string.bt_unknown);
+                txtRows.setText(R.string.bt_unknown);
+                txtKcal.setText(R.string.bt_unknown);
+                txtSpeed.setText(R.string.bt_unknown);
+                txtBatPaddle.setText(R.string.bt_unknown);
+                route.clear();
+                if ((endingProgressDialogs != null) && (endingProgressDialogs.isShowing()))
+                    endingProgressDialogs.dismiss();
+                finish();
+                break;
+        }
     }
 
     //endregion
@@ -266,7 +270,7 @@ public class PaddleActivity extends BaseActivity implements
                 Paddle actualPaddle = storePaddleInfo();
                 Intent endPaddleIntent = new Intent(getBaseContext(), EndPaddleActivity.class);
                 endPaddleIntent.putExtra(getString(R.string.paddle_extra), Parcels.wrap(actualPaddle));
-                startActivity(endPaddleIntent);
+                startActivityForResult(endPaddleIntent, REQUEST_END_SCREEN);
             }
         }
         return false;
@@ -298,20 +302,30 @@ public class PaddleActivity extends BaseActivity implements
         }
     }
 
-    private void setResumingPaddleInfo(Paddle resumingPaddle) {
-        kmPaddling = resumingPaddle.getDistance();
-        txtKm.setText(String.format("%.2f", kmPaddling));
+    private void retrieveResumingPaddleInfo() {
+        RealmConfiguration realmConfiguration = new RealmConfiguration.Builder().build();
+        Realm realm = Realm.getInstance(realmConfiguration);
 
-        actualSpeed = 0;
-        txtSpeed.setText(String.format("%.2f", actualSpeed));
+        if (realm.where(Paddle.class).equalTo("id", paddleId).findFirst() != null) {
+            Paddle resumingPaddle = realm.copyFromRealm(realm.where(Paddle.class).equalTo("id", paddleId).findFirst());
+            kmPaddling = resumingPaddle.getDistance();
+            timeWhenStopped = resumingPaddle.getDuration() * (-1000);
 
-        timeWhenStopped = resumingPaddle.getDuration() * (-1000);
+            RealmList<TrackingPoints> resumePaddlePoints = resumingPaddle.getTrack();
 
-        RealmList<TrackingPoints> resumePaddlePoints = resumingPaddle.getTrack();
-
-        for (int index = 0; index < resumePaddlePoints.size(); index++) {
-            route.add(resumePaddlePoints.get(index));
+            for (int index = 0; index < resumePaddlePoints.size(); index++) {
+                route.add(resumePaddlePoints.get(index));
+            }
         }
+
+        realm.close();
+    }
+
+    private void bindPaddleInfoToWidgets() {
+        txtKm.setText(String.format("%.2f", kmPaddling));
+        txtRows.setText(String.format("%d", rowCount));
+        txtKcal.setText(String.format("%d", kcalCount));
+        txtSpeed.setText(String.format("%.2f", actualSpeed));
     }
 
     public Paddle storePaddleInfo() {
@@ -329,8 +343,8 @@ public class PaddleActivity extends BaseActivity implements
         actualPaddleInfo.setDate(Calendar.getInstance().getTime().getTime());
         actualPaddleInfo.setDistance(kmPaddling);
         actualPaddleInfo.setDuration(duration);
-        actualPaddleInfo.setRows(1);
-        actualPaddleInfo.setKcal(2);
+        actualPaddleInfo.setRows(rowCount);
+        actualPaddleInfo.setKcal(kcalCount);
         actualPaddleInfo.setSpeed(((kmPaddling * 1000) / duration) * 3.6f);
         actualPaddleInfo.setTrack(paddlePoints);
 
@@ -408,13 +422,11 @@ public class PaddleActivity extends BaseActivity implements
         Log.d("Paddle", "BT Received: " + message);
         if (message.startsWith("B")) {
             final String battValue = message.split(";")[0];
-//            final String tempValue = message.split(";")[1];
 
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     txtBatPaddle.setText(battValue.substring(2).trim());
-//                    tempWatterTV.setText(tempValue.substring(2).trim().concat(" °C"));
                 }
             });
         }
@@ -429,7 +441,7 @@ public class PaddleActivity extends BaseActivity implements
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                createDialog(R.string.bt_disconnect_title, R.string.bt_disconnect_message)
+                createDialog(R.string.dialog_disconnect_title, R.string.dialog_disconnect_message)
                         .setPositiveButton(R.string.ok, null).show();
             }
         });
