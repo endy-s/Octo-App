@@ -41,12 +41,7 @@ public class LightSettingsActivity extends AppCompatPreferenceActivity implement
         ListPreference modePreference = (ListPreference) findPreference(res.
                 getString(R.string.pref_key_light_mode));
         ListPreference freqPreference = (ListPreference) findPreference(res.getString(R.string.pref_key_light_freq));
-
-        // Get widgets :
         SeekBarPreference intensityPreference = (SeekBarPreference) this.findPreference(res.getString(R.string.pref_key_light_intensity));
-
-        // Set listener :
-//        getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
 
         // Set seekbar summary :
         int radius = sharedLightPref.getInt(res.getString(R.string.pref_key_light_intensity), 50);
