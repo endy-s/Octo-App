@@ -114,4 +114,6 @@
     <string name="bt_disconnect_message">Ops… Conexão bluetooth perdida, volte a tela initial e conecte com sua prancha novamente.</string>
     <string name="bt_already_connected_message">Você será desconectado da sua prancha…</string>
     <string name="bt_already_connected_title">Você tem certeza?</string>
+    <string name="pref_light_intensity_summary">Valor atual: $1%</string>
+    <string name="pref_message_intensity">Selecione a intensidade da iluminação</string>
 </resources>

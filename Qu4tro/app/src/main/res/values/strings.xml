@@ -196,6 +196,12 @@
         <item>"3"</item>
     </string-array>
 
+    <string name="pref_title_intensity">Light Intensity</string>
+    <string name="pref_key_light_intensity" translatable="false">light_int_key</string>
+    <string name="pref_message_intensity">Select the light intensity</string>
+    <string name="pref_light_intensity_unit" translatable="false">%</string>
+    <string name="pref_light_intensity_summary">Current value: $1%</string>
+
     <string name="pref_title_freq">Light Frequency</string>
     <string name="pref_key_light_freq" translatable="false">light_freq_key</string>
     <string-array name="pref_light_frequency_titles">
@@ -208,8 +214,6 @@
         <item>"3"</item>
         <item>"1"</item>
     </string-array>
-
-    <string name="pref_title_intensity">Light Intensity</string>
 
     <string name="pref_title_system_sync_settings">Sync Settings</string>
 
