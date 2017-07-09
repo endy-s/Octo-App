@@ -15,6 +15,8 @@
     <string name="power_down">Power Down the Board</string>
     <string name="confirmation">Are you sure?</string>
     <string name="cancel">Cancel</string>
+    <string name="bt_disconnect_title">Bluetooth disconnected</string>
+    <string name="bt_disconnect_message">Ops… Your bluetooth connection was lost, come back to the Main Page and connect with your board again.</string>
 
     <!--Progress Dialog-->
     <string name="end_progress_title">Ending paddle…</string>
