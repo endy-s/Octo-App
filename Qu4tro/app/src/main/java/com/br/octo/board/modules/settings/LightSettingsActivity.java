@@ -39,13 +39,13 @@ public class LightSettingsActivity extends AppCompatPreferenceActivity implement
 
         ListPreference modePreference = (ListPreference) findPreference(res.
                 getString(R.string.pref_key_light_mode));
-        ListPreference preferenceFreq = (ListPreference) findPreference(res.getString(R.string.pref_key_light_freq));
+        ListPreference freqPreference = (ListPreference) findPreference(res.getString(R.string.pref_key_light_freq));
 
         setFreqEnabled(modePreference.findIndexOfValue(sharedLightPref.
                 getString(res.getString(R.string.pref_key_light_mode), "")));
 
         modePreference.setEntryValues(res.getStringArray(R.array.pref_light_list_values));
-        preferenceFreq.setEntryValues(res.getStringArray(R.array.pref_light_frequency_values));
+        freqPreference.setEntryValues(res.getStringArray(R.array.pref_light_frequency_values));
 
         btHelper = BluetoothHelper.getInstance();
     }

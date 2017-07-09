@@ -135,8 +135,6 @@ public class PaddleActivity extends BaseActivity implements
             realm.close();
         }
 
-        createDialog(R.string.bt_disconnect_title, R.string.bt_disconnect_message)
-                .setPositiveButton(R.string.ok, null).show();
 
         if (getIntent().hasExtra(battValue)) {
             txtBatPaddle.setText(getIntent().getStringExtra(battValue));
@@ -431,7 +429,8 @@ public class PaddleActivity extends BaseActivity implements
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                //TODO: Show warning to the user?
+                createDialog(R.string.bt_disconnect_title, R.string.bt_disconnect_message)
+                        .setPositiveButton(R.string.ok, null).show();
             }
         });
     }

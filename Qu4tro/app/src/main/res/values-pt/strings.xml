@@ -112,4 +112,6 @@
     <string name="no_location_title">Nenhuma localização encontrada.</string>
     <string name="bt_disconnect_title">Bluetooth desconectado</string>
     <string name="bt_disconnect_message">Ops… Conexão bluetooth perdida, volte a tela initial e conecte com sua prancha novamente.</string>
+    <string name="bt_already_connected_message">Você será desconectado da sua prancha…</string>
+    <string name="bt_already_connected_title">Você tem certeza?</string>
 </resources>

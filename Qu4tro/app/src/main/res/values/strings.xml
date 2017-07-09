@@ -17,6 +17,8 @@
     <string name="cancel">Cancel</string>
     <string name="bt_disconnect_title">Bluetooth disconnected</string>
     <string name="bt_disconnect_message">Ops… Your bluetooth connection was lost, come back to the Main Page and connect with your board again.</string>
+    <string name="bt_already_connected_title">Are you sure?</string>
+    <string name="bt_already_connected_message">You will be disconnected from your board…</string>
 
     <!--Progress Dialog-->
     <string name="end_progress_title">Ending paddle…</string>
@@ -137,12 +139,10 @@
     <string-array name="pref_general_list_titles" translatable="false">
         <item>English</item>
         <item>Português (Brasil)</item>
-        <item>Português (Portugal)</item>
     </string-array>
     <string-array name="pref_general_list_values" translatable="false">
         <item>0</item>
         <item>1</item>
-        <item>2</item>
     </string-array>
 
     <!-- Language settings -->

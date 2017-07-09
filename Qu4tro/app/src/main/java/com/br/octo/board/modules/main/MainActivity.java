@@ -120,8 +120,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         btHelper = BluetoothHelper.getInstance();
 
-        if (!btHelper.getConnectionStatus()) {
-            showConnectedState();   // TODO change for showNotConnectedState()
+        if (btHelper.getConnectionStatus()) {
+            showConnectedState();
+        } else {
+            showNotConnectedState();
         }
 
         YahooWeather weather = YahooWeather.getInstance();
@@ -183,7 +185,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_connect) {
-            startActivityForResult(new Intent(getBaseContext(), DeviceListActivity.class), REQUEST_SCAN_DEVICE);
+            checkBTConnection();
             return true;
         }
 
@@ -196,7 +198,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
         switch (id) {
             case R.id.nav_bt: {
-                startActivityForResult(new Intent(getBaseContext(), DeviceListActivity.class), REQUEST_SCAN_DEVICE);
+                checkBTConnection();
                 break;
             }
             case R.id.nav_set: {
@@ -254,13 +256,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     @OnClick(R.id.btStart)
     public void startClicked() {
-        //TODO: remove comments of commented code
-//        if (btHelper.getConnectionStatus()) {
         Intent trackingIntent = new Intent(getBaseContext(), PaddleActivity.class);
         trackingIntent.putExtra(actualPaddleId, paddleId);
         trackingIntent.putExtra(battValue, batteryTV.getText().toString().replace("%", ""));
         startActivityForResult(trackingIntent, REQUEST_TRACKING_SCREEN);
-//        }
     }
 
     //endregion
@@ -358,6 +357,27 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         boardTV.setText(R.string.bt_board_on);
     }
 
+    private void checkBTConnection() {
+        if (btHelper.getConnectionStatus()) {
+            createDialog(R.string.bt_already_connected_title, R.string.bt_already_connected_message)
+                    .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            btHelper.disconnect();
+                            showBTDeviceScanScreen();
+                        }
+                    })
+                    .setNegativeButton(R.string.cancel, null)
+                    .show();
+        } else {
+            showBTDeviceScanScreen();
+        }
+    }
+
+    private void showBTDeviceScanScreen() {
+        startActivityForResult(new Intent(getBaseContext(), DeviceListActivity.class), REQUEST_SCAN_DEVICE);
+    }
+
     //endregion
 
     //region BT Callback
@@ -395,7 +415,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             @Override
             public void run() {
                 showNotConnectedState();
-                //TODO: Show warning to the user?
             }
         });
     }
