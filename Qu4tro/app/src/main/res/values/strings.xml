@@ -6,17 +6,21 @@
 
     <!--Dialog-->
     <string name="ok" translatable="false">OK</string>
+    <string name="cancel">Cancel</string>
     <string name="dialog_permission_request">Permission request</string>
     <string name="dialog_permission_description">The OCTO app needs location permission for its functionality.
         Please, accept the following permission request</string>
     <string name="dialog_next">NEXT</string>
-    <string name="connecting">Connecting to </string>
-    <string name="validating">Device validation…</string>
-    <string name="power_down">Power Down the Board</string>
-    <string name="confirmation">Are you sure?</string>
-    <string name="cancel">Cancel</string>
-    <string name="bt_disconnect_title">Bluetooth disconnected</string>
-    <string name="bt_disconnect_message">Ops… Your bluetooth connection was lost, come back to the Main Page and connect with your board again.</string>
+    <string name="dialog_connecting_title">Connecting to </string>
+    <string name="dialog_connecting_message">Device validation…</string>
+    <string name="dialog_disconnect_title">Bluetooth disconnected</string>
+    <string name="dialog_disconnect_message">Ops… Your bluetooth connection was lost, come back to the Main Page and connect with your board again.</string>
+    <string name="dialog_reconnected_title">Are you sure?</string>
+    <string name="dialog_reconnected_message">You will be disconnected from your board…</string>
+    <string name="dialog_not_connected_light_title">Not connected</string>
+    <string name="dialog_not_connected_light_message">You are not connected to your board… Do you want to connect now?</string>
+    <string name="dialog_not_connected_light_positive">Start scan</string>
+
 
     <!--Progress Dialog-->
     <string name="end_progress_title">Ending paddle…</string>
@@ -29,7 +33,7 @@
     <string name="ble_not_supported">Bluetooth Low Energy not supported. Try with another device.</string>
     <string name="permission_error_title">Functionality limited</string>
     <string name="permission_error_msg">Without the location access granted, this app will not be able to discover your board. Change this configuration at the system Settings or reinstall the application and grant the permission.</string>
-    <string name="no_location_title">No Location found.</string>
+    <string name="no_location_title">No Location found</string>
     <string name="no_location_message">There\'s no location found yet… Try again later.</string>
 
     <!--Cool Version Main Screen-->
@@ -59,7 +63,7 @@
     <string name="bt_time">Board On</string>
 
     <string name="bt_tempin">WATER</string>
-    <string name="bt_tempout">AMBIENT</string>
+    <string name="bt_tempout" translatable="false">AMBIENT</string>
     <string name="bt_bat">BATTERY</string>
     <string name="bt_board">BOARD</string>
     <string name="bt_last">LAST PADDLE</string>
@@ -137,12 +141,10 @@
     <string-array name="pref_general_list_titles" translatable="false">
         <item>English</item>
         <item>Português (Brasil)</item>
-        <item>Português (Portugal)</item>
     </string-array>
     <string-array name="pref_general_list_values" translatable="false">
         <item>0</item>
         <item>1</item>
-        <item>2</item>
     </string-array>
 
     <!-- Language settings -->
@@ -196,6 +198,12 @@
         <item>"3"</item>
     </string-array>
 
+    <string name="pref_title_intensity">Light Intensity</string>
+    <string name="pref_key_light_intensity" translatable="false">light_int_key</string>
+    <string name="pref_message_intensity">Select the light intensity</string>
+    <string name="pref_light_intensity_unit" translatable="false">%</string>
+    <string name="pref_light_intensity_summary">Current value: $1%</string>
+
     <string name="pref_title_freq">Light Frequency</string>
     <string name="pref_key_light_freq" translatable="false">light_freq_key</string>
     <string-array name="pref_light_frequency_titles">
@@ -208,8 +216,6 @@
         <item>"3"</item>
         <item>"1"</item>
     </string-array>
-
-    <string name="pref_title_intensity">Light Intensity</string>
 
     <string name="pref_title_system_sync_settings">Sync Settings</string>
 

@@ -12,8 +12,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v7.app.ActionBar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -49,7 +51,7 @@ public class DeviceListActivity extends BaseActivity implements BluetoothHelper.
 
     ProgressDialog connectingProgressDialogs;
     private Handler mHandler;
-    private static final int SCAN_PERIOD = 15000;
+    private static final int SCAN_PERIOD = 10000;
 
     @BindView(R.id.button_scan)
     Button scanButton;
@@ -57,17 +59,21 @@ public class DeviceListActivity extends BaseActivity implements BluetoothHelper.
     @BindView(R.id.ble_devices)
     ListView bleDevicesListView;
 
+    //region Lifecycle
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Setup the window
-//        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+        requestWindowFeature(getWindow().FEATURE_INDETERMINATE_PROGRESS);
         setContentView(R.layout.activity_device_list);
         ButterKnife.bind(this);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);  // "Back" Arrow
         setTitle(R.string.select_device);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
 
         // Set result CANCELED in case the user backs out
         setResult(RESULT_CANCELED);
@@ -98,6 +104,16 @@ public class DeviceListActivity extends BaseActivity implements BluetoothHelper.
         mBluetoothLEScanner.stopScan(mScanCallback);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
     @OnItemClick(R.id.ble_devices)
     protected void onDeviceClicked(AdapterView<?> adapter, View v, int position, long id) {
         final BluetoothDevice device = mLeDeviceListAdapter.getDevice(position);
@@ -108,8 +124,8 @@ public class DeviceListActivity extends BaseActivity implements BluetoothHelper.
 
         btHelper.connectToDevice(this, device);
 
-        connectingProgressDialogs = ProgressDialog.show(this, getResources().getString(R.string.connecting) + " " + device.getName(),
-                getResources().getString(R.string.validating), true, true, this);
+        connectingProgressDialogs = ProgressDialog.show(this, getResources().getString(R.string.dialog_connecting_title) + " " + device.getName(),
+                getResources().getString(R.string.dialog_connecting_message), true, true, this);
     }
 
     /**
@@ -188,8 +204,6 @@ public class DeviceListActivity extends BaseActivity implements BluetoothHelper.
             final String deviceName = device.getName();
             if (deviceName != null && deviceName.length() > 0) {
                 LeDeviceItem.deviceName.setText(deviceName);
-            } else {
-                LeDeviceItem.deviceName.setText(R.string.unknown_device);
             }
 
             LeDeviceItem.deviceAddress.setText(device.getAddress());

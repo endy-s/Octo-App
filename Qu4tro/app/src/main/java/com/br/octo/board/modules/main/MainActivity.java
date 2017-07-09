@@ -28,6 +28,7 @@ import com.br.octo.board.api_services.BluetoothHelper;
 import com.br.octo.board.models.Paddle;
 import com.br.octo.board.modules.DeviceListActivity;
 import com.br.octo.board.modules.base.BaseActivity;
+import com.br.octo.board.modules.settings.LightSettingsActivity;
 import com.br.octo.board.modules.settings.LocaleHelper;
 import com.br.octo.board.modules.settings.SettingsActivity;
 import com.br.octo.board.modules.tracking.PaddleActivity;
@@ -46,6 +47,7 @@ import zh.wang.android.yweathergetter4a.YahooWeatherInfoListener;
 
 import static com.br.octo.board.Constants.REQUEST_ENABLE_BT;
 import static com.br.octo.board.Constants.REQUEST_GENERAL_SETTINGS;
+import static com.br.octo.board.Constants.REQUEST_LIGHT_SETTINGS;
 import static com.br.octo.board.Constants.REQUEST_SCAN_DEVICE;
 import static com.br.octo.board.Constants.REQUEST_TRACKING_SCREEN;
 import static com.br.octo.board.Constants.actualPaddleId;
@@ -120,8 +122,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         btHelper = BluetoothHelper.getInstance();
 
-        if (!btHelper.getConnectionStatus()) {
-            showConnectedState();   // TODO change for showNotConnectedState()
+        if (btHelper.getConnectionStatus()) {
+            showConnectedState();
+        } else {
+            showNotConnectedState();
         }
 
         YahooWeather weather = YahooWeather.getInstance();
@@ -183,7 +187,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_connect) {
-            startActivityForResult(new Intent(getBaseContext(), DeviceListActivity.class), REQUEST_SCAN_DEVICE);
+            checkBTConnectionToScan();
             return true;
         }
 
@@ -196,21 +200,25 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
         switch (id) {
             case R.id.nav_bt: {
-                startActivityForResult(new Intent(getBaseContext(), DeviceListActivity.class), REQUEST_SCAN_DEVICE);
+                checkBTConnectionToScan();
                 break;
             }
             case R.id.nav_set: {
                 startActivityForResult(new Intent(getBaseContext(), SettingsActivity.class), REQUEST_GENERAL_SETTINGS);
                 break;
             }
+            case R.id.nav_light: {
+                checkBTConnectionToLight();
+                break;
+            }
             case R.id.nav_history: {
                 // TODO: Call the History view (to be developed)
-                Toast.makeText(getBaseContext(), "History", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getBaseContext(), "Coming soon", Toast.LENGTH_SHORT).show();
                 break;
             }
             case R.id.nav_tutorial: {
                 // TODO: Call the Tutorial view (to be developed)
-                Toast.makeText(getBaseContext(), "Tutorial", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getBaseContext(), "Coming soon", Toast.LENGTH_SHORT).show();
                 break;
             }
             case R.id.nav_share: {
@@ -254,13 +262,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     @OnClick(R.id.btStart)
     public void startClicked() {
-        //TODO: remove comments of commented code
-//        if (btHelper.getConnectionStatus()) {
         Intent trackingIntent = new Intent(getBaseContext(), PaddleActivity.class);
         trackingIntent.putExtra(actualPaddleId, paddleId);
         trackingIntent.putExtra(battValue, batteryTV.getText().toString().replace("%", ""));
         startActivityForResult(trackingIntent, REQUEST_TRACKING_SCREEN);
-//        }
     }
 
     //endregion
@@ -305,7 +310,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 }
                 break;
             case REQUEST_TRACKING_SCREEN:
-//                showLastPaddleInfo();
+                if (resultCode == RESULT_OK) {
+                    showLastPaddleInfo();
+                }
                 break;
         }
     }
@@ -358,6 +365,47 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         boardTV.setText(R.string.bt_board_on);
     }
 
+    private void checkBTConnectionToScan() {
+        if (btHelper.getConnectionStatus()) {
+            createDialog(R.string.dialog_reconnected_title, R.string.dialog_reconnected_message)
+                    .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            showBTDeviceScanScreen();
+                            btHelper.disconnect();
+                        }
+                    })
+                    .setNegativeButton(R.string.cancel, null)
+                    .show();
+        } else {
+            showBTDeviceScanScreen();
+        }
+    }
+
+    private void checkBTConnectionToLight() {
+        if (!btHelper.getConnectionStatus()) {
+            createDialog(R.string.dialog_not_connected_light_title, R.string.dialog_not_connected_light_message)
+                    .setPositiveButton(R.string.dialog_not_connected_light_positive, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            showBTDeviceScanScreen();
+                        }
+                    })
+                    .setNegativeButton(R.string.cancel, null)
+                    .show();
+        } else {
+            showLightScreen();
+        }
+    }
+
+    private void showBTDeviceScanScreen() {
+        startActivityForResult(new Intent(getBaseContext(), DeviceListActivity.class), REQUEST_SCAN_DEVICE);
+    }
+
+    private void showLightScreen() {
+        startActivityForResult(new Intent(getBaseContext(), LightSettingsActivity.class), REQUEST_LIGHT_SETTINGS);
+    }
+
     //endregion
 
     //region BT Callback
@@ -395,7 +443,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             @Override
             public void run() {
                 showNotConnectedState();
-                //TODO: Show warning to the user?
             }
         });
     }

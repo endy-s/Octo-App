@@ -21,11 +21,13 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity
             android:name=".modules.main.MainActivity"
             android:configChanges="locale|layoutDirection"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
+
         <activity
             android:name=".modules.SplashScreenActivity"
             android:screenOrientation="portrait"
@@ -36,31 +38,32 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
         <activity
             android:name=".modules.DeviceListActivity"
             android:parentActivityName=".modules.main.MainActivity"
             android:screenOrientation="portrait"/>
+
         <activity
             android:name=".modules.settings.SettingsActivity"
             android:parentActivityName=".modules.main.MainActivity"
             android:screenOrientation="portrait"/>
+
         <activity
             android:name=".modules.settings.LightSettingsActivity"
             android:parentActivityName=".modules.main.MainActivity"
             android:screenOrientation="portrait"/>
+
         <activity
             android:name=".modules.tracking.PaddleActivity"
+            android:parentActivityName=".modules.main.MainActivity"
             android:screenOrientation="portrait">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".modules.main.MainActivity"/>
         </activity>
+
         <activity
             android:name=".modules.end.EndPaddleActivity"
+            android:parentActivityName=".modules.main.MainActivity"
             android:screenOrientation="portrait">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.br.octo.board.modules.main.MainActivity"/>
         </activity>
 
         <meta-data

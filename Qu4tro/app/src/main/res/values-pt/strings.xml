@@ -38,8 +38,6 @@
     <string name="bt_tempout">AMBIENTE</string>
     <string name="bt_time">Prancha ligada</string>
     <string name="cancel">Cancelar</string>
-    <string name="confirmation">Você tem certeza?</string>
-    <string name="power_down">Desligar a Prancha</string>
     <string name="pref_header_general">Geral</string>
     <string name="pref_title_languages">Idioma</string>
     <string name="pref_title_sync_frequency">Frequência de Sincronização</string>
@@ -98,8 +96,8 @@
     <string name="dialog_permission_request">Solicitação de Permissão</string>
     <string name="dialog_permission_description">O app OCTO precisa das permissões de localização para suas funcionalidades.
         Por favor, aceite a próxima solicitação de permissão.</string>
-    <string name="connecting">Conectando a </string>
-    <string name="validating">Validando dispositivo…</string>
+    <string name="dialog_connecting_title">Conectando a </string>
+    <string name="dialog_connecting_message">Validando dispositivo…</string>
     <string name="bt_error_title">Erro de Bluetooth</string>
     <string name="bt_not_available">Bluetooth não disponível. Tente outro dispositivo.</string>
     <string name="permission_error_title">Funcionalidades limitadas</string>
@@ -109,7 +107,14 @@
     <string name="end_progress_title">Terminando paddle…</string>
     <string name="bt_temp_NA">ND</string>
     <string name="no_location_message">Nenhuma localização encontrada ainda… Tente novamente mais tarde.</string>
-    <string name="no_location_title">Nenhuma localização encontrada.</string>
-    <string name="bt_disconnect_title">Bluetooth desconectado</string>
-    <string name="bt_disconnect_message">Ops… Conexão bluetooth perdida, volte a tela initial e conecte com sua prancha novamente.</string>
+    <string name="no_location_title">Nenhuma localização encontrada</string>
+    <string name="dialog_disconnect_title">Bluetooth desconectado</string>
+    <string name="dialog_disconnect_message">Ops… Conexão bluetooth perdida, volte a tela initial e conecte com sua prancha novamente.</string>
+    <string name="dialog_reconnected_message">Você será desconectado da sua prancha…</string>
+    <string name="dialog_reconnected_title">Você tem certeza?</string>
+    <string name="pref_light_intensity_summary">Valor atual: $1%</string>
+    <string name="pref_message_intensity">Selecione a intensidade da iluminação</string>
+    <string name="dialog_not_connected_light_message">Você não está conectado a sua prancha… Deseja conectar agora?</string>
+    <string name="dialog_not_connected_light_positive">Iniciar scan</string>
+    <string name="dialog_not_connected_light_title">Nào conectado</string>
 </resources>

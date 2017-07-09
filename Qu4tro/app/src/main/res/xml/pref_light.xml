@@ -5,33 +5,44 @@
     <SwitchPreference
         android:defaultValue="false"
         android:key="@string/pref_key_light_enabled"
-        android:title="@string/pref_title_enabled" />
+        android:title="@string/pref_title_enabled"/>
 
     <!-- NOTE: Hide buttons to simplify the UI. Users can touch outside the dialog to
          dismiss it. -->
     <!-- NOTE: ListPreference's summary should be set to its value by the activity code. -->
     <ListPreference
-        android:persistent="true"
-        android:dependency="@string/pref_key_light_enabled"
         android:defaultValue="1"
+        android:dependency="@string/pref_key_light_enabled"
         android:entries="@array/pref_light_list_titles"
         android:entryValues="@array/pref_light_list_values"
-        android:summary="%s"
         android:key="@string/pref_key_light_mode"
         android:negativeButtonText="@null"
+        android:persistent="true"
         android:positiveButtonText="@null"
-        android:title="@string/pref_title_mode" />
+        android:summary="%s"
+        android:title="@string/pref_title_mode"/>
+
+    <com.br.octo.board.models.SeekBarPreference
+        android:defaultValue="50"
+        android:dependency="@string/pref_key_light_enabled"
+        android:dialogMessage="@string/pref_message_intensity"
+        android:key="@string/pref_key_light_intensity"
+        android:max="100"
+        android:persistent="true"
+        android:summary="@string/pref_light_intensity_summary"
+        android:text="@string/pref_light_intensity_unit"
+        android:title="@string/pref_title_intensity"/>
 
     <ListPreference
-        android:persistent="true"
-        android:dependency="@string/pref_key_light_enabled"
         android:defaultValue="3"
+        android:dependency="@string/pref_key_light_enabled"
         android:entries="@array/pref_light_frequency_titles"
         android:entryValues="@array/pref_sync_frequency_values"
-        android:summary="%s"
         android:key="@string/pref_key_light_freq"
         android:negativeButtonText="@null"
+        android:persistent="true"
         android:positiveButtonText="@null"
-        android:title="@string/pref_title_sync_frequency" />
+        android:summary="%s"
+        android:title="@string/pref_title_freq"/>
 
 </PreferenceScreen>

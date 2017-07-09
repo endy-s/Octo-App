@@ -9,6 +9,7 @@ public class Constants {
     public static final int REQUEST_GENERAL_SETTINGS = 1;
     public static final int REQUEST_LIGHT_SETTINGS = 2;
     public static final int REQUEST_TRACKING_SCREEN = 3;
+    public static final int REQUEST_END_SCREEN = 3;
 
     public static final int REQUEST_CHECK_SETTINGS = 79;
     public static final int PERMISSION_REQUEST_LOCATION = 89;
