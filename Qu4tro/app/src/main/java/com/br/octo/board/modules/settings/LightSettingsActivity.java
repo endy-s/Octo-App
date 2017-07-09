@@ -38,20 +38,14 @@ public class LightSettingsActivity extends AppCompatPreferenceActivity implement
 
         sharedLightPref = getPreferenceScreen().getSharedPreferences();
 
-        ListPreference modePreference = (ListPreference) findPreference(res.
-                getString(R.string.pref_key_light_mode));
-        ListPreference freqPreference = (ListPreference) findPreference(res.getString(R.string.pref_key_light_freq));
-        SeekBarPreference intensityPreference = (SeekBarPreference) this.findPreference(res.getString(R.string.pref_key_light_intensity));
+        ListPreference modePreference = (ListPreference) findPreference(res.getString(R.string.pref_key_light_mode));
+        setFreqEnabled(modePreference.findIndexOfValue(sharedLightPref.getString(res.getString(R.string.pref_key_light_mode), "")));
 
+        SeekBarPreference intensityPreference = (SeekBarPreference) this.findPreference(res.getString(R.string.pref_key_light_intensity));
         // Set seekbar summary :
         int radius = sharedLightPref.getInt(res.getString(R.string.pref_key_light_intensity), 50);
         intensityPreference.setSummary(this.getString(R.string.pref_light_intensity_summary).replace("$1", "" + radius));
 
-
-        setFreqEnabled(modePreference.findIndexOfValue(sharedLightPref.getString(res.getString(R.string.pref_key_light_mode), "")));
-
-        modePreference.setEntryValues(res.getStringArray(R.array.pref_light_list_values));
-        freqPreference.setEntryValues(res.getStringArray(R.array.pref_light_frequency_values));
 
         btHelper = BluetoothHelper.getInstance();
     }
@@ -92,10 +86,7 @@ public class LightSettingsActivity extends AppCompatPreferenceActivity implement
             int index = listPreference.findIndexOfValue(sharedPreferences.getString(key, ""));
 
             // Set the summary to reflect the new value.
-            listPreference.setSummary(
-                    index >= 0
-                            ? listPreference.getEntries()[index]
-                            : null);
+            listPreference.setSummary(index >= 0 ? listPreference.getEntries()[index] : null);
 
             if (key.matches(res.getString(R.string.pref_key_light_mode))) {
                 setFreqEnabled(index);
