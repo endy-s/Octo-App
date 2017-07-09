@@ -115,8 +115,6 @@ public class EndPaddleActivity extends BaseActivity {
                     Polyline line = googleMap.addPolyline(lineOptions);
                     LatLngBounds bounds = builder.build();
 
-                    int height = endMapView.getHeight();
-                    int width = endMapView.getWidth();
                     int padding = 25;
                     CameraUpdate zoom = CameraUpdateFactory.newLatLngBounds(bounds, padding);
 

@@ -19,6 +19,9 @@ public class Constants {
 
     public static final String actualPaddleId = "actual_paddle_id";
 
-    public static final int SPLASH_TIME_OUT = 1000;
+    public static final int SPLASH_TIME_OUT = 100;
+
+    public static final String weatherInfo = "weather_info";
+    public static final String battValue = "batt_value";
 
 }

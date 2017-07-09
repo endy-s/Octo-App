@@ -49,6 +49,7 @@ import static com.br.octo.board.Constants.REQUEST_GENERAL_SETTINGS;
 import static com.br.octo.board.Constants.REQUEST_SCAN_DEVICE;
 import static com.br.octo.board.Constants.REQUEST_TRACKING_SCREEN;
 import static com.br.octo.board.Constants.actualPaddleId;
+import static com.br.octo.board.Constants.battValue;
 
 /**
  * Created by Endy.
@@ -253,9 +254,11 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     @OnClick(R.id.btStart)
     public void startClicked() {
+        //TODO: remove comments of commented code
 //        if (btHelper.getConnectionStatus()) {
         Intent trackingIntent = new Intent(getBaseContext(), PaddleActivity.class);
         trackingIntent.putExtra(actualPaddleId, paddleId);
+        trackingIntent.putExtra(battValue, batteryTV.getText().toString().replace("%", ""));
         startActivityForResult(trackingIntent, REQUEST_TRACKING_SCREEN);
 //        }
     }
@@ -392,6 +395,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             @Override
             public void run() {
                 showNotConnectedState();
+                //TODO: Show warning to the user?
             }
         });
     }
