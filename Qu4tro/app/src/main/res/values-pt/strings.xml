@@ -117,4 +117,5 @@
     <string name="dialog_not_connected_light_message">Você não está conectado a sua prancha… Deseja conectar agora?</string>
     <string name="dialog_not_connected_light_positive">Iniciar scan</string>
     <string name="dialog_not_connected_light_title">Nào conectado</string>
+    <string name="dialog_finish_message">Se você finalizar o app a sua remada atual será parada.</string>
 </resources>

@@ -147,6 +147,8 @@ public class EndPaddleActivity extends BaseActivity {
 
     @OnClick(R.id.endShareButton)
     public void shareClicked() {
+        Toast.makeText(getBaseContext(), "Loading...", Toast.LENGTH_SHORT).show();
+
         SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd-HH-mm", Locale.US);
         final String fileName = "Paddle " + dateFormatter.format(Calendar.getInstance().getTime()) + ".png";
 

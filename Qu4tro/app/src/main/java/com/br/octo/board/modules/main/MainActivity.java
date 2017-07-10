@@ -63,8 +63,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     BluetoothHelper btHelper;
     private BluetoothAdapter mBluetoothAdapter = null;
 
-    // Paddle Keep Info flag
+    // Paddle "flags"
     private int paddleId = 0;
+    private boolean startedPaddling = false;
 
     // Widgets
     // Status TextViews
@@ -152,7 +153,19 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            if (startedPaddling) {
+                createDialog(R.string.dialog_reconnected_title, R.string.dialog_finish_message)
+                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                finish();
+                            }
+                        })
+                        .setNegativeButton(R.string.cancel, null)
+                        .show();
+            } else {
+                super.onBackPressed();
+            }
         }
     }
 
@@ -262,6 +275,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     @OnClick(R.id.btStart)
     public void startClicked() {
+        startedPaddling = true;
         Intent trackingIntent = new Intent(getBaseContext(), PaddleActivity.class);
         trackingIntent.putExtra(actualPaddleId, paddleId);
         trackingIntent.putExtra(battValue, batteryTV.getText().toString().replace("%", ""));
@@ -311,6 +325,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 break;
             case REQUEST_TRACKING_SCREEN:
                 if (resultCode == RESULT_OK) {
+                    startedPaddling = false;
                     showLastPaddleInfo();
                 }
                 break;

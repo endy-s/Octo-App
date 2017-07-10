@@ -138,7 +138,7 @@ public class BluetoothHelper {
     }
 
     private void sendHandshake() {
-        sendMessage("<OCTO>\n");
+        sendMessage("<OCTO>");
     }
 
     private void sendLightState() {
