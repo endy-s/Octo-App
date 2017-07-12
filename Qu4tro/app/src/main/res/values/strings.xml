@@ -56,6 +56,7 @@
     <string name="device_name" translatable="false">Device Name</string>
     <string name="device_addr" translatable="false">Device-ADDR</string>
     <string name="unknown_device">Unknown Device</string>
+    <string name="bt_connection_error">Connection error, try again</string>
 
     <!-- Buttons -->
     <string name="bt_power">On/Off</string>

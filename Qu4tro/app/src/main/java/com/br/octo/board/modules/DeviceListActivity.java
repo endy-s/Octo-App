@@ -297,7 +297,7 @@ public class DeviceListActivity extends BaseActivity implements BluetoothHelper.
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(getBaseContext(), "Connection error, try again", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getBaseContext(), getString(R.string.bt_connection_error), Toast.LENGTH_SHORT).show();
             }
         });
     }
