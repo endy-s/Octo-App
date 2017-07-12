@@ -80,12 +80,14 @@
     <string name="bt_dist" translatable="false">KM</string>
     <string name="bt_kcal" translatable="false">KCAL</string>
 
-    <!--Tracking Screen-->
+    <!--Paddling Screen-->
     <string name="bt_sup">HR:MIN</string>
 
     <string name="bt_rows">ROWS</string>
     <string name="bt_speed" translatable="false">KM/H</string>
 
+    <!--End of Paddle Screen-->
+    <string name="share_loading">Loading…</string>
 
     <!--Botton Navigation-->
     <string name="bt_stop">STOP</string>
