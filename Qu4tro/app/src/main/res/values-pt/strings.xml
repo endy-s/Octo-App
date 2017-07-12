@@ -10,11 +10,11 @@
     <string name="button_scan">Procure por sua prancha</string>
     <string name="none_found">Nenhum dispositivo foi encontrado. Por favor, ligue o dispositivo da sua prancha.</string>
     <string name="none_paired">Nenhum dispositivo emparelhado</string>
-    <string name="not_connected">Prancha não conectada...</string>
-    <string name="scanning">Escaneando...</string>
+    <string name="not_connected">Prancha não conectada…</string>
+    <string name="scanning">Escaneando…</string>
     <string name="select_device">Escolha sua prancha</string>
     <string name="title_connected">Conectado a prancha</string>
-    <string name="title_connecting">Conectando...</string>
+    <string name="title_connecting">Conectando…</string>
     <string name="title_not_connected">Não conectado</string>
     <string name="title_other_devices">Outros dispositivos disponíveis</string>
     <string name="title_paired_devices">Dispositivos Pairados</string>
@@ -33,14 +33,11 @@
     <string name="bt_light">Iluminação</string>
     <string name="bt_power">Liga/Desliga</string>
     <string name="bt_track">Trajeto</string>
-    <string name="bt_sup">Tempo na Água</string>
-    <string name="bt_bat">Nível de Bateria</string>
-    <string name="bt_tempin">Temperatura da Água</string>
-    <string name="bt_tempout">Temperatura Ambiente</string>
+    <string name="bt_bat">BATERIA</string>
+    <string name="bt_tempin">ÁGUA</string>
+    <string name="bt_tempout">AMBIENTE</string>
     <string name="bt_time">Prancha ligada</string>
     <string name="cancel">Cancelar</string>
-    <string name="confirmation">Você tem certeza?</string>
-    <string name="power_down">Desligar a Prancha</string>
     <string name="pref_header_general">Geral</string>
     <string name="pref_title_languages">Idioma</string>
     <string name="pref_title_sync_frequency">Frequência de Sincronização</string>
@@ -63,7 +60,6 @@
     </string-array>
 
 
-
     <string-array name="pref_light_list_titles">
         <item>Sempre Ligado</item>
         <item>Fade</item>
@@ -77,16 +73,12 @@
 
     <string-array name="pref_light_frequency_titles">
         <item>Lento</item>
-        <item>Médio Lento</item>
         <item>Médio</item>
-        <item>Médio Rápido</item>
         <item>Rápido</item>
     </string-array>
     <string-array name="pref_light_frequency_values">
         <item>"5"</item>
-        <item>"4"</item>
         <item>"3"</item>
-        <item>"2"</item>
         <item>"1"</item>
     </string-array>
 
@@ -96,7 +88,7 @@
     <string name="unknown_device">Dispositivo Desconhecido</string>
     <string name="bt_board">PRANCHA</string>
     <string name="bt_last">ÚLTIMA REMADA</string>
-    <string name="bt_rows">Remadas</string>
+    <string name="bt_rows">REMADAS</string>
     <string name="bt_stop">PARAR</string>
     <string name="bt_pause">PAUSAR</string>
     <string name="bt_play">INICIAR</string>
@@ -104,4 +96,27 @@
     <string name="dialog_permission_request">Solicitação de Permissão</string>
     <string name="dialog_permission_description">O app OCTO precisa das permissões de localização para suas funcionalidades.
         Por favor, aceite a próxima solicitação de permissão.</string>
+    <string name="dialog_connecting_title">Conectando a </string>
+    <string name="dialog_connecting_message">Validando dispositivo…</string>
+    <string name="bt_error_title">Erro de Bluetooth</string>
+    <string name="bt_not_available">Bluetooth não disponível. Tente outro dispositivo.</string>
+    <string name="permission_error_title">Funcionalidades limitadas</string>
+    <string name="permission_error_msg">Sem o acesso a localização garantido, esse applicativo não será capaz de encontrar sua prancha. Altere essa configuração nas definições do sistema ou resintale o aplicativo e garanta a permissão.</string>
+    <string name="bt_sup">HR:MIN</string>
+    <string name="end_progress_message">Salvando e renderizando…</string>
+    <string name="end_progress_title">Terminando paddle…</string>
+    <string name="bt_temp_NA">ND</string>
+    <string name="no_location_message">Nenhuma localização encontrada ainda… Tente novamente mais tarde.</string>
+    <string name="no_location_title">Nenhuma localização encontrada</string>
+    <string name="dialog_disconnect_title">Bluetooth desconectado</string>
+    <string name="dialog_disconnect_message">Ops… Conexão bluetooth perdida, volte a tela initial e conecte com sua prancha novamente.</string>
+    <string name="dialog_reconnected_message">Você será desconectado da sua prancha…</string>
+    <string name="dialog_reconnected_title">Você tem certeza?</string>
+    <string name="pref_light_intensity_summary">Valor atual: $1%</string>
+    <string name="pref_message_intensity">Selecione a intensidade da iluminação</string>
+    <string name="dialog_not_connected_light_message">Você não está conectado a sua prancha… Deseja conectar agora?</string>
+    <string name="dialog_not_connected_light_positive">Iniciar scan</string>
+    <string name="dialog_not_connected_light_title">Nào conectado</string>
+    <string name="dialog_finish_message">Se você finalizar o app a sua remada atual será parada.</string>
+    <string name="bt_connection_error">Erro de conexão, tente novamente</string>
 </resources>

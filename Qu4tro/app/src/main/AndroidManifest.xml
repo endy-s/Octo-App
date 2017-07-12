@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.br.octo.board">
+          package="com.br.octo.board">
 
-    <uses-permission android:name="android.permission.BLUETOOTH" />
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-feature android:name="android.hardware.bluetooth_le" android:required="true"/>
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <uses-feature
+        android:name="android.hardware.bluetooth_le"
+        android:required="true"/>
 
     <application
         android:name=".MainApplication"
@@ -16,6 +21,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity
             android:name=".modules.main.MainActivity"
             android:configChanges="locale|layoutDirection"
@@ -27,58 +33,46 @@
             android:screenOrientation="portrait"
             android:theme="@style/SplashTheme">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
 
         <activity
             android:name=".modules.DeviceListActivity"
-            android:screenOrientation="portrait"
-            android:parentActivityName=".modules.main.MainActivity"/>
+            android:parentActivityName=".modules.main.MainActivity"
+            android:screenOrientation="portrait"/>
+
         <activity
             android:name=".modules.settings.SettingsActivity"
-            android:screenOrientation="portrait"
-            android:parentActivityName=".modules.main.MainActivity"/>
+            android:parentActivityName=".modules.main.MainActivity"
+            android:screenOrientation="portrait"/>
+
         <activity
             android:name=".modules.settings.LightSettingsActivity"
-            android:screenOrientation="portrait"
-            android:parentActivityName=".modules.main.MainActivity"/>
+            android:parentActivityName=".modules.main.MainActivity"
+            android:screenOrientation="portrait"/>
 
         <activity
             android:name=".modules.tracking.PaddleActivity"
-            android:screenOrientation="portrait"
-            android:label="@string/title_activity_maps">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".modules.main.MainActivity" />
+            android:parentActivityName=".modules.main.MainActivity"
+            android:screenOrientation="portrait">
         </activity>
 
-        <service
-            android:name=".modules.tracking.TrackingService"
-            android:enabled="true"
-            android:exported="true"
-            android:process=":tracking" />
-
-        <!--<service -->
-            <!--android:name="" -->
-            <!--android:enabled="true"/>-->
-
-        <!--
-             The API key for Google Maps-based APIs is defined as a string resource.
-             (See the file "res/values/google_maps_api.xml").
-             Note that the API key is linked to the encryption key used to sign the APK.
-             You need a different API key for each encryption key, including the release key that is used to
-             sign the APK for publishing.
-             You can define the keys for the debug and release targets in src/debug/ and src/release/. 
-        -->
+        <activity
+            android:name=".modules.end.EndPaddleActivity"
+            android:parentActivityName=".modules.main.MainActivity"
+            android:screenOrientation="portrait">
+        </activity>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key" />
+            android:value="@string/google_maps_key"/>
         <meta-data
             android:name="io.fabric.ApiKey"
-            android:value="37f823ac90b1b11443514a9d32c0da7164d30520" />
+            android:value="37f823ac90b1b11443514a9d32c0da7164d30520"/>
+
     </application>
+
 </manifest>

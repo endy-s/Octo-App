@@ -1,31 +1,52 @@
-<resources xmlns:xliff="http://schemas.android.com/tools">
+<resources>
+    <!--System-->
     <string name="app_name" translatable="false">OCTO</string>
     <string name="project_name">Board OCTO</string>
-
-    <!--  Map Activity -->
-    <string name="title_activity_maps" translatable="false">Map</string>
+    <string name="paddle_extra" translatable="false">actual_paddle</string>
 
     <!--Dialog-->
+    <string name="ok" translatable="false">OK</string>
+    <string name="cancel">Cancel</string>
     <string name="dialog_permission_request">Permission request</string>
     <string name="dialog_permission_description">The OCTO app needs location permission for its functionality.
         Please, accept the following permission request</string>
     <string name="dialog_next">NEXT</string>
-    <string name="power_down">Power Down the Board</string>
-    <string name="confirmation">Are you sure?</string>
-    <string name="cancel">Cancel</string>
+    <string name="dialog_connecting_title">Connecting to </string>
+    <string name="dialog_connecting_message">Device validation…</string>
+    <string name="dialog_disconnect_title">Bluetooth disconnected</string>
+    <string name="dialog_disconnect_message">Ops… Your bluetooth connection was lost, come back to the Main Page and connect with your board again.</string>
+    <string name="dialog_reconnected_title">Are you sure?</string>
+    <string name="dialog_reconnected_message">You will be disconnected from your board…</string>
+    <string name="dialog_finish_message">If you finish the app your actual paddling will be stopped.</string>
+    <string name="dialog_not_connected_light_title">Not connected</string>
+    <string name="dialog_not_connected_light_message">You are not connected to your board… Do you want to connect now?</string>
+    <string name="dialog_not_connected_light_positive">Start scan</string>
+
+
+    <!--Progress Dialog-->
+    <string name="end_progress_title">Ending paddle…</string>
+    <string name="end_progress_message">Saving and rendering…</string>
+
+    <!--Error Dialog-->
+    <string name="bt_error_title">Bluetooth Error</string>
+    <string name="bt_not_available">Bluetooth not available. Try with another device.</string>
+    <string name="bt_not_enabled_leaving">Bluetooth not enabled. Leaving the application.</string>
+    <string name="ble_not_supported">Bluetooth Low Energy not supported. Try with another device.</string>
+    <string name="permission_error_title">Functionality limited</string>
+    <string name="permission_error_msg">Without the location access granted, this app will not be able to discover your board. Change this configuration at the system Settings or reinstall the application and grant the permission.</string>
+    <string name="no_location_title">No Location found</string>
+    <string name="no_location_message">There\'s no location found yet… Try again later.</string>
 
     <!--Cool Version Main Screen-->
 
     <!--  Bluetooth Status -->
-    <string name="not_connected">Board not connected...</string>
-    <string name="bt_not_enabled_leaving">Bluetooth not enabled. Leaving the application.</string>
-    <string name="ble_not_supported">Bluetooth Low Energy not supported. Leaving the application.</string>
-    <string name="title_connecting">Connecting...</string>
+    <string name="not_connected">Board not connected…</string>
+    <string name="title_connecting">Connecting…</string>
     <string name="title_connected">Connected to the board</string>
     <string name="title_not_connected">Not connected</string>
 
     <!--  DeviceListActivity -->
-    <string name="scanning">Scanning...</string>
+    <string name="scanning">Scanning…</string>
     <string name="select_device">Select your board</string>
     <string name="none_paired">No devices have been paired</string>
     <string name="none_found">No devices found. Please, turn your board device on</string>
@@ -35,6 +56,7 @@
     <string name="device_name" translatable="false">Device Name</string>
     <string name="device_addr" translatable="false">Device-ADDR</string>
     <string name="unknown_device">Unknown Device</string>
+    <string name="bt_connection_error">Connection error, try again</string>
 
     <!-- Buttons -->
     <string name="bt_power">On/Off</string>
@@ -43,7 +65,7 @@
     <string name="bt_time">Board On</string>
 
     <string name="bt_tempin">WATER</string>
-    <string name="bt_tempout">AMBIENCE</string>
+    <string name="bt_tempout">AMBIENT</string>
     <string name="bt_bat">BATTERY</string>
     <string name="bt_board">BOARD</string>
     <string name="bt_last">LAST PADDLE</string>
@@ -51,14 +73,15 @@
     <string name="bt_unknown" translatable="false">---</string>
     <string name="bt_board_on" translatable="false">ON</string>
     <string name="bt_board_off" translatable="false">OFF</string>
+    <string name="bt_temp_NA">NA</string>
 
 
     <!--Both Screens-->
     <string name="bt_dist" translatable="false">KM</string>
-    <string name="bt_cal" translatable="false">KCAL</string>
+    <string name="bt_kcal" translatable="false">KCAL</string>
 
     <!--Tracking Screen-->
-    <string name="bt_sup">MIN:SEC</string>
+    <string name="bt_sup">HR:MIN</string>
 
     <string name="bt_rows">ROWS</string>
     <string name="bt_speed" translatable="false">KM/H</string>
@@ -120,12 +143,10 @@
     <string-array name="pref_general_list_titles" translatable="false">
         <item>English</item>
         <item>Português (Brasil)</item>
-        <item>Português (Portugal)</item>
     </string-array>
     <string-array name="pref_general_list_values" translatable="false">
         <item>0</item>
         <item>1</item>
-        <item>2</item>
     </string-array>
 
     <!-- Language settings -->
@@ -179,24 +200,24 @@
         <item>"3"</item>
     </string-array>
 
+    <string name="pref_title_intensity">Light Intensity</string>
+    <string name="pref_key_light_intensity" translatable="false">light_int_key</string>
+    <string name="pref_message_intensity">Select the light intensity</string>
+    <string name="pref_light_intensity_unit" translatable="false">%</string>
+    <string name="pref_light_intensity_summary">Current value: $1%</string>
+
     <string name="pref_title_freq">Light Frequency</string>
     <string name="pref_key_light_freq" translatable="false">light_freq_key</string>
     <string-array name="pref_light_frequency_titles">
         <item>Slow</item>
-        <item>Medium Slow</item>
         <item>Medium</item>
-        <item>Medium Fast</item>
         <item>Fast</item>
     </string-array>
     <string-array name="pref_light_frequency_values">
         <item>"5"</item>
-        <item>"4"</item>
         <item>"3"</item>
-        <item>"2"</item>
         <item>"1"</item>
     </string-array>
-
-    <string name="pref_title_intensity">Light Intensity</string>
 
     <string name="pref_title_system_sync_settings">Sync Settings</string>
 

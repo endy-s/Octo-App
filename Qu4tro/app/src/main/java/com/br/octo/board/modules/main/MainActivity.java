@@ -1,24 +1,19 @@
 package com.br.octo.board.modules.main;
 
-import android.Manifest;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -30,35 +25,47 @@ import android.widget.Toast;
 
 import com.br.octo.board.R;
 import com.br.octo.board.api_services.BluetoothHelper;
+import com.br.octo.board.models.Paddle;
 import com.br.octo.board.modules.DeviceListActivity;
 import com.br.octo.board.modules.base.BaseActivity;
+import com.br.octo.board.modules.settings.LightSettingsActivity;
 import com.br.octo.board.modules.settings.LocaleHelper;
 import com.br.octo.board.modules.settings.SettingsActivity;
 import com.br.octo.board.modules.tracking.PaddleActivity;
 
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
+import zh.wang.android.yweathergetter4a.WeatherInfo;
+import zh.wang.android.yweathergetter4a.YahooWeather;
+import zh.wang.android.yweathergetter4a.YahooWeatherInfoListener;
+
+import static com.br.octo.board.Constants.REQUEST_ENABLE_BT;
+import static com.br.octo.board.Constants.REQUEST_GENERAL_SETTINGS;
+import static com.br.octo.board.Constants.REQUEST_LIGHT_SETTINGS;
+import static com.br.octo.board.Constants.REQUEST_SCAN_DEVICE;
+import static com.br.octo.board.Constants.REQUEST_TRACKING_SCREEN;
+import static com.br.octo.board.Constants.actualPaddleId;
+import static com.br.octo.board.Constants.battValue;
 
 /**
  * Created by Endy.
  */
-public class MainActivity extends BaseActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener,
+        BluetoothHelper.BluetoothCallback, YahooWeatherInfoListener {
 
-// Intent request codes
-    public static final int ACTIVITY_REQUEST_SCAN_DEVICE = 0;
-    public static final int ACTIVITY_REQUEST_GENERAL_SETTINGS = 1;
-    public static final int ACTIVITY_REQUEST_LIGHT_SETTINGS = 2;
-    public static final int ACTIVITY_REQUEST_TRACKING_SCREEN = 3;
-    public static final int ACTIVITY_REQUEST_ENABLE_BT = 99;
-
-    private static final int PERMISSION_REQUEST_COARSE_LOCATION = 5;
-
-// Bluetooth
-
+    // Bluetooth
     BluetoothHelper btHelper;
     private BluetoothAdapter mBluetoothAdapter = null;
+
+    // Paddle "flags"
+    private int paddleId = 0;
+    private boolean startedPaddling = false;
 
     // Widgets
     // Status TextViews
@@ -66,10 +73,20 @@ public class MainActivity extends BaseActivity
     TextView batteryTV;
     @BindView(R.id.txtBoard)
     TextView boardTV;
-    @BindView(R.id.txtAmbience)
+    @BindView(R.id.txtAmbient)
     TextView tempEnvTV;
     @BindView(R.id.txtWater)
     TextView tempWatterTV;
+
+    // Last Paddle Info
+    @BindView(R.id.lastDistTV)
+    TextView lastDist;
+    @BindView(R.id.lastTimeTV)
+    TextView lastDuration;
+    @BindView(R.id.lastKcalTV)
+    TextView lastKcal;
+    @BindView(R.id.lastDateTV)
+    TextView lastDate;
 
     // Button
     @BindView(R.id.btStart)
@@ -84,16 +101,16 @@ public class MainActivity extends BaseActivity
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
+    //region Lifecycle
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         ButterKnife.bind(this);
 
         setSupportActionBar(toolbar);
-        setTitle("");
+//        setTitle("");
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
@@ -101,33 +118,13 @@ public class MainActivity extends BaseActivity
 
         navigationView.setNavigationItemSelectedListener(this);
 
+        showLastPaddleInfo();
+
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-
-
         btHelper = BluetoothHelper.getInstance();
 
-        if (!btHelper.getConnectionStatus()) {
-            showNotConnected();
-        }
-
-
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-
-            final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle(R.string.dialog_permission_request);
-            builder.setMessage(R.string.dialog_permission_description);
-            builder.setPositiveButton(R.string.dialog_next, null);
-            builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                @Override
-                public void onDismiss(DialogInterface dialog) {
-                    ActivityCompat.requestPermissions(MainActivity.this,
-                            new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                            PERMISSION_REQUEST_COARSE_LOCATION);
-                }
-            });
-            builder.show();
-        }
+        YahooWeather weather = YahooWeather.getInstance();
+        weather.queryYahooWeatherByGPS(this, this);
     }
 
     @Override
@@ -135,8 +132,16 @@ public class MainActivity extends BaseActivity
         super.onResume();
         if (!mBluetoothAdapter.isEnabled()) {
             Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-            startActivityForResult(enableIntent, ACTIVITY_REQUEST_ENABLE_BT);
+            startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
         }
+
+        if (btHelper.getConnectionStatus()) {
+            showConnectedState();
+        } else {
+            showNotConnectedState();
+        }
+        
+        btHelper.setCallback(this);
     }
 
     @Override
@@ -149,16 +154,28 @@ public class MainActivity extends BaseActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            if (startedPaddling) {
+                createDialog(R.string.dialog_reconnected_title, R.string.dialog_finish_message)
+                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                finish();
+                            }
+                        })
+                        .setNegativeButton(R.string.cancel, null)
+                        .show();
+            } else {
+                super.onBackPressed();
+            }
         }
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (btHelper.getConnectionStatus()) {
-            btHelper.disconnect();
-        }
+//        if (btHelper.getConnectionStatus()) {
+//            btHelper.disconnect();
+//        }
     }
 
     @Override
@@ -171,151 +188,180 @@ public class MainActivity extends BaseActivity
         super.onConfigurationChanged(newConfig);
     }
 
+    //endregion
+
+    //region Menu and drawer
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
-    // Menu and drawer region
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.action_connect) {
-            startActivityForResult(new Intent(getBaseContext(), DeviceListActivity.class), ACTIVITY_REQUEST_SCAN_DEVICE);
+        if (item.getItemId() == R.id.action_connect) {
+            checkBTConnectionToScan();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.nav_bt) {
-            // Launch the DeviceListActivity to see devices and do scan
-            startActivityForResult(new Intent(getBaseContext(), DeviceListActivity.class), ACTIVITY_REQUEST_SCAN_DEVICE);
-            return true;
-        }
-        else if (id == R.id.nav_set) {
-            // Launch the SettingsActivity to change the preferences
-            startActivityForResult(new Intent(getBaseContext(), SettingsActivity.class), ACTIVITY_REQUEST_GENERAL_SETTINGS);
-
-            return true;
-        }
-        else if (id == R.id.nav_history) {
-            // TODO: Call the History view (to be developed)
-        }
-        else if (id == R.id.nav_tutorial) {
-            // TODO: Call the Tutorial view (to be developed)
-        }
-        else if (id == R.id.nav_share) {
-            Intent sendIntent = new Intent(Intent.ACTION_SEND);
-
-            sendIntent.putExtra(Intent.EXTRA_TEXT, getResources().getString(R.string.share_texts));
-            sendIntent.setType("text/plain");
-
-            // Verify that the intent will resolve to an activity
-            if (sendIntent.resolveActivity(getPackageManager()) != null) {
-                startActivity(Intent.createChooser(sendIntent, getResources().
-                        getString(R.string.send_share)));
+        switch (id) {
+            case R.id.nav_bt: {
+                checkBTConnectionToScan();
+                break;
             }
-            else {
-                Toast.makeText(getBaseContext(), getResources().
-                                getString(R.string.error_share),
-                        Toast.LENGTH_SHORT).show();
+            case R.id.nav_set: {
+                startActivityForResult(new Intent(getBaseContext(), SettingsActivity.class), REQUEST_GENERAL_SETTINGS);
+                break;
             }
+            case R.id.nav_light: {
+                checkBTConnectionToLight();
+                break;
+            }
+            case R.id.nav_history: {
+                // TODO: Call the History view (to be developed)
+                Toast.makeText(getBaseContext(), "Coming soon", Toast.LENGTH_SHORT).show();
+                break;
+            }
+            case R.id.nav_tutorial: {
+                // TODO: Call the Tutorial view (to be developed)
+                Toast.makeText(getBaseContext(), "Coming soon", Toast.LENGTH_SHORT).show();
+                break;
+            }
+            case R.id.nav_share: {
+                Intent sendIntent = new Intent(Intent.ACTION_SEND);
 
-            return true;
+                sendIntent.putExtra(Intent.EXTRA_TEXT, getResources().getString(R.string.share_texts));
+                sendIntent.setType("text/plain");
+
+                if (sendIntent.resolveActivity(getPackageManager()) != null) {
+                    startActivity(Intent.createChooser(sendIntent, getResources().
+                            getString(R.string.send_share)));
+                } else {
+                    Toast.makeText(getBaseContext(), getResources().getString(R.string.error_share), Toast.LENGTH_SHORT).show();
+                }
+                break;
+            }
+            case R.id.nav_send: {
+                Intent mail_intent = new Intent(Intent.ACTION_SENDTO);
+
+                mail_intent.setData(Uri.parse("mailto:"));
+                mail_intent.putExtra(Intent.EXTRA_EMAIL, getResources().getStringArray(R.array.email));
+                mail_intent.putExtra(Intent.EXTRA_SUBJECT, getResources().getString(R.string.subject_mail));
+
+                if (mail_intent.resolveActivity(getPackageManager()) != null) {
+                    startActivity(Intent.createChooser(mail_intent, getResources()
+                            .getString(R.string.send_mail)));
+                } else {
+                    Toast.makeText(getBaseContext(), getResources().getString(R.string.error_mail), Toast.LENGTH_SHORT).show();
+                }
+                break;
+            }
         }
-        else if (id == R.id.nav_send) {
-            Intent mail_intent = new Intent(Intent.ACTION_SENDTO);
 
-            mail_intent.setData(Uri.parse("mailto:")); // only email apps should handle this
-            mail_intent.putExtra(Intent.EXTRA_EMAIL, getResources().getStringArray(R.array.email));
-            mail_intent.putExtra(Intent.EXTRA_SUBJECT, getResources().getString(R.string.subject_mail));
-
-            // Verify that the intent will resolve to an activity
-            if (mail_intent.resolveActivity(getPackageManager()) != null) {
-                startActivity(Intent.createChooser(mail_intent, getResources()
-                        .getString(R.string.send_mail)));
-            }
-            else {
-                Toast.makeText(getBaseContext(), getResources()
-                                .getString(R.string.error_mail),
-                        Toast.LENGTH_SHORT).show();
-            }
-        }
-
+        drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
-    // end Region
+    //endregion
 
     //region click listeners
 
     @OnClick(R.id.btStart)
-    public void startClicked()
-    {
-        if (btHelper.getConnectionStatus())
-        {
-            Intent trackingIntent = new Intent(getBaseContext(), PaddleActivity.class);
-            startActivityForResult(trackingIntent, ACTIVITY_REQUEST_TRACKING_SCREEN);
-        }
+    public void startClicked() {
+        startedPaddling = true;
+        Intent trackingIntent = new Intent(getBaseContext(), PaddleActivity.class);
+        trackingIntent.putExtra(actualPaddleId, paddleId);
+        trackingIntent.putExtra(battValue, batteryTV.getText().toString().replace("%", ""));
+        startActivityForResult(trackingIntent, REQUEST_TRACKING_SCREEN);
     }
 
-    //end region
+    //endregion
 
+    //region Results
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
-            case ACTIVITY_REQUEST_GENERAL_SETTINGS:
-                // When Settings returns with a Language change
+            case REQUEST_GENERAL_SETTINGS:
                 if (resultCode == RESULT_OK) {
                     recreate();
-                }
-                else if (resultCode == Activity.RESULT_FIRST_USER) {
+                } else if (resultCode == Activity.RESULT_FIRST_USER) {
                     getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-                }
-                else {
+                } else {
                     getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
                 }
                 break;
 
-            case ACTIVITY_REQUEST_ENABLE_BT:
+            case REQUEST_ENABLE_BT:
                 if (resultCode != RESULT_OK) {
                     // User did not enable Bluetooth or an error occurred
-                    Toast.makeText(this, R.string.bt_not_enabled_leaving,
-                            Toast.LENGTH_SHORT).show();
-                    finish();
+                    createDialog(R.string.bt_error_title, R.string.bt_not_enabled_leaving)
+                            .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    finish();
+                                }
+                            })
+                            .setOnDismissListener(new DialogInterface.OnDismissListener() {
+                                @Override
+                                public void onDismiss(DialogInterface dialog) {
+                                    finish();
+                                }
+                            })
+                            .show();
                 }
                 break;
 
-            case ACTIVITY_REQUEST_SCAN_DEVICE:
-                // Check if connected
+            case REQUEST_SCAN_DEVICE:
                 if (resultCode == RESULT_OK) {
-                    showBoardInfos();
+                    showConnectedState();
+                }
+                break;
+            case REQUEST_TRACKING_SCREEN:
+                if (resultCode == RESULT_OK) {
+                    startedPaddling = false;
+                    showLastPaddleInfo();
                 }
                 break;
         }
     }
 
+    //endregion
 
-    // Region manage the info shown at the screen
+    //region Private - manage the info shown at the screen
 
-    public void showBoardInfos() {
-        btStart.setColorFilter(null);
-        btStart.setImageAlpha(255);
-        btStart.setEnabled(true);
+    private void showLastPaddleInfo() {
+        RealmConfiguration realmConfiguration = new RealmConfiguration.Builder().build();
+//        Realm.deleteRealm(realmConfiguration);
+        Realm realm = Realm.getInstance(realmConfiguration);
+        if (realm.where(Paddle.class).findAllSorted("id").size() > 0) {
+            Paddle lastPaddle = realm.where(Paddle.class).findAllSorted("id").last();
 
-        boardTV.setText(R.string.bt_board_on);
+            if (lastPaddle != null) {
+                paddleId = lastPaddle.getId() + 1;
+
+                lastDist.setText(String.format("%.2f %s", lastPaddle.getDistance(), getString(R.string.bt_dist)));
+                lastKcal.setText(String.format("%d %s", lastPaddle.getKcal(), getString(R.string.bt_kcal)));
+
+                int hour = (int) lastPaddle.getDuration() / (60 * 60);
+                int minutes = (int) (lastPaddle.getDuration() / 60) % 60;
+                lastDuration.setText(String.format("%02d:%02d %s", hour, minutes, getString(R.string.bt_hour)));
+
+                SimpleDateFormat dateFormatter = new SimpleDateFormat("dd.MM.yyyy", Locale.US);
+                lastDate.setText(dateFormatter.format(lastPaddle.getDate()));
+            }
+        }
+        realm.close();
     }
 
-    public void showNotConnected() {
+    private void showNotConnectedState() {
         ColorMatrix matrix = new ColorMatrix();
         matrix.setSaturation(0);
         ColorMatrixColorFilter filter = new ColorMatrixColorFilter(matrix);
@@ -323,32 +369,118 @@ public class MainActivity extends BaseActivity
         btStart.setImageAlpha(128);
         btStart.setEnabled(false);
 
+        batteryTV.setText(R.string.bt_unknown);
         boardTV.setText(R.string.bt_board_off);
     }
 
-    // end region
+    private void showConnectedState() {
+        btStart.setColorFilter(null);
+        btStart.setImageAlpha(255);
+        btStart.setEnabled(true);
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[],
-                                           int[] grantResults) {
-        switch (requestCode) {
-            case PERMISSION_REQUEST_COARSE_LOCATION: {
-                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Log.d("MAIN", "coarse location permission granted");
-                } else {
-                    final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                    builder.setTitle("Functionality limited");
-                    builder.setMessage("Since location access has not been granted, this app will not be able to discover your board. Reinstall the application and ");
-                    builder.setPositiveButton(android.R.string.ok, null);
-                    builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+        boardTV.setText(R.string.bt_board_on);
+    }
+
+    private void checkBTConnectionToScan() {
+        if (btHelper.getConnectionStatus()) {
+            createDialog(R.string.dialog_reconnected_title, R.string.dialog_reconnected_message)
+                    .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                         @Override
-                        public void onDismiss(DialogInterface dialog) {
+                        public void onClick(DialogInterface dialog, int which) {
+                            showBTDeviceScanScreen();
+                            btHelper.disconnect();
                         }
-                    });
-                    builder.show();
-                }
-            }
+                    })
+                    .setNegativeButton(R.string.cancel, null)
+                    .show();
+        } else {
+            showBTDeviceScanScreen();
         }
     }
+
+    private void checkBTConnectionToLight() {
+        if (!btHelper.getConnectionStatus()) {
+            createDialog(R.string.dialog_not_connected_light_title, R.string.dialog_not_connected_light_message)
+                    .setPositiveButton(R.string.dialog_not_connected_light_positive, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            showBTDeviceScanScreen();
+                        }
+                    })
+                    .setNegativeButton(R.string.cancel, null)
+                    .show();
+        } else {
+            showLightScreen();
+        }
+    }
+
+    private void showBTDeviceScanScreen() {
+        startActivityForResult(new Intent(getBaseContext(), DeviceListActivity.class), REQUEST_SCAN_DEVICE);
+    }
+
+    private void showLightScreen() {
+        startActivityForResult(new Intent(getBaseContext(), LightSettingsActivity.class), REQUEST_LIGHT_SETTINGS);
+    }
+
+    //endregion
+
+    //region BT Callback
+
+    @Override
+    public void onMessageReceived(String message) {
+        Log.d("Main", "BT Received: " + message);
+        if (message.startsWith("B")) {
+            final String battValue = message.split(";")[0];
+//            final String tempValue = message.split(";")[1];
+
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    batteryTV.setText(battValue.substring(2).trim().concat("%"));
+//                    tempWatterTV.setText(tempValue.substring(2).trim().concat(" °C"));
+                }
+            });
+        }
+    }
+
+    @Override
+    public void onDeviceConnected() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                showConnectedState();
+            }
+        });
+    }
+
+    @Override
+    public void onDeviceDisconnected() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                showNotConnectedState();
+            }
+        });
+    }
+
+    //endregion
+
+    //region Yahoo Weather Callback
+
+    @Override
+    public void gotWeatherInfo(WeatherInfo weatherInfo, YahooWeather.ErrorType errorType) {
+        if (errorType != null) {
+            tempEnvTV.setText(R.string.bt_temp_NA);
+            tempWatterTV.setText(R.string.bt_temp_NA);
+            //TODO show a dialog warning that the GPS is off and temp will not be updated, restart app
+        }
+        if (weatherInfo != null) {
+            tempEnvTV.setText(String.valueOf(weatherInfo.getCurrentTemp()).concat(" °C"));
+            tempWatterTV.setText(String.valueOf(weatherInfo.getCurrentTemp() - 5).concat(" °C"));
+        }
+    }
+
+    //endregion
+
+
 }
