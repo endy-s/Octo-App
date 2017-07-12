@@ -123,12 +123,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         btHelper = BluetoothHelper.getInstance();
 
-        if (btHelper.getConnectionStatus()) {
-            showConnectedState();
-        } else {
-            showNotConnectedState();
-        }
-
         YahooWeather weather = YahooWeather.getInstance();
         weather.queryYahooWeatherByGPS(this, this);
     }
@@ -140,6 +134,13 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
         }
+
+        if (btHelper.getConnectionStatus()) {
+            showConnectedState();
+        } else {
+            showNotConnectedState();
+        }
+        
         btHelper.setCallback(this);
     }
 

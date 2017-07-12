@@ -8,12 +8,15 @@ import android.bluetooth.BluetoothProfile;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.br.octo.board.R;
 
 import java.util.UUID;
+
+import static com.br.octo.board.Constants.BT_CONNECTION_TIME_OUT;
 
 /**
  * Created by Endy on 25/05/2017.
@@ -33,6 +36,8 @@ public class BluetoothHelper {
 
     private BluetoothCallback callback;
     private boolean btConnected = false;
+    private Handler connectionErrorHandler;
+    private Runnable connectionErrorRunnable;
 
     public void setCallback(BluetoothCallback callback) {
         this.callback = callback;
@@ -56,6 +61,17 @@ public class BluetoothHelper {
         btConnected = false;
 
         mGatt = device.connectGatt(context, true, gattCallback);
+
+        connectionErrorRunnable = new Runnable() {
+            @Override
+            public void run() {
+                mGatt.disconnect();
+                callback.onDeviceDisconnected();
+            }
+        };
+
+        connectionErrorHandler = new Handler();
+        connectionErrorHandler.postDelayed(connectionErrorRunnable, BT_CONNECTION_TIME_OUT);
     }
 
     public void disconnect() {
@@ -138,6 +154,7 @@ public class BluetoothHelper {
     }
 
     private void sendHandshake() {
+        connectionErrorHandler.removeCallbacks(connectionErrorRunnable);
         sendMessage("<OCTO>");
     }
 

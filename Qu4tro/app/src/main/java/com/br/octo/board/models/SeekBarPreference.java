@@ -122,6 +122,10 @@ public class SeekBarPreference extends DialogPreference implements SeekBar.OnSee
     // OnSeekBarChangeListener methods :
     @Override
     public void onProgressChanged(SeekBar seek, int value, boolean fromTouch) {
+        if (value == 0) {
+            value = 1;
+            setProgress(1);
+        }
         String t = String.valueOf(value);
         mValueText.setText(mSuffix == null ? t : t.concat(" " + mSuffix));
     }
