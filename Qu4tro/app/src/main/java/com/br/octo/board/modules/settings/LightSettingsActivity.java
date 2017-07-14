@@ -114,6 +114,7 @@ public class LightSettingsActivity extends AppCompatPreferenceActivity implement
 
             if (key.matches(res.getString(R.string.pref_key_light_intensity))) {
                 int radius = sharedLightPref.getInt(res.getString(R.string.pref_key_light_intensity), 50);
+                if (radius == 100) radius = 99;
                 preference.setSummary(this.getString(R.string.pref_light_intensity_summary).replace("$1", "" + radius));
                 newStateMsg += radius + ";>";
             }

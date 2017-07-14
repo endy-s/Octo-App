@@ -37,7 +37,7 @@
         android:defaultValue="3"
         android:dependency="@string/pref_key_light_enabled"
         android:entries="@array/pref_light_frequency_titles"
-        android:entryValues="@array/pref_sync_frequency_values"
+        android:entryValues="@array/pref_light_frequency_values"
         android:key="@string/pref_key_light_freq"
         android:negativeButtonText="@null"
         android:persistent="true"
