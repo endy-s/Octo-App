@@ -6,8 +6,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.graphics.ColorMatrix;
-import android.graphics.ColorMatrixColorFilter;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -66,6 +64,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     // Paddle "flags"
     private int paddleId = 0;
     private boolean startedPaddling = false;
+
+    //Light Flag
+    private boolean scanFromLights = false;
 
     // Widgets
     // Status TextViews
@@ -140,7 +141,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         } else {
             showNotConnectedState();
         }
-        
+
         btHelper.setCallback(this);
     }
 
@@ -322,6 +323,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             case REQUEST_SCAN_DEVICE:
                 if (resultCode == RESULT_OK) {
                     showConnectedState();
+                    if (scanFromLights) {
+                        scanFromLights = false;
+                        showLightScreen();
+                    }
                 }
                 break;
             case REQUEST_TRACKING_SCREEN:
@@ -362,22 +367,11 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     }
 
     private void showNotConnectedState() {
-        ColorMatrix matrix = new ColorMatrix();
-        matrix.setSaturation(0);
-        ColorMatrixColorFilter filter = new ColorMatrixColorFilter(matrix);
-        btStart.setColorFilter(filter);
-        btStart.setImageAlpha(128);
-        btStart.setEnabled(false);
-
         batteryTV.setText(R.string.bt_unknown);
         boardTV.setText(R.string.bt_board_off);
     }
 
     private void showConnectedState() {
-        btStart.setColorFilter(null);
-        btStart.setImageAlpha(255);
-        btStart.setEnabled(true);
-
         boardTV.setText(R.string.bt_board_on);
     }
 
@@ -404,6 +398,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                     .setPositiveButton(R.string.dialog_not_connected_light_positive, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
+                            scanFromLights = true;
                             showBTDeviceScanScreen();
                         }
                     })

@@ -109,7 +109,7 @@
     <string name="no_location_message">Nenhuma localização encontrada ainda… Tente novamente mais tarde.</string>
     <string name="no_location_title">Nenhuma localização encontrada</string>
     <string name="dialog_disconnect_title">Bluetooth desconectado</string>
-    <string name="dialog_disconnect_message">Ops… Conexão bluetooth perdida, volte a tela initial e conecte com sua prancha novamente.</string>
+    <string name="dialog_disconnect_message">Ops… Conexão bluetooth perdida, volte a tela initial e conecte-se à sua prancha novamente.</string>
     <string name="dialog_reconnected_message">Você será desconectado da sua prancha…</string>
     <string name="dialog_reconnected_title">Você tem certeza?</string>
     <string name="pref_light_intensity_summary">Valor atual: $1%</string>
@@ -120,4 +120,5 @@
     <string name="dialog_finish_message">Se você finalizar o app a sua remada atual será parada.</string>
     <string name="bt_connection_error">Erro de conexão, tente novamente</string>
     <string name="share_loading">Carregando…</string>
+    <string name="dialog_paddle_not_connected_light_message">Volte a tela inicial e conecte-se à sua prancha.</string>
 </resources>

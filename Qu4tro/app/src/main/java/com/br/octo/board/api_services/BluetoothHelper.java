@@ -96,6 +96,7 @@ public class BluetoothHelper {
                     mGatt.close();
                     mGatt = null;
                     btConnected = false;
+                    connectionErrorHandler.removeCallbacks(connectionErrorRunnable);
                     callback.onDeviceDisconnected();
                     break;
                 default:
