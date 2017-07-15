@@ -113,9 +113,7 @@ public class SplashScreenActivity extends BaseActivity implements AlertDialog.On
                 if (grantResults[0] == PERMISSION_GRANTED) {
                     showSettingDialog();
                 } else {
-                    createDialog(R.string.error_permission_error_title, R.string.error_permission_error_msg)
-                            .setPositiveButton(R.string.ok, null)
-                            .show();
+                    createSplashErrorDialog(R.string.error_permission_error_title, R.string.error_permission_error_msg);
                 }
             }
         }
