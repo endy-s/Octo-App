@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/img_main_octo">
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/img_main_octo">
 
     <include
         android:id="@+id/mainToolbar"
@@ -290,16 +291,20 @@
         </RelativeLayout>
     </LinearLayout>
 
-    <ImageButton
-        android:id="@+id/btStart"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_above="@id/rowTemp"
-        android:layout_below="@id/mainToolbar"
-        android:layout_centerHorizontal="true"
-        android:background="@color/transparent"
-        android:padding="32dp"
-        android:src="@drawable/ic_btn_start"
-        app:srcCompat="@drawable/ic_btn_start"/>
+        android:layout_below="@id/mainToolbar">
+
+        <ImageButton
+            android:id="@+id/btStart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="@color/transparent"
+            android:src="@drawable/ic_btn_start"
+            app:srcCompat="@drawable/ic_btn_start"/>
+    </RelativeLayout>
 
 </RelativeLayout>

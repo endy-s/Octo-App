@@ -1,6 +1,5 @@
 package com.br.octo.board.modules;
 
-import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -34,6 +33,7 @@ import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 import static com.br.octo.board.Constants.REQUEST_CHECK_SETTINGS;
+import static com.br.octo.board.Constants.REQUEST_ENABLE_BT;
 import static com.br.octo.board.Constants.SPLASH_TIME_OUT;
 
 
@@ -72,7 +72,7 @@ public class SplashScreenActivity extends BaseActivity implements AlertDialog.On
 
         if (!mBluetoothAdapter.isEnabled()) {
             Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-            startActivityForResult(enableIntent, Constants.REQUEST_ENABLE_BT);
+            startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
         } else {
             checkPermissions();
         }
@@ -84,8 +84,8 @@ public class SplashScreenActivity extends BaseActivity implements AlertDialog.On
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == Constants.REQUEST_ENABLE_BT) {
-            if (resultCode == Activity.RESULT_OK) {
+        if (requestCode == REQUEST_ENABLE_BT) {
+            if (resultCode == RESULT_OK) {
                 checkPermissions();
             } else {
                 createSplashErrorDialog(R.string.error_bt_error_title, R.string.error_bt_not_enabled_leaving);
