@@ -246,7 +246,7 @@ public class PaddleActivity extends BaseActivity implements
         if (route.size() > 0) {
             showMapDialog();
         } else {
-            createDialog(R.string.no_location_title, R.string.no_location_message)
+            createDialog(R.string.error_no_location_title, R.string.error_no_location_message)
                     .setPositiveButton(R.string.ok, null).show();
         }
     }

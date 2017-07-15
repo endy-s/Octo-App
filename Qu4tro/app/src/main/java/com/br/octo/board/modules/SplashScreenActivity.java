@@ -55,14 +55,14 @@ public class SplashScreenActivity extends BaseActivity implements AlertDialog.On
 
         // Use this check to determine whether BLE is supported on the device.
         if (!getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE)) {
-            createSplashErrorDialog(R.string.bt_error_title, R.string.ble_not_supported);
+            createSplashErrorDialog(R.string.error_bt_error_title, R.string.error_ble_not_supported);
         }
 
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
         // If the adapter is null, then Bluetooth is not supported
         if (mBluetoothAdapter == null) {
-            createSplashErrorDialog(R.string.bt_error_title, R.string.bt_not_available);
+            createSplashErrorDialog(R.string.error_bt_error_title, R.string.error_bt_not_available);
         }
     }
 
@@ -88,7 +88,7 @@ public class SplashScreenActivity extends BaseActivity implements AlertDialog.On
             if (resultCode == Activity.RESULT_OK) {
                 checkPermissions();
             } else {
-                createSplashErrorDialog(R.string.bt_error_title, R.string.bt_not_enabled_leaving);
+                createSplashErrorDialog(R.string.error_bt_error_title, R.string.error_bt_not_enabled_leaving);
             }
         }
         if (requestCode == REQUEST_CHECK_SETTINGS) {
@@ -99,7 +99,7 @@ public class SplashScreenActivity extends BaseActivity implements AlertDialog.On
                     break;
                 case RESULT_CANCELED:
                     Log.e("Settings", "Result Cancel");
-                    // TODO show dialog lost of usability
+                    createSplashErrorDialog(R.string.error_gps_not_enabled_title, R.string.error_gps_not_enabled_message);
                     break;
             }
         }
@@ -113,7 +113,7 @@ public class SplashScreenActivity extends BaseActivity implements AlertDialog.On
                 if (grantResults[0] == PERMISSION_GRANTED) {
                     showSettingDialog();
                 } else {
-                    createDialog(R.string.permission_error_title, R.string.permission_error_msg)
+                    createDialog(R.string.error_permission_error_title, R.string.error_permission_error_msg)
                             .setPositiveButton(R.string.ok, null)
                             .show();
                 }
@@ -135,7 +135,7 @@ public class SplashScreenActivity extends BaseActivity implements AlertDialog.On
 
     private void checkPermissions() {
         if (mBluetoothAdapter.getBluetoothLeScanner() == null) {
-            createSplashErrorDialog(R.string.bt_error_title, R.string.ble_not_supported);
+            createSplashErrorDialog(R.string.error_bt_error_title, R.string.error_ble_not_supported);
         } else {
             if (ContextCompat.checkSelfPermission(this, ACCESS_FINE_LOCATION) != PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this, ACCESS_COARSE_LOCATION) != PERMISSION_GRANTED) {
 //                createDialog(R.string.dialog_permission_request, R.string.dialog_permission_description)
@@ -187,7 +187,7 @@ public class SplashScreenActivity extends BaseActivity implements AlertDialog.On
                         }
                         break;
                     case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
-                        // TODO show dialog lost of usability
+                        createSplashErrorDialog(R.string.error_provider_location_title, R.string.error_provider_location_message);
                         break;
                 }
             }

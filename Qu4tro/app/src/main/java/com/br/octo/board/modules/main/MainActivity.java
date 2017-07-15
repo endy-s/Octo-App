@@ -303,7 +303,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             case REQUEST_ENABLE_BT:
                 if (resultCode != RESULT_OK) {
                     // User did not enable Bluetooth or an error occurred
-                    createDialog(R.string.bt_error_title, R.string.bt_not_enabled_leaving)
+                    createDialog(R.string.error_bt_error_title, R.string.error_bt_not_enabled_leaving)
                             .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
