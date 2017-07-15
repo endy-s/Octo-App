@@ -356,7 +356,7 @@ public class PaddleActivity extends BaseActivity implements
         actualPaddleInfo.setDuration(duration);
         actualPaddleInfo.setRows(rowCount);
         actualPaddleInfo.setKcal(kcalCount);
-        actualPaddleInfo.setSpeed(((kmPaddling * 1000) / duration) * 3.6f);
+        actualPaddleInfo.setSpeed(duration == 0 ? 0 : ((kmPaddling * 1000) / duration) * 3.6f);
         actualPaddleInfo.setTrack(paddlePoints);
 
         RealmConfiguration realmConfiguration = new RealmConfiguration.Builder().build();

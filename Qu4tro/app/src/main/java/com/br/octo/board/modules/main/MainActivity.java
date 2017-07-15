@@ -16,6 +16,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -60,6 +61,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     // Bluetooth
     BluetoothHelper btHelper;
     private BluetoothAdapter mBluetoothAdapter = null;
+
+    // Weather
+    private YahooWeather weather;
 
     // Paddle "flags"
     private int paddleId = 0;
@@ -124,17 +128,18 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         btHelper = BluetoothHelper.getInstance();
 
-        YahooWeather weather = YahooWeather.getInstance();
+        weather = YahooWeather.getInstance();
         weather.queryYahooWeatherByGPS(this, this);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        if (!mBluetoothAdapter.isEnabled()) {
-            Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-            startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
-        }
+        // TODO check if it is really not mandatory
+//        if (!mBluetoothAdapter.isEnabled()) {
+//            Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+//            startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
+//        }
 
         if (btHelper.getConnectionStatus()) {
             showConnectedState();
@@ -303,19 +308,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             case REQUEST_ENABLE_BT:
                 if (resultCode != RESULT_OK) {
                     // User did not enable Bluetooth or an error occurred
-                    createDialog(R.string.error_bt_error_title, R.string.error_bt_not_enabled_leaving)
-                            .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    finish();
-                                }
-                            })
-                            .setOnDismissListener(new DialogInterface.OnDismissListener() {
-                                @Override
-                                public void onDismiss(DialogInterface dialog) {
-                                    finish();
-                                }
-                            })
+                    createDialog(R.string.error_bt_not_wanted_title, R.string.error_bt_not_wanted_message)
+                            .setPositiveButton(R.string.ok, null)
                             .show();
                 }
                 break;
@@ -376,19 +370,24 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     }
 
     private void checkBTConnectionToScan() {
-        if (btHelper.getConnectionStatus()) {
-            createDialog(R.string.dialog_reconnected_title, R.string.dialog_reconnected_message)
-                    .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            showBTDeviceScanScreen();
-                            btHelper.disconnect();
-                        }
-                    })
-                    .setNegativeButton(R.string.cancel, null)
-                    .show();
+        if (!mBluetoothAdapter.isEnabled()) {
+            Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+            startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
         } else {
-            showBTDeviceScanScreen();
+            if (btHelper.getConnectionStatus()) {
+                createDialog(R.string.dialog_reconnected_title, R.string.dialog_reconnected_message)
+                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                showBTDeviceScanScreen();
+                                btHelper.disconnect();
+                            }
+                        })
+                        .setNegativeButton(R.string.cancel, null)
+                        .show();
+            } else {
+                showBTDeviceScanScreen();
+            }
         }
     }
 
@@ -467,11 +466,28 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         if (errorType != null) {
             tempEnvTV.setText(R.string.bt_temp_NA);
             tempWatterTV.setText(R.string.bt_temp_NA);
-            //TODO show a dialog warning that the GPS is off and temp will not be updated, restart app
+            tempEnvTV.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    tempEnvTV.setText(getString(R.string.bt_unknown));
+                    tempWatterTV.setText(getString(R.string.bt_unknown));
+                    weather.queryYahooWeatherByGPS(MainActivity.this, MainActivity.this);
+                }
+            });
+            tempWatterTV.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    tempEnvTV.setText(getString(R.string.bt_unknown));
+                    tempWatterTV.setText(getString(R.string.bt_unknown));
+                    weather.queryYahooWeatherByGPS(MainActivity.this, MainActivity.this);
+                }
+            });
         }
         if (weatherInfo != null) {
             tempEnvTV.setText(String.valueOf(weatherInfo.getCurrentTemp()).concat(" °C"));
             tempWatterTV.setText(String.valueOf(weatherInfo.getCurrentTemp() - 5).concat(" °C"));
+            tempEnvTV.setOnClickListener(null);
+            tempWatterTV.setOnClickListener(null);
         }
     }
 
