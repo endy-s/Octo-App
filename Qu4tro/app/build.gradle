@@ -43,12 +43,16 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.configOcto
+            resValue "string", "app_name", "OCTO"
+            buildConfigField 'Boolean', 'enableCrashlytics', 'true'
         }
         debug {
             debuggable true
             applicationIdSuffix ".debug"
             versionNameSuffix "-debug"
             minifyEnabled false
+            resValue "string", "app_name", "OCTO Debug"
+            buildConfigField 'Boolean', 'enableCrashlytics', 'false'
         }
     }
     productFlavors {
@@ -95,6 +99,7 @@ dependencies {
 
     testCompile 'junit:junit:4.12'
 
+    //Fabric
     compile('com.crashlytics.sdk.android:crashlytics:2.6.7@aar') {
         transitive = true;
     }

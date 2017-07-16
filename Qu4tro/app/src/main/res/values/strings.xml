@@ -1,6 +1,5 @@
 <resources>
     <!--System-->
-    <string name="app_name" translatable="false">OCTO</string>
     <string name="project_name">Board OCTO</string>
     <string name="paddle_extra" translatable="false">actual_paddle</string>
 
