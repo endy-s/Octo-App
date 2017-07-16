@@ -246,7 +246,7 @@ public class PaddleActivity extends BaseActivity implements
         if (route.size() > 0) {
             showMapDialog();
         } else {
-            createDialog(R.string.no_location_title, R.string.no_location_message)
+            createDialog(R.string.error_no_location_title, R.string.error_no_location_message)
                     .setPositiveButton(R.string.ok, null).show();
         }
     }
@@ -356,7 +356,7 @@ public class PaddleActivity extends BaseActivity implements
         actualPaddleInfo.setDuration(duration);
         actualPaddleInfo.setRows(rowCount);
         actualPaddleInfo.setKcal(kcalCount);
-        actualPaddleInfo.setSpeed(((kmPaddling * 1000) / duration) * 3.6f);
+        actualPaddleInfo.setSpeed(duration == 0 ? 0 : ((kmPaddling * 1000) / duration) * 3.6f);
         actualPaddleInfo.setTrack(paddlePoints);
 
         RealmConfiguration realmConfiguration = new RealmConfiguration.Builder().build();
