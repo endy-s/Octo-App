@@ -44,7 +44,7 @@ import zh.wang.android.yweathergetter4a.WeatherInfo;
 import zh.wang.android.yweathergetter4a.YahooWeather;
 import zh.wang.android.yweathergetter4a.YahooWeatherInfoListener;
 
-import static com.br.octo.board.Constants.REQUEST_ENABLE_BT;
+import static com.br.octo.board.Constants.REQUEST_ENABLE_BT_TO_SCAN;
 import static com.br.octo.board.Constants.REQUEST_GENERAL_SETTINGS;
 import static com.br.octo.board.Constants.REQUEST_LIGHT_SETTINGS;
 import static com.br.octo.board.Constants.REQUEST_SCAN_DEVICE;
@@ -305,12 +305,13 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 }
                 break;
 
-            case REQUEST_ENABLE_BT:
+            case REQUEST_ENABLE_BT_TO_SCAN:
                 if (resultCode != RESULT_OK) {
-                    // User did not enable Bluetooth or an error occurred
                     createDialog(R.string.error_bt_not_wanted_title, R.string.error_bt_not_wanted_message)
                             .setPositiveButton(R.string.ok, null)
                             .show();
+                } else {
+                    showBTDeviceScanScreen();
                 }
                 break;
 
@@ -370,21 +371,21 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     }
 
     private void checkBTConnectionToScan() {
-        if (!mBluetoothAdapter.isEnabled()) {
-            Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-            startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
+        if (btHelper.getConnectionStatus()) {
+            createDialog(R.string.dialog_reconnected_title, R.string.dialog_reconnected_message)
+                    .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            showBTDeviceScanScreen();
+                            btHelper.disconnect();
+                        }
+                    })
+                    .setNegativeButton(R.string.cancel, null)
+                    .show();
         } else {
-            if (btHelper.getConnectionStatus()) {
-                createDialog(R.string.dialog_reconnected_title, R.string.dialog_reconnected_message)
-                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                showBTDeviceScanScreen();
-                                btHelper.disconnect();
-                            }
-                        })
-                        .setNegativeButton(R.string.cancel, null)
-                        .show();
+            if (!mBluetoothAdapter.isEnabled()) {
+                Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+                startActivityForResult(enableIntent, REQUEST_ENABLE_BT_TO_SCAN);
             } else {
                 showBTDeviceScanScreen();
             }
@@ -398,7 +399,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             scanFromLights = true;
-                            showBTDeviceScanScreen();
+                            checkBTConnectionToScan();
                         }
                     })
                     .setNegativeButton(R.string.cancel, null)

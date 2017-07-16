@@ -1,6 +1,5 @@
 <resources>
     <!--System-->
-    <string name="app_name" translatable="false">OCTO</string>
     <string name="project_name">Board OCTO</string>
     <string name="paddle_extra" translatable="false">actual_paddle</string>
 
@@ -34,6 +33,7 @@
     <string name="error_bt_not_enabled_leaving">Bluetooth not enabled. Leaving the application.</string>
     <string name="error_bt_not_wanted_title">Bluetooth off</string>
     <string name="error_bt_not_wanted_message">Some functionalities will be not available.</string>
+    <string name="error_bt_scan_disabled_message">It seems that the bluetooth turned off and the scan will not works. Turn it on again and restart the scan.</string>
     <string name="error_ble_not_supported">Bluetooth Low Energy not supported. Try with another device.</string>
     <string name="error_permission_error_title">Functionality limited</string>
     <string name="error_permission_error_msg">Without the location access granted, this app will not be able to discover your board. Change this configuration at the system Settings or reinstall the application and grant the permission.</string>
