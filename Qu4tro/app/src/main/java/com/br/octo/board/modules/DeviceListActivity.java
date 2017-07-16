@@ -124,7 +124,9 @@ public class DeviceListActivity extends BaseActivity implements BluetoothHelper.
 
     @OnItemClick(R.id.ble_devices)
     protected void onDeviceClicked(AdapterView<?> adapter, View v, int position, long id) {
-        if (mBluetoothAdapter.isEnabled()) {
+        if (!mBluetoothAdapter.isEnabled()) {
+            showBTErrorDialog();
+        } else {
             final BluetoothDevice device = mLeDeviceListAdapter.getDevice(position);
 
             if (device == null) return;
@@ -147,9 +149,11 @@ public class DeviceListActivity extends BaseActivity implements BluetoothHelper.
     }
 
     public void scanLeDevice(boolean toScan) {
-        if (mBluetoothAdapter.isEnabled()) {
-            scanButton.setEnabled(!toScan);
+        scanButton.setEnabled(!toScan);
 
+        if (!mBluetoothAdapter.isEnabled()) {
+            showBTErrorDialog();
+        } else {
             if (toScan) {
                 mLeDeviceListAdapter.clear();
 
@@ -173,38 +177,56 @@ public class DeviceListActivity extends BaseActivity implements BluetoothHelper.
 
     //endregion
 
+    //region Private
+
+    private void showBTErrorDialog() {
+        createDialog(R.string.error_bt_not_wanted_title, R.string.error_bt_scan_disabled_message)
+                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                })
+                .setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+                        finish();
+                    }
+                })
+                .show();
+    }
+
+    //endregion
+
     //region BT Callback
-
     // Device scan callback.
-    private ScanCallback mScanCallback =
-            new ScanCallback() {
+    private ScanCallback mScanCallback = new ScanCallback() {
+        @Override
+        public void onScanResult(int callbackType, ScanResult result) {
+            Log.i("callbackType", String.valueOf(callbackType));
+            Log.i("result", result.toString());
+            BluetoothDevice btDevice = result.getDevice();
 
-                @Override
-                public void onScanResult(int callbackType, ScanResult result) {
-                    Log.i("callbackType", String.valueOf(callbackType));
-                    Log.i("result", result.toString());
-                    BluetoothDevice btDevice = result.getDevice();
+            if (btDevice.getName() == null) {
+                return;
+            }
 
-                    if (btDevice.getName() == null) {
-                        return;
-                    }
+            mLeDeviceListAdapter.addDevice(btDevice);
+            mLeDeviceListAdapter.notifyDataSetChanged();
+        }
 
-                    mLeDeviceListAdapter.addDevice(btDevice);
-                    mLeDeviceListAdapter.notifyDataSetChanged();
-                }
+        @Override
+        public void onBatchScanResults(List<ScanResult> results) {
+            for (ScanResult sr : results) {
+                Log.i("ScanResult - Results", sr.toString());
+            }
+        }
 
-                @Override
-                public void onBatchScanResults(List<ScanResult> results) {
-                    for (ScanResult sr : results) {
-                        Log.i("ScanResult - Results", sr.toString());
-                    }
-                }
-
-                @Override
-                public void onScanFailed(int errorCode) {
-                    Log.e("Scan Failed", "Error Code: " + errorCode);
-                }
-            };
+        @Override
+        public void onScanFailed(int errorCode) {
+            Log.e("Scan Failed", "Error Code: " + errorCode);
+        }
+    };
 
     @Override
     public void onMessageReceived(String message) {
