@@ -125,4 +125,7 @@
     <string name="error_provider_location_message">Desculpe, não conseguimos obter sua localização e o aplicativo OCTO não irá funcionar corretamente. Verifique as configurações de GPS do seu dispositivo e reinicie o aplicativo para ter um comportamento ideial.</string>
     <string name="error_gps_not_enabled_title">GPS desligado</string>
     <string name="error_gps_not_enabled_message">Por favor, ligue seu GPS se desejar obter sua localização e rastrear seu Paddle.</string>
+    <string name="error_bt_not_wanted_title">Bluetooth desligado</string>
+    <string name="error_bt_not_wanted_message">Algumas funcionalidades não estarão disponíveis.</string>
+    <string name="error_bt_scan_disabled_message">Parece que o bluetooth desligou e o scan não vai funcionar. Ligue novamente e reinicie o scan.</string>
 </resources>
