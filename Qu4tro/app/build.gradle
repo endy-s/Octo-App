@@ -33,30 +33,35 @@ android {
         minSdkVersion 21
         targetSdkVersion 25
         versionCode 1
-        versionName "0.4"
+        versionName "0.6"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         signingConfig signingConfigs.configOcto
     }
+
     buildTypes {
         release {
+//            debuggable true   //TODO comment after sending a build
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.configOcto
+            resValue "string", "app_name", "OCTO"
+            buildConfigField 'Boolean', 'enableCrashlytics', 'true'
         }
         debug {
             debuggable true
             applicationIdSuffix ".debug"
             versionNameSuffix "-debug"
             minifyEnabled false
+            resValue "string", "app_name", "OCTO Debug"
+            buildConfigField 'Boolean', 'enableCrashlytics', 'false'
         }
     }
-    productFlavors {
-    }
+
 }
 
 ext {
     supportLibraryVersion = '25.3.1'
-    playServicesVersion = '11.0.1'
+    playServicesVersion = '11.0.2'
     butterknifeVersion = '8.5.1'
 }
 
@@ -94,6 +99,7 @@ dependencies {
 
     testCompile 'junit:junit:4.12'
 
+    //Fabric
     compile('com.crashlytics.sdk.android:crashlytics:2.6.7@aar') {
         transitive = true;
     }

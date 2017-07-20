@@ -13,6 +13,7 @@ public class Constants {
 
     public static final int REQUEST_CHECK_SETTINGS = 79;
     public static final int PERMISSION_REQUEST_LOCATION = 89;
+    public static final int REQUEST_ENABLE_BT_TO_SCAN = 98;
     public static final int REQUEST_ENABLE_BT = 99;
 
     public static final int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;

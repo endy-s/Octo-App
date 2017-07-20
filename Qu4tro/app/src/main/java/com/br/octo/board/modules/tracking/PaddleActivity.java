@@ -176,7 +176,7 @@ public class PaddleActivity extends BaseActivity implements
                 }
             };
         } else {
-            //TODO show GSP warning
+            //TODO show GPS warning
         }
     }
 
@@ -201,6 +201,7 @@ public class PaddleActivity extends BaseActivity implements
     public void onBackPressed() {
         super.onBackPressed();
         storePaddleInfo();
+        stopTracking(false);
         finish();
     }
 
@@ -231,8 +232,13 @@ public class PaddleActivity extends BaseActivity implements
 
     @OnClick(R.id.btLight)
     public void LightClicked() {
-        Intent lightIntent = new Intent(getBaseContext(), LightSettingsActivity.class);
-        startActivityForResult(lightIntent, REQUEST_LIGHT_SETTINGS);
+        if (!btHelperPaddle.getConnectionStatus()) {
+            createDialog(R.string.dialog_not_connected_light_title, R.string.dialog_paddle_not_connected_light_message)
+                    .setPositiveButton(R.string.ok, null)
+                    .show();
+        } else {
+            showLightScreen();
+        }
     }
 
     @OnClick(R.id.btMaps)
@@ -240,7 +246,7 @@ public class PaddleActivity extends BaseActivity implements
         if (route.size() > 0) {
             showMapDialog();
         } else {
-            createDialog(R.string.no_location_title, R.string.no_location_message)
+            createDialog(R.string.error_no_location_title, R.string.error_no_location_message)
                     .setPositiveButton(R.string.ok, null).show();
         }
     }
@@ -279,6 +285,11 @@ public class PaddleActivity extends BaseActivity implements
     //end region
 
     //region Private
+
+    private void showLightScreen() {
+        Intent lightIntent = new Intent(getBaseContext(), LightSettingsActivity.class);
+        startActivityForResult(lightIntent, REQUEST_LIGHT_SETTINGS);
+    }
 
     private void startTracking() {
         if (!tracker.isListening()) {
@@ -345,7 +356,7 @@ public class PaddleActivity extends BaseActivity implements
         actualPaddleInfo.setDuration(duration);
         actualPaddleInfo.setRows(rowCount);
         actualPaddleInfo.setKcal(kcalCount);
-        actualPaddleInfo.setSpeed(((kmPaddling * 1000) / duration) * 3.6f);
+        actualPaddleInfo.setSpeed(duration == 0 ? 0 : ((kmPaddling * 1000) / duration) * 3.6f);
         actualPaddleInfo.setTrack(paddlePoints);
 
         RealmConfiguration realmConfiguration = new RealmConfiguration.Builder().build();

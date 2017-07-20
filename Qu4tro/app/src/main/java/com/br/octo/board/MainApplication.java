@@ -16,7 +16,7 @@ public class MainApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        Fabric.with(this, new Crashlytics());
+        if (BuildConfig.enableCrashlytics) Fabric.with(this, new Crashlytics());
         Realm.init(this);
     }
 }

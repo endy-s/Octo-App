@@ -6,7 +6,7 @@
     <string name="tracking">Reveja sua trajetória</string>
     <string name="drawer_menu">Configure sua prancha</string>
     <string name="project_name">Prancha OCTO</string>
-    <string name="bt_not_enabled_leaving">Bluetooth não acionado. Saindo da aplicação.</string>
+    <string name="error_bt_not_enabled_leaving">Bluetooth não acionado. Saindo da aplicação.</string>
     <string name="button_scan">Procure por sua prancha</string>
     <string name="none_found">Nenhum dispositivo foi encontrado. Por favor, ligue o dispositivo da sua prancha.</string>
     <string name="none_paired">Nenhum dispositivo emparelhado</string>
@@ -84,7 +84,7 @@
 
     <string name="pref_title_keep_screen">Manter a Tela Acesa</string>
     <string name="pref_title_freq">Frequência da Iluminação</string>
-    <string name="ble_not_supported">Bluetooth Low Energy não disponível. Terminando a aplicação.</string>
+    <string name="error_ble_not_supported">Bluetooth Low Energy não disponível. Terminando a aplicação.</string>
     <string name="unknown_device">Dispositivo Desconhecido</string>
     <string name="bt_board">PRANCHA</string>
     <string name="bt_last">ÚLTIMA REMADA</string>
@@ -98,18 +98,18 @@
         Por favor, aceite a próxima solicitação de permissão.</string>
     <string name="dialog_connecting_title">Conectando a </string>
     <string name="dialog_connecting_message">Validando dispositivo…</string>
-    <string name="bt_error_title">Erro de Bluetooth</string>
-    <string name="bt_not_available">Bluetooth não disponível. Tente outro dispositivo.</string>
-    <string name="permission_error_title">Funcionalidades limitadas</string>
-    <string name="permission_error_msg">Sem o acesso a localização garantido, esse applicativo não será capaz de encontrar sua prancha. Altere essa configuração nas definições do sistema ou resintale o aplicativo e garanta a permissão.</string>
+    <string name="error_bt_error_title">Erro de Bluetooth</string>
+    <string name="error_bt_not_available">Bluetooth não disponível. Tente outro dispositivo.</string>
+    <string name="error_permission_error_title">Funcionalidades limitadas</string>
+    <string name="error_permission_error_msg">Sem o acesso a localização garantido, esse applicativo não será capaz de encontrar sua prancha. Altere essa configuração nas definições do sistema ou resintale o aplicativo e garanta a permissão.</string>
     <string name="bt_sup">HR:MIN</string>
     <string name="end_progress_message">Salvando e renderizando…</string>
     <string name="end_progress_title">Terminando paddle…</string>
     <string name="bt_temp_NA">ND</string>
-    <string name="no_location_message">Nenhuma localização encontrada ainda… Tente novamente mais tarde.</string>
-    <string name="no_location_title">Nenhuma localização encontrada</string>
+    <string name="error_no_location_message">Nenhuma localização encontrada ainda… Tente novamente mais tarde.</string>
+    <string name="error_no_location_title">Nenhuma localização encontrada</string>
     <string name="dialog_disconnect_title">Bluetooth desconectado</string>
-    <string name="dialog_disconnect_message">Ops… Conexão bluetooth perdida, volte a tela initial e conecte com sua prancha novamente.</string>
+    <string name="dialog_disconnect_message">Ops… Conexão bluetooth perdida, volte a tela initial e conecte-se à sua prancha novamente.</string>
     <string name="dialog_reconnected_message">Você será desconectado da sua prancha…</string>
     <string name="dialog_reconnected_title">Você tem certeza?</string>
     <string name="pref_light_intensity_summary">Valor atual: $1%</string>
@@ -119,4 +119,13 @@
     <string name="dialog_not_connected_light_title">Nào conectado</string>
     <string name="dialog_finish_message">Se você finalizar o app a sua remada atual será parada.</string>
     <string name="bt_connection_error">Erro de conexão, tente novamente</string>
+    <string name="share_loading">Carregando…</string>
+    <string name="dialog_paddle_not_connected_light_message">Volte a tela inicial e conecte-se à sua prancha.</string>
+    <string name="error_provider_location_title">Localização não disponível</string>
+    <string name="error_provider_location_message">Desculpe, não conseguimos obter sua localização e o aplicativo OCTO não irá funcionar corretamente. Verifique as configurações de GPS do seu dispositivo e reinicie o aplicativo para ter um comportamento ideial.</string>
+    <string name="error_gps_not_enabled_title">GPS desligado</string>
+    <string name="error_gps_not_enabled_message">Por favor, ligue seu GPS se desejar obter sua localização e rastrear seu Paddle.</string>
+    <string name="error_bt_not_wanted_title">Bluetooth desligado</string>
+    <string name="error_bt_not_wanted_message">Algumas funcionalidades não estarão disponíveis.</string>
+    <string name="error_bt_scan_disabled_message">Parece que o bluetooth desligou e o scan não vai funcionar. Ligue novamente e reinicie o scan.</string>
 </resources>
