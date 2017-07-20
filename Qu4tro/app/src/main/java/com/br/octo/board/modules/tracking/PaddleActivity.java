@@ -1,10 +1,17 @@
 package com.br.octo.board.modules.tracking;
 
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.IntentSender;
 import android.graphics.Color;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -25,6 +32,10 @@ import com.br.octo.board.models.TrackingPoints;
 import com.br.octo.board.modules.base.BaseActivity;
 import com.br.octo.board.modules.end.EndPaddleActivity;
 import com.br.octo.board.modules.settings.LightSettingsActivity;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.location.LocationSettingsResult;
+import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -55,6 +66,7 @@ import io.realm.RealmList;
 import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static android.content.pm.PackageManager.PERMISSION_GRANTED;
+import static com.br.octo.board.Constants.REQUEST_CHECK_SETTINGS;
 import static com.br.octo.board.Constants.REQUEST_END_SCREEN;
 import static com.br.octo.board.Constants.REQUEST_LIGHT_SETTINGS;
 import static com.br.octo.board.Constants.actualPaddleId;
@@ -80,6 +92,8 @@ public class PaddleActivity extends BaseActivity implements
     ProgressDialog endingProgressDialogs;
 
     GoogleMap gMap;
+
+    private static final String BROADCAST_ACTION = "android.location.PROVIDERS_CHANGED";
 
     //Widgets
     @BindView(R.id.btLight)
@@ -185,6 +199,13 @@ public class PaddleActivity extends BaseActivity implements
         super.onResume();
         startTracking();
         btHelperPaddle.setCallback(this);
+        registerReceiver(gpsLocationReceiver, new IntentFilter(BROADCAST_ACTION));//Register broadcast receiver to check the status of GPS
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (gpsLocationReceiver != null) unregisterReceiver(gpsLocationReceiver);
     }
 
     @Override
@@ -222,6 +243,19 @@ public class PaddleActivity extends BaseActivity implements
                 if ((endingProgressDialogs != null) && (endingProgressDialogs.isShowing()))
                     endingProgressDialogs.dismiss();
                 finish();
+                break;
+
+            case REQUEST_CHECK_SETTINGS:
+                if (resultCode == RESULT_CANCELED) {
+                    createDialog(R.string.error_gps_not_enabled_title, R.string.error_gps_not_enabled_message)
+                            .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    onBackPressed();
+                                }
+                            })
+                            .show();
+                }
                 break;
         }
     }
@@ -423,6 +457,44 @@ public class PaddleActivity extends BaseActivity implements
 
         dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
     }
+
+    //endregion
+
+    //region Broadcast Receiver
+
+
+    private BroadcastReceiver gpsLocationReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().matches(BROADCAST_ACTION)) {
+                LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+                if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                    new Handler().postDelayed(sendUpdatesToUI, 10);
+                }
+
+            }
+        }
+    };
+
+    private Runnable sendUpdatesToUI = new Runnable() {
+        public void run() {
+            generateGPSDialog().setResultCallback(new ResultCallback<LocationSettingsResult>() {
+                @Override
+                public void onResult(LocationSettingsResult result) {
+                    final Status status = result.getStatus();
+                    switch (status.getStatusCode()) {
+                        case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
+                            try {
+                                status.startResolutionForResult(PaddleActivity.this, REQUEST_CHECK_SETTINGS);
+                            } catch (IntentSender.SendIntentException e) {
+                                e.printStackTrace();
+                            }
+                            break;
+                    }
+                }
+            });
+        }
+    };
 
     //endregion
 
