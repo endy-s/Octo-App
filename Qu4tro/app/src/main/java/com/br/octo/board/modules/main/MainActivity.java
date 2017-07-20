@@ -19,6 +19,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -98,6 +99,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     TextView tempWaterTV;
     @BindView(R.id.txtWaterProgress)
     ProgressBar tempWaterProgress;
+
+    @BindView(R.id.rowTemp)
+    LinearLayout tempRow;
 
     // Last Paddle Info
     @BindView(R.id.lastDistTV)
@@ -312,7 +316,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         }
     }
 
-    @OnClick({R.id.txtAmbient, R.id.txtWater})
+    @OnClick(R.id.rowTemp)
     public void tempClicked() {
         if (!retrievingWeather) {
             retrievingWeather = true;
