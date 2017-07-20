@@ -19,13 +19,8 @@ import com.br.octo.board.R;
 import com.br.octo.board.modules.base.AppCompatPreferenceActivity;
 import com.br.octo.board.modules.base.BaseActivity;
 import com.br.octo.board.modules.main.MainActivity;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResult;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
 
@@ -123,7 +118,7 @@ public class SplashScreenActivity extends BaseActivity implements AlertDialog.On
             case Constants.PERMISSION_REQUEST_LOCATION: {
                 if (grantResults.length > 0) {
                     if (grantResults[0] == PERMISSION_GRANTED) {
-                        showSettingDialog();
+                        showGPSRequestDialog();
                     } else {
                         createSplashErrorDialog(R.string.error_permission_error_title, R.string.error_permission_error_message);
                     }
@@ -161,28 +156,13 @@ public class SplashScreenActivity extends BaseActivity implements AlertDialog.On
 //                        })
 //                        .show();
             } else {
-                showSettingDialog();
+                showGPSRequestDialog();
             }
         }
     }
 
-    /* Show Location Access Dialog */
-    private void showSettingDialog() {
-        GoogleApiClient mGoogleApiClient = new GoogleApiClient.Builder(SplashScreenActivity.this)
-                .addApi(LocationServices.API)
-                .build();
-        mGoogleApiClient.connect();
-
-        LocationRequest locationRequest = LocationRequest.create();
-        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        locationRequest.setInterval(30 * 1000);
-        locationRequest.setFastestInterval(5 * 1000);
-        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder().addLocationRequest(locationRequest);
-
-        builder.setAlwaysShow(true);
-
-        PendingResult<LocationSettingsResult> result = LocationServices.SettingsApi.checkLocationSettings(mGoogleApiClient, builder.build());
-        result.setResultCallback(new ResultCallback<LocationSettingsResult>() {
+    private void showGPSRequestDialog() {
+        generateGPSDialog().setResultCallback(new ResultCallback<LocationSettingsResult>() {
             @Override
             public void onResult(LocationSettingsResult result) {
                 final Status status = result.getStatus();
