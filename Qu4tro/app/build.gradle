@@ -32,14 +32,15 @@ android {
         applicationId "com.br.octo.board"
         minSdkVersion 21
         targetSdkVersion 25
-        versionCode 3
-        versionName "0.5"
+        versionCode 1
+        versionName "0.6"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         signingConfig signingConfigs.configOcto
     }
+
     buildTypes {
         release {
-            debuggable true
+//            debuggable true   //TODO comment after sending a build
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.configOcto
@@ -55,13 +56,12 @@ android {
             buildConfigField 'Boolean', 'enableCrashlytics', 'false'
         }
     }
-    productFlavors {
-    }
+
 }
 
 ext {
     supportLibraryVersion = '25.3.1'
-    playServicesVersion = '11.0.1'
+    playServicesVersion = '11.0.2'
     butterknifeVersion = '8.5.1'
 }
 
