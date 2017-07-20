@@ -6,7 +6,6 @@
     <string name="tracking">Reveja sua trajetória</string>
     <string name="drawer_menu">Configure sua prancha</string>
     <string name="project_name">Prancha OCTO</string>
-    <string name="error_bt_not_enabled_leaving">Bluetooth não acionado. Saindo da aplicação.</string>
     <string name="button_scan">Procure por sua prancha</string>
     <string name="none_found">Nenhum dispositivo foi encontrado. Por favor, ligue o dispositivo da sua prancha.</string>
     <string name="none_paired">Nenhum dispositivo emparelhado</string>
@@ -101,7 +100,7 @@
     <string name="error_bt_error_title">Erro de Bluetooth</string>
     <string name="error_bt_not_available">Bluetooth não disponível. Tente outro dispositivo.</string>
     <string name="error_permission_error_title">Funcionalidades limitadas</string>
-    <string name="error_permission_error_msg">Sem o acesso a localização garantido, esse applicativo não será capaz de encontrar sua prancha. Altere essa configuração nas definições do sistema ou resintale o aplicativo e garanta a permissão.</string>
+    <string name="error_permission_error_message">Sem o acesso a localização garantido, esse applicativo não irá funcionar corretamente. Reinicie o aplicativo e aceite esta permissão ou altere essa configuração nas definições do sistema.</string>
     <string name="bt_sup">HR:MIN</string>
     <string name="end_progress_message">Salvando e renderizando…</string>
     <string name="end_progress_title">Terminando paddle…</string>
@@ -116,7 +115,7 @@
     <string name="pref_message_intensity">Selecione a intensidade da iluminação</string>
     <string name="dialog_not_connected_light_message">Você não está conectado a sua prancha… Deseja conectar agora?</string>
     <string name="dialog_not_connected_light_positive">Iniciar scan</string>
-    <string name="dialog_not_connected_light_title">Nào conectado</string>
+    <string name="dialog_not_connected_light_title">Não conectado</string>
     <string name="dialog_finish_message">Se você finalizar o app a sua remada atual será parada.</string>
     <string name="bt_connection_error">Erro de conexão, tente novamente</string>
     <string name="share_loading">Carregando…</string>
@@ -126,6 +125,6 @@
     <string name="error_gps_not_enabled_title">GPS desligado</string>
     <string name="error_gps_not_enabled_message">Por favor, ligue seu GPS se desejar obter sua localização e rastrear seu Paddle.</string>
     <string name="error_bt_not_wanted_title">Bluetooth desligado</string>
-    <string name="error_bt_not_wanted_message">Algumas funcionalidades não estarão disponíveis.</string>
+    <string name="error_bt_not_wanted_message">Você não poderá se conectar com sua prancha e algumas funcionalidades não estarão disponíveis até que você ligue o Bluetooth.</string>
     <string name="error_bt_scan_disabled_message">Parece que o bluetooth desligou e o scan não vai funcionar. Ligue novamente e reinicie o scan.</string>
 </resources>

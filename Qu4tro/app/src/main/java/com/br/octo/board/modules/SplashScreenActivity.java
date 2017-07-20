@@ -64,11 +64,6 @@ public class SplashScreenActivity extends BaseActivity implements AlertDialog.On
         if (mBluetoothAdapter == null) {
             createSplashErrorDialog(R.string.error_bt_error_title, R.string.error_bt_not_available);
         }
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
 
         if (!mBluetoothAdapter.isEnabled()) {
             Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
@@ -88,7 +83,15 @@ public class SplashScreenActivity extends BaseActivity implements AlertDialog.On
             if (resultCode == RESULT_OK) {
                 checkPermissions();
             } else {
-                createSplashErrorDialog(R.string.error_bt_error_title, R.string.error_bt_not_enabled_leaving);
+                createDialog(R.string.error_bt_not_wanted_title, R.string.error_bt_not_wanted_message)
+                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                checkPermissions();
+                            }
+                        })
+                        .setCancelable(false)
+                        .show();
             }
         }
         if (requestCode == REQUEST_CHECK_SETTINGS) {
@@ -99,7 +102,15 @@ public class SplashScreenActivity extends BaseActivity implements AlertDialog.On
                     break;
                 case RESULT_CANCELED:
                     Log.e("Settings", "Result Cancel");
-                    createSplashErrorDialog(R.string.error_gps_not_enabled_title, R.string.error_gps_not_enabled_message);
+                    createDialog(R.string.error_gps_not_enabled_title, R.string.error_gps_not_enabled_message)
+                            .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    callMainActivity();
+                                }
+                            })
+                            .setCancelable(false)
+                            .show();
                     break;
             }
         }
@@ -110,10 +121,12 @@ public class SplashScreenActivity extends BaseActivity implements AlertDialog.On
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {
             case Constants.PERMISSION_REQUEST_LOCATION: {
-                if (grantResults[0] == PERMISSION_GRANTED) {
-                    showSettingDialog();
-                } else {
-                    createSplashErrorDialog(R.string.error_permission_error_title, R.string.error_permission_error_msg);
+                if (grantResults.length > 0) {
+                    if (grantResults[0] == PERMISSION_GRANTED) {
+                        showSettingDialog();
+                    } else {
+                        createSplashErrorDialog(R.string.error_permission_error_title, R.string.error_permission_error_message);
+                    }
                 }
             }
         }
