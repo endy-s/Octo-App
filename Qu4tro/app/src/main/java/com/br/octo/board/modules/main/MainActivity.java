@@ -16,9 +16,9 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,6 +44,8 @@ import zh.wang.android.yweathergetter4a.WeatherInfo;
 import zh.wang.android.yweathergetter4a.YahooWeather;
 import zh.wang.android.yweathergetter4a.YahooWeatherInfoListener;
 
+import static android.view.View.INVISIBLE;
+import static android.view.View.VISIBLE;
 import static com.br.octo.board.Constants.REQUEST_ENABLE_BT_TO_SCAN;
 import static com.br.octo.board.Constants.REQUEST_GENERAL_SETTINGS;
 import static com.br.octo.board.Constants.REQUEST_LIGHT_SETTINGS;
@@ -64,6 +66,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     // Weather
     private YahooWeather weather;
+    private boolean retrievingWeather = false;
 
     // Paddle "flags"
     private int paddleId = 0;
@@ -80,8 +83,12 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     TextView boardTV;
     @BindView(R.id.txtAmbient)
     TextView tempEnvTV;
+    @BindView(R.id.txtAmbientProgress)
+    ProgressBar tempEnvProgress;
     @BindView(R.id.txtWater)
-    TextView tempWatterTV;
+    TextView tempWaterTV;
+    @BindView(R.id.txtWaterProgress)
+    ProgressBar tempWaterProgress;
 
     // Last Paddle Info
     @BindView(R.id.lastDistTV)
@@ -129,18 +136,12 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         btHelper = BluetoothHelper.getInstance();
 
         weather = YahooWeather.getInstance();
-        weather.queryYahooWeatherByGPS(this, this);
+        tempClicked();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        // TODO check if it is really not mandatory
-//        if (!mBluetoothAdapter.isEnabled()) {
-//            Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-//            startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
-//        }
-
         if (btHelper.getConnectionStatus()) {
             showConnectedState();
         } else {
@@ -179,9 +180,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     @Override
     public void onDestroy() {
         super.onDestroy();
-//        if (btHelper.getConnectionStatus()) {
-//            btHelper.disconnect();
-//        }
     }
 
     @Override
@@ -287,6 +285,23 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         trackingIntent.putExtra(actualPaddleId, paddleId);
         trackingIntent.putExtra(battValue, batteryTV.getText().toString().replace("%", ""));
         startActivityForResult(trackingIntent, REQUEST_TRACKING_SCREEN);
+    }
+
+    @OnClick({R.id.txtAmbient, R.id.txtWater})
+    public void tempClicked() {
+        if (!retrievingWeather) {
+            retrievingWeather = true;
+
+            tempEnvTV.setText(getString(R.string.bt_unknown));
+            tempEnvTV.setVisibility(INVISIBLE);
+            tempEnvProgress.setVisibility(VISIBLE);
+
+            tempWaterTV.setText(getString(R.string.bt_unknown));
+            tempWaterTV.setVisibility(INVISIBLE);
+            tempWaterProgress.setVisibility(VISIBLE);
+
+            weather.queryYahooWeatherByGPS(this, this);
+        }
     }
 
     //endregion
@@ -432,7 +447,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 @Override
                 public void run() {
                     batteryTV.setText(battValue.substring(2).trim().concat("%"));
-//                    tempWatterTV.setText(tempValue.substring(2).trim().concat(" °C"));
+//                    tempWaterTV.setText(tempValue.substring(2).trim().concat(" °C"));
                 }
             });
         }
@@ -464,31 +479,21 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     @Override
     public void gotWeatherInfo(WeatherInfo weatherInfo, YahooWeather.ErrorType errorType) {
+        retrievingWeather = false;
+
+        tempEnvTV.setVisibility(VISIBLE);
+        tempEnvProgress.setVisibility(INVISIBLE);
+
+        tempWaterTV.setVisibility(VISIBLE);
+        tempWaterProgress.setVisibility(INVISIBLE);
+        
         if (errorType != null) {
             tempEnvTV.setText(R.string.bt_temp_NA);
-            tempWatterTV.setText(R.string.bt_temp_NA);
-            tempEnvTV.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    tempEnvTV.setText(getString(R.string.bt_unknown));
-                    tempWatterTV.setText(getString(R.string.bt_unknown));
-                    weather.queryYahooWeatherByGPS(MainActivity.this, MainActivity.this);
-                }
-            });
-            tempWatterTV.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    tempEnvTV.setText(getString(R.string.bt_unknown));
-                    tempWatterTV.setText(getString(R.string.bt_unknown));
-                    weather.queryYahooWeatherByGPS(MainActivity.this, MainActivity.this);
-                }
-            });
+            tempWaterTV.setText(R.string.bt_temp_NA);
         }
         if (weatherInfo != null) {
             tempEnvTV.setText(String.valueOf(weatherInfo.getCurrentTemp()).concat(" °C"));
-            tempWatterTV.setText(String.valueOf(weatherInfo.getCurrentTemp() - 5).concat(" °C"));
-            tempEnvTV.setOnClickListener(null);
-            tempWatterTV.setOnClickListener(null);
+            tempWaterTV.setText(String.valueOf(weatherInfo.getCurrentTemp() - 5).concat(" °C"));
         }
     }
 
