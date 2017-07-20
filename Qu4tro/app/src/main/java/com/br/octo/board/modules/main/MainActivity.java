@@ -546,7 +546,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             tempEnvTV.setText(R.string.bt_temp_NA);
             tempWaterTV.setText(R.string.bt_temp_NA);
             if (!locationManager.isProviderEnabled(GPS_PROVIDER)) {
-                Toast.makeText(getBaseContext(), "GPS Off", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getBaseContext(), "GPS Off", Toast.LENGTH_SHORT).show();
             }
         }
         if (weatherInfo != null) {
