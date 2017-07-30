@@ -139,7 +139,7 @@ public class SplashScreenActivity extends BaseActivity implements AlertDialog.On
             AppCompatPreferenceActivity.keepScreen = true;
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
-        
+
         SharedPreferences.Editor prefEditor = sharedPref.edit();
         prefEditor.putBoolean(getResources().getString(R.string.pref_key_bcap_enable), true);
         prefEditor.apply();
