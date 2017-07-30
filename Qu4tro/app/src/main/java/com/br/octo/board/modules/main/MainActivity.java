@@ -39,6 +39,7 @@ import com.google.android.gms.location.LocationSettingsResult;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Locale;
 
 import butterknife.BindView;
@@ -550,8 +551,55 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             }
         }
         if (weatherInfo != null) {
-            tempEnvTV.setText(String.valueOf(weatherInfo.getCurrentTemp()).concat(" °C"));
-            tempWaterTV.setText(String.valueOf(weatherInfo.getCurrentTemp() - 5).concat(" °C"));
+            int currentTemp = weatherInfo.getCurrentTemp();
+
+            tempEnvTV.setText(String.valueOf(currentTemp).concat(" °C"));
+
+            int hourOfDay = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+            int waterTempVariation = 0;
+            switch (Calendar.getInstance().get(Calendar.HOUR_OF_DAY)) {
+                case 0:
+                case 1:
+                case 2:
+                case 3:
+                case 4:
+                case 17:
+                    waterTempVariation = -3;
+                    break;
+                case 5:
+                    waterTempVariation = -4;
+                    break;
+                case 6:
+                case 7:
+                case 8:
+                case 9:
+                    waterTempVariation = -5;
+                    break;
+                case 10:
+                case 15:
+                    waterTempVariation = -7;
+                    break;
+                case 11:
+                case 14:
+                    waterTempVariation = -8;
+                    break;
+                case 12:
+                case 13:
+                    waterTempVariation = -9;
+                    break;
+                case 16:
+                    waterTempVariation = -6;
+                    break;
+                case 18:
+                case 19:
+                case 20:
+                case 21:
+                case 22:
+                case 23:
+                    waterTempVariation = -2;
+                    break;
+            }
+            tempWaterTV.setText(String.valueOf(currentTemp + waterTempVariation).concat(" °C"));
         }
     }
 
