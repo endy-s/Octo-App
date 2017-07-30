@@ -11,6 +11,7 @@ import android.support.v7.app.ActionBar;
 import android.view.WindowManager;
 
 import com.br.octo.board.R;
+import com.br.octo.board.api_services.BluetoothHelper;
 import com.br.octo.board.modules.base.AppCompatPreferenceActivity;
 import com.br.octo.board.modules.base.BaseActivity;
 
@@ -24,6 +25,8 @@ public class SettingsActivity extends AppCompatPreferenceActivity implements
 
     Resources res;
 
+    BluetoothHelper btHelper;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +37,8 @@ public class SettingsActivity extends AppCompatPreferenceActivity implements
         addPreferencesFromResource(R.xml.pref_general);
 
         res = getResources();
+
+        btHelper = BluetoothHelper.getInstance();
     }
 
     @Override
@@ -74,8 +79,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity implements
                             ? listPreference.getEntries()[index]
                             : null);
 
-            if (key.matches(res.getString(R.string.pref_key_language)))
-            {
+            if (key.matches(res.getString(R.string.pref_key_language))) {
                 switch (index) {
                     case 1:
                         LocaleHelper.setLocale(getBaseContext(), new Locale("pt", "BR"));
@@ -94,31 +98,31 @@ public class SettingsActivity extends AppCompatPreferenceActivity implements
                 addPreferencesFromResource(R.xml.pref_general);
 
                 setResult(RESULT_OK);
-            }
-            else if (listPreference.getKey().matches(res.getString(R.string.pref_key_sync_frequency)))
-            {
-                if (index == 0)
-                {
+            } else if (listPreference.getKey().matches(res.getString(R.string.pref_key_sync_frequency))) {
+                if (index == 0) {
                     // Show Warning of battery consumption!
                 }
             }
-        }
-        else if (preference instanceof SwitchPreference) {
-
+        } else if (preference instanceof SwitchPreference) {
             // If it matches the Keep Screen Key
-            if (key.matches(res.getString(R.string.pref_key_keep_screen)))
-            {
+            if (key.matches(res.getString(R.string.pref_key_keep_screen))) {
                 if (sharedPreferences.getBoolean(key, false)) {
                     setResult(RESULT_FIRST_USER);
                     BaseActivity.keepScreen = true;
                     AppCompatPreferenceActivity.keepScreen = true;
                     getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-                }
-                else {
+                } else {
                     setResult(RESULT_CANCELED);
                     BaseActivity.keepScreen = false;
                     AppCompatPreferenceActivity.keepScreen = false;
                     getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+                }
+            }
+
+            // If it matches the Capacitive Button Key
+            if (key.matches(res.getString(R.string.pref_key_bcap_enable))) {
+                if (btHelper.getConnectionStatus()) {
+                    btHelper.sendBcapChangedState();
                 }
             }
         }

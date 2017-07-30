@@ -4,6 +4,7 @@ import android.bluetooth.BluetoothAdapter;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -132,11 +133,16 @@ public class SplashScreenActivity extends BaseActivity implements AlertDialog.On
     //region Private
 
     private void getScreenOnPreference() {
-        if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean(getString(R.string.pref_key_keep_screen), false)) {
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        if (sharedPref.getBoolean(getString(R.string.pref_key_keep_screen), false)) {
             BaseActivity.keepScreen = true;
             AppCompatPreferenceActivity.keepScreen = true;
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
+        
+        SharedPreferences.Editor prefEditor = sharedPref.edit();
+        prefEditor.putBoolean(getResources().getString(R.string.pref_key_bcap_enable), true);
+        prefEditor.apply();
     }
 
     private void checkPermissions() {
