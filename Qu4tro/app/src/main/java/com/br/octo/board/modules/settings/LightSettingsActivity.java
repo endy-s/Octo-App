@@ -108,7 +108,6 @@ public class LightSettingsActivity extends AppCompatPreferenceActivity implement
                 newStateMsg += "L=" + listPreference.getValue() + ";>";
             } else if (key.matches(res.getString(R.string.pref_key_light_freq))) {
                 newStateMsg += "F=" + listPreference.getValue() + ";>";
-                // TODO: check if there's current change at the board. If yes, show a warning
             }
         } else if (preference instanceof SwitchPreference) {
             SwitchPreference switchPreference = (SwitchPreference) preference;
@@ -128,8 +127,8 @@ public class LightSettingsActivity extends AppCompatPreferenceActivity implement
 
             if (key.matches(res.getString(R.string.pref_key_light_intensity))) {
                 int radius = sharedLightPref.getInt(res.getString(R.string.pref_key_light_intensity), 50);
-                if (radius == 100) radius = 99;
                 preference.setSummary(this.getString(R.string.pref_light_intensity_summary).replace("$1", "" + radius));
+                if (radius == 100) radius = 99;
                 newStateMsg += radius + ";>";
             }
         }
@@ -137,7 +136,9 @@ public class LightSettingsActivity extends AppCompatPreferenceActivity implement
         if (btHelper.getConnectionStatus()) {
             btHelper.sendMessage(newStateMsg);
         }
+//        }
     }
+
 
     public void setFreqEnabled(int index) {
         Preference preference_freq = findPreference(res.getString(R.string.pref_key_light_freq));
