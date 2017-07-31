@@ -233,6 +233,19 @@
                 android:layout_below="@id/divider1"
                 android:text="@string/bt_unknown"/>
 
+            <ProgressBar
+                android:id="@+id/txtWaterProgress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/txtWater"
+                android:layout_alignEnd="@id/txtWater"
+                android:layout_alignStart="@id/txtWater"
+                android:layout_below="@id/divider1"
+                android:layout_marginTop="8dp"
+                android:indeterminate="true"
+                android:indeterminateTint="@color/text_info"
+                android:visibility="invisible"/>
+
             <ImageView
                 android:id="@+id/icTherm1"
                 android:layout_width="wrap_content"
@@ -276,6 +289,20 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/divider2"
                 android:text="@string/bt_unknown"/>
+
+
+            <ProgressBar
+                android:id="@+id/txtAmbientProgress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/txtAmbient"
+                android:layout_alignEnd="@id/txtAmbient"
+                android:layout_alignStart="@id/txtAmbient"
+                android:layout_below="@id/divider2"
+                android:layout_marginTop="8dp"
+                android:indeterminate="true"
+                android:indeterminateTint="@color/text_info"
+                android:visibility="invisible"/>
 
             <ImageView
                 android:id="@+id/icTherm2"
