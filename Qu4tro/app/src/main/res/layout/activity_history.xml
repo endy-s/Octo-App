@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/img_history_octo"
+    android:orientation="vertical"
+    tools:context="com.br.octo.board.modules.history.HistoryActivity">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/ic_rowing"/>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scaleX="0.6"
+        android:scaleY="0.5"
+        android:src="@drawable/img_divider_big"/>
+
+    <TextView
+        android:id="@+id/historyLabel"
+        style="@style/MainPageInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        tools:text="Latest 20 Rows"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/historyRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:listitem="@layout/history_list_item"/>
+
+</LinearLayout>

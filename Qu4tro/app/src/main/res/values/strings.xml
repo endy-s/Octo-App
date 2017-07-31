@@ -100,6 +100,9 @@
     <string name="bt_pause">PAUSE</string>
     <string name="bt_play">PLAY</string>
 
+    <!--History Screen-->
+    <string name="history_prefix">Latest</string>
+    <string name="history_suffix">Rows</string>
 
     <!-- Status Infos -->
     <string name="status" translatable="false">Status</string>
