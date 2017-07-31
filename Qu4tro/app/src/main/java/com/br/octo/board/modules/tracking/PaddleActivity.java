@@ -128,11 +128,13 @@ public class PaddleActivity extends BaseActivity implements
 
         txtTime.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
             public void onChronometerTick(Chronometer cArg) {
-                long actualTime = (SystemClock.elapsedRealtime() - cArg.getBase()) / 1000;
+                long actualTimeInSeconds = (SystemClock.elapsedRealtime() - cArg.getBase()) / 1000;
 
-                int hour = (int) actualTime / (60 * 60);
-                int minutes = (int) (actualTime / 60) % 60;
+                int hour = (int) actualTimeInSeconds / (60 * 60);
+                int minutes = (int) (actualTimeInSeconds / 60) % 60;
                 cArg.setText(String.format("%02d:%02d", hour, minutes));
+                kcalCount = (int) actualTimeInSeconds / 10;
+                txtKcal.setText(String.format("%d", kcalCount));
             }
         });
 
@@ -178,9 +180,11 @@ public class PaddleActivity extends BaseActivity implements
                     }
 
                     route.add(new TrackingPoints(location.getLatitude(), location.getLongitude()));
+                    rowCount = (int) ((kmPaddling * 1000) / 1.5);
 
                     txtKm.setText(String.format("%.2f", kmPaddling));
                     txtSpeed.setText(String.format("%.2f", actualSpeed));
+                    txtRows.setText(String.format("%d", rowCount));
                 }
 
                 @Override

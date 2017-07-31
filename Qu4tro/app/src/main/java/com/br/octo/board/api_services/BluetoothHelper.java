@@ -173,7 +173,8 @@ public class BluetoothHelper {
 
         lightFreq += sharedPref.getString(resources.getString(R.string.pref_key_light_freq), "0");
 
-        lightInt += sharedPref.getInt(resources.getString(R.string.pref_key_light_intensity), 50);
+        int tempInt = sharedPref.getInt(resources.getString(R.string.pref_key_light_intensity), 50);
+        lightInt += tempInt == 100 ? 99 : tempInt;
 
         sendMessage(initialString + lightMode + lightFreq + lightInt + endingString);
     }
