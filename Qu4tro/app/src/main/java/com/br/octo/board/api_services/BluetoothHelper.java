@@ -32,6 +32,7 @@ public class BluetoothHelper {
     private BluetoothGatt mGatt;
     private BluetoothGattCharacteristic characteristicRxTx;
     private SharedPreferences sharedPref;
+    private Context context;
     private Resources resources;
 
     private BluetoothCallback callback;
@@ -44,6 +45,7 @@ public class BluetoothHelper {
     }
 
     public void connectToDevice(Context context, BluetoothDevice device) {
+        this.context = context;
         sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
         resources = context.getResources();
 
@@ -138,11 +140,11 @@ public class BluetoothHelper {
 
                 if (answer.startsWith("<B")) {
                     sendMessage("<OK>");
-                } else if (answer.startsWith("<U;")) {
+                } else if (answer.startsWith("<U")) {
                     if (answer.contains("L=")) {
                         updateLightState(Integer.valueOf(answer.split(";")[1].substring(2)));
-                        sendMessage("<OK>");
                     }
+                    sendMessage("<OK>");
                 } else if (answer.matches("<OK>")) {
                     //
                 }
@@ -176,8 +178,22 @@ public class BluetoothHelper {
         sendMessage(initialString + lightMode + lightFreq + lightInt + endingString);
     }
 
+    public void sendBcapChangedState() {
+        String bcapChangeMsg = "<C=";
+
+        if (sharedPref.getBoolean(resources.getString(R.string.pref_key_bcap_enable), false)) {
+            bcapChangeMsg += "1;>";
+        } else {
+            bcapChangeMsg += "0;>";
+        }
+
+        sendMessage(bcapChangeMsg);
+    }
+
     private void updateLightState(int newState) {
         SharedPreferences.Editor prefEditor = sharedPref.edit();
+
+//        Constants.updateSettingsScreen = true;
 
         if (newState == 0) {
             prefEditor.putBoolean(resources.getString(R.string.pref_key_light_enabled), false);

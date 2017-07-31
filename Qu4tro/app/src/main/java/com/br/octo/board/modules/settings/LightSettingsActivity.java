@@ -77,6 +77,20 @@ public class LightSettingsActivity extends AppCompatPreferenceActivity implement
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         Preference preference = findPreference(key);
 
+//        if (Constants.updateSettingsScreen) {
+//            if (key.matches(res.getString(R.string.pref_key_light_enabled))) {
+//                SwitchPreference enabled = (SwitchPreference) findPreference(key);
+//                boolean newState = sharedPreferences.getBoolean(key, false);
+//                enabled.setChecked(newState);
+//                if (!newState) {
+//                    Constants.updateSettingsScreen = false;
+//                }
+//            } else if (key.matches(res.getString(R.string.pref_key_light_mode))) {
+//                ListPreference mode = (ListPreference) findPreference(key);
+//                mode.setSummary(mode.findIndexOfValue(sharedPreferences.getString(key, "")));
+//                Constants.updateSettingsScreen = false;
+//            }
+//        } else {
         String newStateMsg = "<W=1;";
 
         if (preference instanceof ListPreference) {

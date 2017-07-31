@@ -27,4 +27,5 @@ public class Constants {
     public static final String weatherInfo = "weather_info";
     public static final String battValue = "batt_value";
 
+    public static boolean updateSettingsScreen = false;
 }
