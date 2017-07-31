@@ -5,10 +5,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -34,6 +36,7 @@ import com.br.octo.board.modules.settings.LightSettingsActivity;
 import com.br.octo.board.modules.settings.LocaleHelper;
 import com.br.octo.board.modules.settings.SettingsActivity;
 import com.br.octo.board.modules.tracking.PaddleActivity;
+import com.br.octo.board.modules.tutorial.TutorialActivity;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.LocationSettingsResult;
@@ -62,6 +65,7 @@ import static com.br.octo.board.Constants.REQUEST_HISTORY_SCREEN;
 import static com.br.octo.board.Constants.REQUEST_LIGHT_SETTINGS;
 import static com.br.octo.board.Constants.REQUEST_SCAN_DEVICE;
 import static com.br.octo.board.Constants.REQUEST_TRACKING_SCREEN;
+import static com.br.octo.board.Constants.REQUEST_TUTORIAL_SCREEN;
 import static com.br.octo.board.Constants.actualPaddleId;
 import static com.br.octo.board.Constants.battValue;
 
@@ -155,6 +159,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
         weather = YahooWeather.getInstance();
         tempClicked();
+
+        showTutorialIfNeeded();
     }
 
     @Override
@@ -252,8 +258,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 break;
             }
             case R.id.nav_tutorial: {
-                // TODO: Call the Tutorial view (to be developed)
-                Toast.makeText(getBaseContext(), "Coming soon", Toast.LENGTH_SHORT).show();
+                startActivityForResult(new Intent(getBaseContext(), TutorialActivity.class), REQUEST_TUTORIAL_SCREEN);
                 break;
             }
             case R.id.nav_share: {
@@ -487,6 +492,17 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     private void showLightScreen() {
         startActivityForResult(new Intent(getBaseContext(), LightSettingsActivity.class), REQUEST_LIGHT_SETTINGS);
+    }
+
+    private void showTutorialIfNeeded() {
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        if (!sharedPref.getBoolean(getString(R.string.pref_key_has_never_seen_tutorial), false)) {
+            SharedPreferences.Editor prefEditor = sharedPref.edit();
+            prefEditor.putBoolean(getResources().getString(R.string.pref_key_has_never_seen_tutorial), true);
+            prefEditor.apply();
+
+            startActivityForResult(new Intent(getBaseContext(), TutorialActivity.class), REQUEST_TUTORIAL_SCREEN);
+        }
     }
 
     //endregion
