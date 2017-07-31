@@ -29,6 +29,7 @@ import com.br.octo.board.api_services.BluetoothHelper;
 import com.br.octo.board.models.Paddle;
 import com.br.octo.board.modules.DeviceListActivity;
 import com.br.octo.board.modules.base.BaseActivity;
+import com.br.octo.board.modules.history.HistoryActivity;
 import com.br.octo.board.modules.settings.LightSettingsActivity;
 import com.br.octo.board.modules.settings.LocaleHelper;
 import com.br.octo.board.modules.settings.SettingsActivity;
@@ -57,6 +58,7 @@ import static android.view.View.VISIBLE;
 import static com.br.octo.board.Constants.REQUEST_CHECK_SETTINGS;
 import static com.br.octo.board.Constants.REQUEST_ENABLE_BT_TO_SCAN;
 import static com.br.octo.board.Constants.REQUEST_GENERAL_SETTINGS;
+import static com.br.octo.board.Constants.REQUEST_HISTORY_SCREEN;
 import static com.br.octo.board.Constants.REQUEST_LIGHT_SETTINGS;
 import static com.br.octo.board.Constants.REQUEST_SCAN_DEVICE;
 import static com.br.octo.board.Constants.REQUEST_TRACKING_SCREEN;
@@ -246,8 +248,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 break;
             }
             case R.id.nav_history: {
-                // TODO: Call the History view (to be developed)
-                Toast.makeText(getBaseContext(), "Coming soon", Toast.LENGTH_SHORT).show();
+                startActivityForResult(new Intent(getBaseContext(), HistoryActivity.class), REQUEST_HISTORY_SCREEN);
                 break;
             }
             case R.id.nav_tutorial: {
