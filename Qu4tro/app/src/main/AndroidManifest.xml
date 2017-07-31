@@ -66,6 +66,18 @@
             android:screenOrientation="portrait">
         </activity>
 
+        <activity
+            android:name=".modules.history.HistoryActivity"
+            android:parentActivityName=".modules.main.MainActivity"
+            android:screenOrientation="portrait">
+        </activity>
+
+        <activity
+            android:name=".modules.tutorial.TutorialActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key"/>

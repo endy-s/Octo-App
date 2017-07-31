@@ -133,7 +133,7 @@ public class PaddleActivity extends BaseActivity implements
                 int hour = (int) actualTimeInSeconds / (60 * 60);
                 int minutes = (int) (actualTimeInSeconds / 60) % 60;
                 cArg.setText(String.format("%02d:%02d", hour, minutes));
-                kcalCount = (int) actualTimeInSeconds / 10;
+                kcalCount = (int) actualTimeInSeconds / 6;
                 txtKcal.setText(String.format("%d", kcalCount));
             }
         });
