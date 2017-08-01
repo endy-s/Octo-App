@@ -86,7 +86,6 @@
         android:layout_height="wrap_content"
         android:layout_above="@id/lastPaddleResumeLayout"
         android:scaleX="0.9"
-        android:scaleY="0.5"
         android:src="@drawable/img_divider_big"/>
 
     <TextView
