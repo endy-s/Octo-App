@@ -137,6 +137,19 @@
                 android:layout_below="@id/divider3"
                 android:text="@string/bt_unknown"/>
 
+            <ProgressBar
+                android:id="@+id/txtBatteryProgress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/txtBattery"
+                android:layout_alignEnd="@id/txtBattery"
+                android:layout_alignStart="@id/txtBattery"
+                android:layout_below="@id/divider3"
+                android:layout_marginTop="8dp"
+                android:indeterminate="true"
+                android:indeterminateTint="@color/text_info"
+                android:visibility="invisible"/>
+
             <ImageView
                 android:id="@+id/icBattery"
                 android:layout_width="wrap_content"
