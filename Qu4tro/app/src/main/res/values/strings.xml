@@ -102,7 +102,8 @@
 
     <!--History Screen-->
     <string name="history_prefix">Latest</string>
-    <string name="history_suffix">Rows</string>
+    <string name="history_suffix">Paddle</string>
+    <string name="history_empty">No Paddle History</string>
 
     <!-- Status Infos -->
     <string name="status" translatable="false">Status</string>

@@ -70,6 +70,8 @@ public class HistoryActivity extends AppCompatActivity {
             LinearLayoutManager layoutManager = new LinearLayoutManager(this);
             historyRecyclerView.setLayoutManager(layoutManager);
             historyRecyclerView.setAdapter(historyAdapter);
+        } else {
+            historyLabel.setText(getString(R.string.history_empty));
         }
         realm.close();
     }
