@@ -26,6 +26,7 @@
         style="@style/MainPageInfo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
         android:textAlignment="center"
         tools:text="Latest 20 Rows"/>
 
