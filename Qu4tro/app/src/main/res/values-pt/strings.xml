@@ -130,4 +130,5 @@
     <string name="pref_title_bcap_enable">Habilitar Botão Capacitivo</string>
     <string name="history_prefix">Últimas</string>
     <string name="history_suffix">Remadas</string>
+    <string name="history_empty">Sem Histórico de Remadas</string>
 </resources>
