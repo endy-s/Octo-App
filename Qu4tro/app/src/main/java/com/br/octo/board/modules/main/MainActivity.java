@@ -96,6 +96,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     // Status TextViews
     @BindView(R.id.txtBattery)
     TextView batteryTV;
+    @BindView(R.id.txtBatteryProgress)
+    ProgressBar batteryProgress;
     @BindView(R.id.txtBoard)
     TextView boardTV;
     @BindView(R.id.txtAmbient)
@@ -432,10 +434,14 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     private void showNotConnectedState() {
         batteryTV.setText(R.string.bt_unknown);
+        if (batteryProgress.getVisibility() == VISIBLE)
+            batteryProgress.setVisibility(INVISIBLE);
         boardTV.setText(R.string.bt_board_off);
     }
 
     private void showConnectedState() {
+        batteryTV.setVisibility(INVISIBLE);
+        batteryProgress.setVisibility(VISIBLE);
         boardTV.setText(R.string.bt_board_on);
     }
 
@@ -520,6 +526,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 @Override
                 public void run() {
                     batteryTV.setText(battValue.substring(2).trim().concat("%"));
+                    if (batteryProgress.getVisibility() == VISIBLE)
+                        batteryProgress.setVisibility(INVISIBLE);
 //                    tempWaterTV.setText(tempValue.substring(2).trim().concat(" °C"));
                 }
             });

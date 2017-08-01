@@ -235,7 +235,6 @@
         android:layout_height="wrap_content"
         android:layout_above="@id/labelKm"
         android:scaleX="0.7"
-        android:scaleY="0.5"
         android:src="@drawable/img_divider_big"
         app:srcCompat="@drawable/img_divider_big"/>
 

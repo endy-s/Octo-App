@@ -130,6 +130,7 @@ public class BluetoothHelper {
             if (!btConnected) {
                 if (answer.matches("<BOARD>")) {
                     sendLightState();
+                    connectionErrorHandler.removeCallbacks(connectionErrorRunnable);
                     callback.onDeviceConnected();
                     btConnected = true;
                 } else {
@@ -139,12 +140,22 @@ public class BluetoothHelper {
                 callback.onMessageReceived(answer.replaceAll("[<> ]", ""));
 
                 if (answer.startsWith("<B")) {
-                    sendMessage("<OK>");
+                    connectionErrorHandler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            sendMessage("<OK>");
+                        }
+                    }, 100);
                 } else if (answer.startsWith("<U")) {
                     if (answer.contains("L=")) {
                         updateLightState(Integer.valueOf(answer.split(";")[1].substring(2)));
                     }
-                    sendMessage("<OK>");
+                    connectionErrorHandler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            sendMessage("<OK>");
+                        }
+                    }, 100);
                 } else if (answer.matches("<OK>")) {
                     //
                 }
@@ -157,7 +168,6 @@ public class BluetoothHelper {
     }
 
     private void sendHandshake() {
-        connectionErrorHandler.removeCallbacks(connectionErrorRunnable);
         sendMessage("<OCTO>");
     }
 
@@ -176,7 +186,14 @@ public class BluetoothHelper {
         int tempInt = sharedPref.getInt(resources.getString(R.string.pref_key_light_intensity), 50);
         lightInt += tempInt == 100 ? 99 : tempInt;
 
-        sendMessage(initialString + lightMode + lightFreq + lightInt + endingString);
+        final String completeMessage = initialString + lightMode + lightFreq + lightInt + endingString;
+
+        connectionErrorHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                sendMessage(completeMessage);
+            }
+        }, 100);
     }
 
     public void sendBcapChangedState() {
