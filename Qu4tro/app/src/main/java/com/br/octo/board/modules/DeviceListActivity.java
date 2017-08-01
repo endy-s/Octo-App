@@ -205,14 +205,19 @@ public class DeviceListActivity extends BaseActivity implements BluetoothHelper.
         public void onScanResult(int callbackType, ScanResult result) {
             Log.i("callbackType", String.valueOf(callbackType));
             Log.i("result", result.toString());
-            BluetoothDevice btDevice = result.getDevice();
+            final BluetoothDevice btDevice = result.getDevice();
 
             if (btDevice.getName() == null) {
                 return;
             }
 
-            mLeDeviceListAdapter.addDevice(btDevice);
-            mLeDeviceListAdapter.notifyDataSetChanged();
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    mLeDeviceListAdapter.addDevice(btDevice);
+                    mLeDeviceListAdapter.notifyDataSetChanged();
+                }
+            });
         }
 
         @Override

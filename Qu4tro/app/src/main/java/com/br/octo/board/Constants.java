@@ -8,8 +8,10 @@ public class Constants {
     public static final int REQUEST_SCAN_DEVICE = 0;
     public static final int REQUEST_GENERAL_SETTINGS = 1;
     public static final int REQUEST_LIGHT_SETTINGS = 2;
-    public static final int REQUEST_TRACKING_SCREEN = 3;
-    public static final int REQUEST_END_SCREEN = 3;
+    public static final int REQUEST_HISTORY_SCREEN = 3;
+    public static final int REQUEST_TUTORIAL_SCREEN = 4;
+    public static final int REQUEST_TRACKING_SCREEN = 5;
+    public static final int REQUEST_END_SCREEN = 6;
 
     public static final int REQUEST_CHECK_SETTINGS = 79;
     public static final int PERMISSION_REQUEST_LOCATION = 89;
