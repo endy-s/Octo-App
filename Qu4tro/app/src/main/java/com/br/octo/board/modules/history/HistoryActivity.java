@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.br.octo.board.R;
@@ -36,6 +37,16 @@ public class HistoryActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         setupActionBar();
         loadHistoryInfo();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     //endregion
