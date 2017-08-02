@@ -351,7 +351,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             case REQUEST_GENERAL_SETTINGS:
                 switch (resultCode) {
                     case RESULT_OK:
-                        recreate();
+                        startActivity(new Intent(getBaseContext(), MainActivity.class));
+                        finish();
+
+//                        recreate();
                         break;
                     case RESULT_FIRST_USER:
                         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);

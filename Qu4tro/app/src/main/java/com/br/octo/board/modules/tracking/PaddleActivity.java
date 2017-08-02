@@ -32,6 +32,7 @@ import com.br.octo.board.models.TrackingPoints;
 import com.br.octo.board.modules.base.BaseActivity;
 import com.br.octo.board.modules.end.EndPaddleActivity;
 import com.br.octo.board.modules.settings.LightSettingsActivity;
+import com.br.octo.board.modules.settings.LocaleHelper;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.LocationSettingsResult;
@@ -210,6 +211,11 @@ public class PaddleActivity extends BaseActivity implements
     protected void onDestroy() {
         super.onDestroy();
         if (gpsLocationReceiver != null) unregisterReceiver(gpsLocationReceiver);
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(LocaleHelper.onAttach(base));
     }
 
     @Override
