@@ -63,7 +63,7 @@ public class TutorialActivity extends AppCompatActivity {
             }
         });
 
-        String path = "android.resource://" + getPackageName() + "/" + R.raw.ex;
+        String path = "android.resource://" + getPackageName() + "/" + R.raw.octo_tutorial;
         tutorialVideoView.setVideoURI(Uri.parse(path));
         tutorialVideoView.start();
     }
