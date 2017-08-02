@@ -434,8 +434,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     private void showNotConnectedState() {
         batteryTV.setText(R.string.bt_unknown);
-        if (batteryProgress.getVisibility() == VISIBLE)
+        if (batteryProgress.getVisibility() == VISIBLE) {
+            batteryTV.setVisibility(VISIBLE);
             batteryProgress.setVisibility(INVISIBLE);
+        }
         boardTV.setText(R.string.bt_board_off);
     }
 
@@ -526,8 +528,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 @Override
                 public void run() {
                     batteryTV.setText(battValue.substring(2).trim().concat("%"));
-                    if (batteryProgress.getVisibility() == VISIBLE)
+                    if (batteryProgress.getVisibility() == VISIBLE) {
+                        batteryTV.setVisibility(VISIBLE);
                         batteryProgress.setVisibility(INVISIBLE);
+                    }
 //                    tempWaterTV.setText(tempValue.substring(2).trim().concat(" °C"));
                 }
             });
