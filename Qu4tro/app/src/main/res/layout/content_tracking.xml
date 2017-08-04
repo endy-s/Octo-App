@@ -108,8 +108,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/trackDivider3"
-                android:text="@string/bt_unknown"
-                android:textSize="36sp"/>
+                android:text="@string/bt_unknown"/>
         </RelativeLayout>
 
         <RelativeLayout
@@ -140,8 +139,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/trackDivider4"
-                android:text="@string/bt_unknown"
-                android:textSize="36sp"/>
+                android:text="@string/bt_unknown"/>
         </RelativeLayout>
     </LinearLayout>
 
@@ -181,8 +179,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/trackDivider1"
-                android:text="@string/bt_unknown"
-                android:textSize="36sp"/>
+                android:text="@string/bt_unknown"/>
         </RelativeLayout>
 
         <RelativeLayout
@@ -213,8 +210,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/trackDivider2"
-                android:text="@string/bt_unknown"
-                android:textSize="36sp"/>
+                android:text="@string/bt_unknown"/>
         </RelativeLayout>
     </LinearLayout>
 
@@ -248,6 +244,6 @@
         android:layout_marginTop="16dp"
         android:text="@string/bt_unknown"
         android:textColor="@color/text_info"
-        android:textSize="64sp"/>
+        android:textSize="56sp"/>
 
 </RelativeLayout>

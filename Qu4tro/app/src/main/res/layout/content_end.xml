@@ -57,8 +57,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/endTrackDivider3"
-                    android:text="@string/bt_unknown"
-                    android:textSize="36sp"/>
+                    android:text="@string/bt_unknown"/>
             </RelativeLayout>
 
             <RelativeLayout
@@ -89,8 +88,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/endTrackDivider4"
-                    android:text="@string/bt_unknown"
-                    android:textSize="36sp"/>
+                    android:text="@string/bt_unknown"/>
             </RelativeLayout>
         </LinearLayout>
 
@@ -130,8 +128,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/endTrackDivider1"
-                    android:text="@string/bt_unknown"
-                    android:textSize="36sp"/>
+                    android:text="@string/bt_unknown"/>
             </RelativeLayout>
 
             <RelativeLayout
@@ -162,8 +159,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/endTrackDivider2"
-                    android:text="@string/bt_unknown"
-                    android:textSize="36sp"/>
+                    android:text="@string/bt_unknown"/>
             </RelativeLayout>
         </LinearLayout>
 
@@ -176,7 +172,7 @@
             android:layout_alignParentTop="false"
             android:layout_marginBottom="8dp"
             android:text="@string/bt_dist"
-            android:textSize="24sp"/>
+            android:textSize="16sp"/>
 
         <ImageView
             android:id="@+id/endTrackDivider0"
@@ -195,7 +191,7 @@
             android:layout_above="@id/endTrackDivider0"
             android:text="@string/bt_unknown"
             android:textColor="@color/text_info"
-            android:textSize="48sp"/>
+            android:textSize="36sp"/>
 
         <com.google.android.gms.maps.MapView
             android:id="@+id/endMap"
