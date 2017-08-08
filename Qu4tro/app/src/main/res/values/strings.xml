@@ -31,7 +31,7 @@
     <string name="error_bt_error_title">Bluetooth Error</string>
     <string name="error_bt_not_available">Bluetooth not available. Try with another device.</string>
     <string name="error_bt_not_wanted_title">Bluetooth off</string>
-    <string name="error_bt_not_wanted_message">You won\\\'t be able to connect with your board and some functionalities will be not available until you turn the Bluetooth on.</string>
+    <string name="error_bt_not_wanted_message">You won\'t be able to connect with your board and some functionalities will be not available until you turn the Bluetooth on.</string>
     <string name="error_bt_scan_disabled_message">It seems that the bluetooth turned off and the scan will not works. Turn it on again and restart the scan.</string>
     <string name="error_ble_not_supported">Bluetooth Low Energy not supported. Try with another device.</string>
     <string name="error_permission_error_title">Functionality limited</string>
@@ -221,6 +221,12 @@
     <string name="pref_message_intensity">Select the light intensity</string>
     <string name="pref_light_intensity_unit" translatable="false">%</string>
     <string name="pref_light_intensity_summary">Current value: $1%</string>
+
+    <string name="pref_title_threshold">Low Battery Threshold Level</string>
+    <string name="pref_key_light_threshold" translatable="false">light_treshold_key</string>
+    <string name="pref_message_threshold">Select the low battery threshold level</string>
+    <string name="pref_light_threshold_unit" translatable="false">%</string>
+    <string name="pref_light_threshold_summary">Current value: $1%</string>
 
     <string name="pref_title_freq">Light Frequency</string>
     <string name="pref_key_light_freq" translatable="false">light_freq_key</string>
