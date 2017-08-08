@@ -14,6 +14,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.br.octo.board.R;
+import com.br.octo.board.Variables;
 
 import java.util.UUID;
 
@@ -219,7 +220,7 @@ public class BluetoothHelper {
     private void updateLightState(int newState) {
         SharedPreferences.Editor prefEditor = sharedPref.edit();
 
-//        Constants.updateSettingsScreen = true;
+        Variables.updateSettingsScreen = true;
 
         if (newState == 0) {
             prefEditor.putBoolean(resources.getString(R.string.pref_key_light_enabled), false);
@@ -234,10 +235,15 @@ public class BluetoothHelper {
     private void setLowBattMode(int lowBattMode) {
         SharedPreferences.Editor prefEditor = sharedPref.edit();
 
+        Variables.updateSettingsScreen = true;
+
         if (lowBattMode == 0) {
-            //TODO
+            Variables.lowPowerMode = false;
         } else {
-            //TODO
+            prefEditor.putBoolean(resources.getString(R.string.pref_key_light_enabled), true);
+            prefEditor.putString(resources.getString(R.string.pref_key_light_mode), String.valueOf(1));
+            prefEditor.putString(resources.getString(R.string.pref_key_light_intensity), String.valueOf(50));
+            Variables.lowPowerMode = true;
         }
 
         prefEditor.apply();
