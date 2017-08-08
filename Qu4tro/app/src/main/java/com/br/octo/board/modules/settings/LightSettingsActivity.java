@@ -123,11 +123,18 @@ public class LightSettingsActivity extends AppCompatPreferenceActivity implement
                 }
             }
         } else if (preference instanceof SeekBarPreference) {
-            newStateMsg += "I=";
-
             if (key.matches(res.getString(R.string.pref_key_light_intensity))) {
+                newStateMsg += "I=";
+
                 int radius = sharedLightPref.getInt(res.getString(R.string.pref_key_light_intensity), 50);
                 preference.setSummary(this.getString(R.string.pref_light_intensity_summary).replace("$1", "" + radius));
+                if (radius == 100) radius = 99;
+                newStateMsg += String.format("%02d", radius) + ";>";
+            } else if (key.matches(res.getString(R.string.pref_key_light_threshold))) {
+                newStateMsg += "P=";
+
+                int radius = sharedLightPref.getInt(res.getString(R.string.pref_key_light_threshold), 50);
+                preference.setSummary(this.getString(R.string.pref_light_threshold_summary).replace("$1", "" + radius));
                 if (radius == 100) radius = 99;
                 newStateMsg += String.format("%02d", radius) + ";>";
             }
