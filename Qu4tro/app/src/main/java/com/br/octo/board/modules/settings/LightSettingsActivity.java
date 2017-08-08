@@ -10,6 +10,7 @@ import android.preference.SwitchPreference;
 import android.support.v7.app.ActionBar;
 
 import com.br.octo.board.R;
+import com.br.octo.board.Variables;
 import com.br.octo.board.api_services.BluetoothHelper;
 import com.br.octo.board.models.SeekBarPreference;
 import com.br.octo.board.modules.base.AppCompatPreferenceActivity;
@@ -40,12 +41,9 @@ public class LightSettingsActivity extends AppCompatPreferenceActivity implement
 
         ListPreference modePreference = (ListPreference) findPreference(res.getString(R.string.pref_key_light_mode));
         setFreqEnabled(modePreference.findIndexOfValue(sharedLightPref.getString(res.getString(R.string.pref_key_light_mode), "")));
+        if (Variables.lowPowerMode) modePreference.setEnabled(false);
 
-        SeekBarPreference intensityPreference = (SeekBarPreference) this.findPreference(res.getString(R.string.pref_key_light_intensity));
-        // Set seekbar summary :
-        int radius = sharedLightPref.getInt(res.getString(R.string.pref_key_light_intensity), 50);
-        intensityPreference.setSummary(this.getString(R.string.pref_light_intensity_summary).replace("$1", "" + radius));
-
+        setSeekBars();
 
         btHelper = BluetoothHelper.getInstance();
     }
@@ -77,18 +75,23 @@ public class LightSettingsActivity extends AppCompatPreferenceActivity implement
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         Preference preference = findPreference(key);
 
-//        if (Constants.updateSettingsScreen) {
+        if (Variables.lowPowerMode) {
+            ListPreference mode = (ListPreference) findPreference(res.getString(R.string.pref_key_light_mode));
+            mode.setEnabled(false);
+        }
+
+//        if (Variables.updateSettingsScreen) {
 //            if (key.matches(res.getString(R.string.pref_key_light_enabled))) {
 //                SwitchPreference enabled = (SwitchPreference) findPreference(key);
 //                boolean newState = sharedPreferences.getBoolean(key, false);
 //                enabled.setChecked(newState);
 //                if (!newState) {
-//                    Constants.updateSettingsScreen = false;
+//                    Variables.updateSettingsScreen = false;
 //                }
 //            } else if (key.matches(res.getString(R.string.pref_key_light_mode))) {
 //                ListPreference mode = (ListPreference) findPreference(key);
 //                mode.setSummary(mode.findIndexOfValue(sharedPreferences.getString(key, "")));
-//                Constants.updateSettingsScreen = false;
+//                Variables.updateSettingsScreen = false;
 //            }
 //        } else {
         String newStateMsg = "<W=1;";
@@ -155,5 +158,17 @@ public class LightSettingsActivity extends AppCompatPreferenceActivity implement
         } else {
             preference_freq.setEnabled(true);
         }
+    }
+
+    public void setSeekBars() {
+        SeekBarPreference intensityPreference = (SeekBarPreference) this.findPreference(res.getString(R.string.pref_key_light_intensity));
+        SeekBarPreference thresholdPreference = (SeekBarPreference) this.findPreference(res.getString(R.string.pref_key_light_threshold));
+        // Set seekbar properties:
+        int radius = sharedLightPref.getInt(res.getString(R.string.pref_key_light_intensity), 50);
+        intensityPreference.setSummary(this.getString(R.string.pref_light_intensity_summary).replace("$1", "" + radius));
+        intensityPreference.setMin(1);
+        radius = sharedLightPref.getInt(res.getString(R.string.pref_key_light_threshold), 50);
+        thresholdPreference.setSummary(this.getString(R.string.pref_light_threshold_summary).replace("$1", "" + radius));
+        thresholdPreference.setMin(10);
     }
 }
