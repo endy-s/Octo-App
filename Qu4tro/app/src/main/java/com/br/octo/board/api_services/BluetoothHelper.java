@@ -4,6 +4,7 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCallback;
 import android.bluetooth.BluetoothGattCharacteristic;
+import android.bluetooth.BluetoothManager;
 import android.bluetooth.BluetoothProfile;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -32,6 +33,7 @@ public class BluetoothHelper {
     private BluetoothGatt mGatt;
     private BluetoothGattCharacteristic characteristicRxTx;
     private SharedPreferences sharedPref;
+    private BluetoothManager btManager;
     private Context context;
     private Resources resources;
 
@@ -46,6 +48,7 @@ public class BluetoothHelper {
 
     public void connectToDevice(Context context, BluetoothDevice device) {
         this.context = context;
+        btManager = (BluetoothManager) context.getSystemService(Context.BLUETOOTH_SERVICE);
         sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
         resources = context.getResources();
 
@@ -149,6 +152,8 @@ public class BluetoothHelper {
                 } else if (answer.startsWith("<U")) {
                     if (answer.contains("L=")) {
                         updateLightState(Integer.valueOf(answer.split(";")[1].substring(2)));
+                    } else if (answer.contains("P=")) {
+                        setLowBattMode(Integer.valueOf(answer.split(";")[1].substring(2)));
                     }
                     connectionErrorHandler.postDelayed(new Runnable() {
                         @Override
@@ -172,8 +177,8 @@ public class BluetoothHelper {
     }
 
     private void sendLightState() {
-        String initialString = "<W=3;", endingString = ";>";
-        String lightMode = "L=", lightFreq = ";F=", lightInt = ";I=";
+        String initialString = "<W=4;", endingString = ";>";
+        String lightMode = "L=", lightFreq = ";F=", lightInt = ";I=", thresholdPowerLevel = ";P=";
 
         if (sharedPref.getBoolean(resources.getString(R.string.pref_key_light_enabled), false)) {
             lightMode += sharedPref.getString(resources.getString(R.string.pref_key_light_mode), "0");
@@ -186,7 +191,10 @@ public class BluetoothHelper {
         int tempInt = sharedPref.getInt(resources.getString(R.string.pref_key_light_intensity), 50);
         lightInt += tempInt == 100 ? 99 : tempInt;
 
-        final String completeMessage = initialString + lightMode + lightFreq + lightInt + endingString;
+        int tempLevel = sharedPref.getInt(resources.getString(R.string.pref_key_light_threshold), 10);
+        thresholdPowerLevel += tempLevel == 100 ? 99 : tempLevel;
+
+        final String completeMessage = initialString + lightMode + lightFreq + lightInt + thresholdPowerLevel + endingString;
 
         connectionErrorHandler.postDelayed(new Runnable() {
             @Override
@@ -223,12 +231,26 @@ public class BluetoothHelper {
         prefEditor.apply();
     }
 
+    private void setLowBattMode(int lowBattMode) {
+        SharedPreferences.Editor prefEditor = sharedPref.edit();
+
+        if (lowBattMode == 0) {
+            //TODO
+        } else {
+            //TODO
+        }
+
+        prefEditor.apply();
+    }
+
     public void sendMessage(String message) {
+//        if (btManager.getConnectionState(mGatt.getDevice(), GATT) == STATE_CONNECTED) {
         final byte[] tx = message.getBytes();
         characteristicRxTx.setValue(tx);
         characteristicRxTx.setWriteType(BluetoothGattCharacteristic.WRITE_TYPE_NO_RESPONSE);
         mGatt.writeCharacteristic(characteristicRxTx);
         Log.d("SENT", "This message: " + message);
+//        }
     }
 
     public interface BluetoothCallback {
