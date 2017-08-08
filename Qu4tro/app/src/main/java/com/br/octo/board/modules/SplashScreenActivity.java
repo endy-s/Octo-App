@@ -38,9 +38,6 @@ public class SplashScreenActivity extends BaseActivity implements AlertDialog.On
 
     //TODO - Future: Add download of user data (if logged in)
 
-    //Local Bluetooth adapter
-    private BluetoothAdapter mBluetoothAdapter = null;
-
     //region lifecycle
 
     @Override
@@ -54,7 +51,7 @@ public class SplashScreenActivity extends BaseActivity implements AlertDialog.On
             createSplashErrorDialog(R.string.error_bt_error_title, R.string.error_ble_not_supported);
         }
 
-        mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
         // If the adapter is null, then Bluetooth is not supported
         if (mBluetoothAdapter == null) {
@@ -146,7 +143,7 @@ public class SplashScreenActivity extends BaseActivity implements AlertDialog.On
     }
 
     private void checkPermissions() {
-        if (mBluetoothAdapter.getBluetoothLeScanner() == null) {
+        if (!getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE)) {
             createSplashErrorDialog(R.string.error_bt_error_title, R.string.error_ble_not_supported);
         } else {
             if (ContextCompat.checkSelfPermission(this, ACCESS_FINE_LOCATION) != PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this, ACCESS_COARSE_LOCATION) != PERMISSION_GRANTED) {
