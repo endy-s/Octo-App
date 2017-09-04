@@ -19,6 +19,7 @@ import com.br.octo.board.Variables;
 import java.util.UUID;
 
 import static com.br.octo.board.Constants.BT_CONNECTION_TIME_OUT;
+import static com.br.octo.board.Constants.BT_MESSAGE_DELAY;
 
 /**
  * Created by Endy on 25/05/2017.
@@ -39,8 +40,8 @@ public class BluetoothHelper {
     private Resources resources;
 
     private BluetoothCallback callback;
-    private boolean btConnected = false;
-    private Handler connectionErrorHandler;
+    private boolean btConnected = false, inLightScreen = false;
+    private Handler btHandler;
     private Runnable connectionErrorRunnable;
 
     public void setCallback(BluetoothCallback callback) {
@@ -76,8 +77,8 @@ public class BluetoothHelper {
             }
         };
 
-        connectionErrorHandler = new Handler();
-        connectionErrorHandler.postDelayed(connectionErrorRunnable, BT_CONNECTION_TIME_OUT);
+        btHandler = new Handler();
+        btHandler.postDelayed(connectionErrorRunnable, BT_CONNECTION_TIME_OUT);
     }
 
     public void disconnect() {
@@ -102,7 +103,7 @@ public class BluetoothHelper {
                     mGatt.close();
                     mGatt = null;
                     btConnected = false;
-                    connectionErrorHandler.removeCallbacks(connectionErrorRunnable);
+                    btHandler.removeCallbacks(connectionErrorRunnable);
                     callback.onDeviceDisconnected();
                     break;
                 default:
@@ -134,7 +135,7 @@ public class BluetoothHelper {
             if (!btConnected) {
                 if (answer.matches("<BOARD>")) {
                     sendLightState();
-                    connectionErrorHandler.removeCallbacks(connectionErrorRunnable);
+                    btHandler.removeCallbacks(connectionErrorRunnable);
                     callback.onDeviceConnected();
                     btConnected = true;
                 } else {
@@ -144,24 +145,26 @@ public class BluetoothHelper {
                 callback.onMessageReceived(answer.replaceAll("[<> ]", ""));
 
                 if (answer.startsWith("<B")) {
-                    connectionErrorHandler.postDelayed(new Runnable() {
+                    btHandler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             sendMessage("<OK>");
                         }
-                    }, 100);
+                    }, BT_MESSAGE_DELAY);
                 } else if (answer.startsWith("<U")) {
-                    if (answer.contains("L=")) {
-                        updateLightState(Integer.valueOf(answer.split(";")[1].substring(2)));
-                    } else if (answer.contains("P=")) {
-                        setLowBattMode(Integer.valueOf(answer.split(";")[1].substring(2)));
+                    if (!inLightScreen) {
+                        if (answer.contains("L=")) {
+                            updateLightState(Integer.valueOf(answer.split(";")[1].substring(2)));
+                        } else if (answer.contains("P=")) {
+                            setLowBattMode(Integer.valueOf(answer.split(";")[1].substring(2)));
+                        }
                     }
-                    connectionErrorHandler.postDelayed(new Runnable() {
+                    btHandler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             sendMessage("<OK>");
                         }
-                    }, 100);
+                    }, BT_MESSAGE_DELAY);
                 } else if (answer.matches("<OK>")) {
                     //
                 }
@@ -173,13 +176,18 @@ public class BluetoothHelper {
         return btConnected;
     }
 
+    public void setInLightScreenFlag(boolean flagState) {
+        inLightScreen = flagState;
+    }
+
     private void sendHandshake() {
         sendMessage("<OCTO>");
     }
 
     private void sendLightState() {
-        String initialString = "<W=4;", endingString = ";>";
-        String lightMode = "L=", lightFreq = ";F=", lightInt = ";I=", thresholdPowerLevel = ";P=";
+        String initialString = "<W=2;", endingString = ";>";
+        String lightMode = "L=", lightFreq = ";F=";
+        String lightInt = "I=", thresholdPowerLevel = ";P=";
 
         if (sharedPref.getBoolean(resources.getString(R.string.pref_key_light_enabled), false)) {
             lightMode += sharedPref.getString(resources.getString(R.string.pref_key_light_mode), "0");
@@ -195,14 +203,22 @@ public class BluetoothHelper {
         int tempLevel = sharedPref.getInt(resources.getString(R.string.pref_key_light_threshold), 10);
         thresholdPowerLevel += tempLevel == 100 ? 99 : tempLevel;
 
-        final String completeMessage = initialString + lightMode + lightFreq + lightInt + thresholdPowerLevel + endingString;
+        final String firstMessage = initialString + lightMode + lightFreq + endingString;
+        final String secondtMessage = initialString + lightInt + thresholdPowerLevel + endingString;
 
-        connectionErrorHandler.postDelayed(new Runnable() {
+        btHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                sendMessage(completeMessage);
+                sendMessage(firstMessage);
             }
-        }, 100);
+        }, BT_MESSAGE_DELAY);
+
+        btHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                sendMessage(secondtMessage);
+            }
+        }, BT_MESSAGE_DELAY * 2);
     }
 
     public void sendBcapChangedState() {
@@ -234,17 +250,14 @@ public class BluetoothHelper {
 
     private void setLowBattMode(int lowBattMode) {
         SharedPreferences.Editor prefEditor = sharedPref.edit();
+        Variables.lowPowerMode = (lowBattMode != 0);
 
-        Variables.updateSettingsScreen = true;
-
-        if (lowBattMode == 0) {
-            Variables.lowPowerMode = false;
-        } else {
+        if (Variables.lowPowerMode) {
             prefEditor.putBoolean(resources.getString(R.string.pref_key_light_enabled), true);
-            prefEditor.putString(resources.getString(R.string.pref_key_light_mode), String.valueOf(1));
-            prefEditor.putString(resources.getString(R.string.pref_key_light_intensity), String.valueOf(50));
-            Variables.lowPowerMode = true;
+            prefEditor.putInt(resources.getString(R.string.pref_key_light_intensity), 50);
         }
+        
+        prefEditor.putString(resources.getString(R.string.pref_key_light_mode), String.valueOf(1));
 
         prefEditor.apply();
     }
