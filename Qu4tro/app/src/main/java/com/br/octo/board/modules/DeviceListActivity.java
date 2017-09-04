@@ -156,6 +156,7 @@ public class DeviceListActivity extends BaseActivity implements BluetoothHelper.
         } else {
             if (toScan) {
                 mLeDeviceListAdapter.clear();
+                mLeDeviceListAdapter.notifyDataSetChanged();
 
                 setTitle(R.string.scanning);
 
