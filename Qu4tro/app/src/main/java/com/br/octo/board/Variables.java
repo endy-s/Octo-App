@@ -5,6 +5,7 @@ package com.br.octo.board;
  */
 
 public class Variables {
+    public static int updateSettingsCounter = 0;
     public static boolean updateSettingsScreen = false;
     public static boolean lowPowerMode = false;
 }

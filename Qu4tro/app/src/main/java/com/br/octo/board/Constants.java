@@ -25,6 +25,7 @@ public class Constants {
 
     public static final int SPLASH_TIME_OUT = 100;
     public static final int BT_CONNECTION_TIME_OUT = 2500;
+    public static final int BT_MESSAGE_DELAY = 100;
 
     public static final String weatherInfo = "weather_info";
     public static final String battValue = "batt_value";
