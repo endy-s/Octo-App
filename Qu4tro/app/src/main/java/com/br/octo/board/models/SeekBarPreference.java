@@ -35,6 +35,7 @@ public class SeekBarPreference extends DialogPreference implements SeekBar.OnSee
 
     private String mDialogMessage, mSuffix;
     private int mDefault, mMax, mValue = 0;
+    private int mMin = 1;
     // ------------------------------------------------------------------------------------------
 
 
@@ -122,9 +123,9 @@ public class SeekBarPreference extends DialogPreference implements SeekBar.OnSee
     // OnSeekBarChangeListener methods :
     @Override
     public void onProgressChanged(SeekBar seek, int value, boolean fromTouch) {
-        if (value == 0) {
-            value = 1;
-            setProgress(1);
+        if (value <= mMin) {
+            value = mMin;
+            setProgress(mMin);
         }
         String t = String.valueOf(value);
         mValueText.setText(mSuffix == null ? t : t.concat(" " + mSuffix));
@@ -140,6 +141,10 @@ public class SeekBarPreference extends DialogPreference implements SeekBar.OnSee
 
     public void setMax(int max) {
         mMax = max;
+    }
+
+    public void setMin(int min) {
+        mMin = min;
     }
 
     public int getMax() {
