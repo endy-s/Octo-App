@@ -14,6 +14,7 @@
     <string name="dialog_connecting_message">Device validation…</string>
     <string name="dialog_disconnect_title">Bluetooth disconnected</string>
     <string name="dialog_disconnect_message">Ops… Your bluetooth connection was lost, come back to the Main screen and connect with your board again.</string>
+    <string name="dialog_disconnect_light_message">Ops… Your bluetooth connection was lost. Please, connect with your board again.</string>
     <string name="dialog_reconnected_title">Are you sure?</string>
     <string name="dialog_reconnected_message">You will be disconnected from your board…</string>
     <string name="dialog_finish_message">If you finish the app your actual paddling will be stopped.</string>

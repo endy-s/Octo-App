@@ -134,4 +134,5 @@
     <string name="pref_light_threshold_summary">Valor atual: $1%</string>
     <string name="pref_message_threshold">Selecione o nível de limiar de bateria fraca</string>
     <string name="pref_title_threshold">Nível de Limite da Bateria Baixa</string>
+    <string name="dialog_disconnect_light_message">Ops… Conexão bluetooth perdida. Por favor, conecte-se à sua prancha novamente.</string>
 </resources>
