@@ -13,12 +13,6 @@
         android:scaleType="centerCrop"
         android:src="@drawable/img_end_share_button"/>
 
-    <com.google.android.gms.maps.MapView
-        android:id="@+id/endMap"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_alignParentTop="true"/>
-
     <RelativeLayout
         android:id="@+id/endLayout"
         android:layout_width="match_parent"
@@ -198,4 +192,11 @@
             android:textColor="@color/text_info"
             android:textSize="36sp"/>
     </RelativeLayout>
+
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/endMap"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_alignParentTop="true"/>
+    
 </RelativeLayout>
