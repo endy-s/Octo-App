@@ -35,8 +35,9 @@
     <string name="error_bt_not_wanted_message">You won\'t be able to connect with your board and some functionalities will be not available until you turn the Bluetooth on.</string>
     <string name="error_bt_scan_disabled_message">It seems that the bluetooth turned off and the scan will not works. Turn it on again and restart the scan.</string>
     <string name="error_ble_not_supported">Bluetooth Low Energy not supported. Try with another device.</string>
-    <string name="error_permission_error_title">Functionality limited</string>
-    <string name="error_permission_error_message">Without the location access granted, this app will not work properly. Restart the app and grant this permission or change this configuration at the system Settings.</string>
+    <string name="error_permission_title">Functionality limited</string>
+    <string name="error_permission_location_message">Without the location access granted, this app will not work properly. Restart the app and grant this permission or change this configuration at the system Settings.</string>
+    <string name="error_permission_storage_message">Without the storage access granted, you can\'t share the Paddle. Click at share again and grant this permission or change this configuration at the system Settings.</string>
     <string name="error_no_location_title">No Location found</string>
     <string name="error_no_location_message">There\'s no location found yet… Try again later.</string>
     <string name="error_provider_location_title">Location not available</string>

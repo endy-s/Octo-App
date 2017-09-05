@@ -116,7 +116,7 @@ public class SplashScreenActivity extends BaseActivity implements AlertDialog.On
                     if (grantResults[0] == PERMISSION_GRANTED) {
                         showGPSRequestDialog();
                     } else {
-                        createSplashErrorDialog(R.string.error_permission_error_title, R.string.error_permission_error_message);
+                        createSplashErrorDialog(R.string.error_permission_title, R.string.error_permission_location_message);
                     }
                 }
             }
