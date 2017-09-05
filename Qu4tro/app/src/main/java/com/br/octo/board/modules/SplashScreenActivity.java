@@ -36,11 +36,6 @@ import static com.br.octo.board.Constants.SPLASH_TIME_OUT;
 public class SplashScreenActivity extends BaseActivity implements AlertDialog.OnClickListener,
         AlertDialog.OnDismissListener {
 
-    //TODO - Future: Add download of user data (if logged in)
-
-    //Local Bluetooth adapter
-    private BluetoothAdapter mBluetoothAdapter = null;
-
     //region lifecycle
 
     @Override
@@ -54,7 +49,7 @@ public class SplashScreenActivity extends BaseActivity implements AlertDialog.On
             createSplashErrorDialog(R.string.error_bt_error_title, R.string.error_ble_not_supported);
         }
 
-        mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
         // If the adapter is null, then Bluetooth is not supported
         if (mBluetoothAdapter == null) {
@@ -121,7 +116,7 @@ public class SplashScreenActivity extends BaseActivity implements AlertDialog.On
                     if (grantResults[0] == PERMISSION_GRANTED) {
                         showGPSRequestDialog();
                     } else {
-                        createSplashErrorDialog(R.string.error_permission_error_title, R.string.error_permission_error_message);
+                        createSplashErrorDialog(R.string.error_permission_title, R.string.error_permission_location_message);
                     }
                 }
             }
@@ -146,21 +141,13 @@ public class SplashScreenActivity extends BaseActivity implements AlertDialog.On
     }
 
     private void checkPermissions() {
-        if (mBluetoothAdapter.getBluetoothLeScanner() == null) {
+        if (!getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE)) {
             createSplashErrorDialog(R.string.error_bt_error_title, R.string.error_ble_not_supported);
         } else {
             if (ContextCompat.checkSelfPermission(this, ACCESS_FINE_LOCATION) != PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this, ACCESS_COARSE_LOCATION) != PERMISSION_GRANTED) {
-//                createDialog(R.string.dialog_permission_request, R.string.dialog_permission_description)
-//                        .setPositiveButton(R.string.dialog_next, null)
-//                        .setOnDismissListener(new DialogInterface.OnDismissListener() {
-//                            @Override
-//                            public void onDismiss(DialogInterface dialog) {
                 ActivityCompat.requestPermissions(SplashScreenActivity.this,
                         new String[]{ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION},
                         Constants.PERMISSION_REQUEST_LOCATION);
-//                            }
-//                        })
-//                        .show();
             } else {
                 showGPSRequestDialog();
             }
