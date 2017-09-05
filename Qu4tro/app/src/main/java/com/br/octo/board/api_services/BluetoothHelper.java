@@ -236,8 +236,6 @@ public class BluetoothHelper {
     private void updateLightState(int newState) {
         SharedPreferences.Editor prefEditor = sharedPref.edit();
 
-        Variables.updateSettingsScreen = true;
-
         if (newState == 0) {
             prefEditor.putBoolean(resources.getString(R.string.pref_key_light_enabled), false);
         } else {
@@ -249,27 +247,23 @@ public class BluetoothHelper {
     }
 
     private void setLowBattMode(int lowBattMode) {
-        SharedPreferences.Editor prefEditor = sharedPref.edit();
         Variables.lowPowerMode = (lowBattMode != 0);
 
-        if (Variables.lowPowerMode) {
-            prefEditor.putBoolean(resources.getString(R.string.pref_key_light_enabled), true);
-            prefEditor.putInt(resources.getString(R.string.pref_key_light_intensity), 50);
-        }
-        
+        SharedPreferences.Editor prefEditor = sharedPref.edit();
+
+        prefEditor.putBoolean(resources.getString(R.string.pref_key_light_enabled), true);
+        prefEditor.putInt(resources.getString(R.string.pref_key_light_intensity), 50);
         prefEditor.putString(resources.getString(R.string.pref_key_light_mode), String.valueOf(1));
 
         prefEditor.apply();
     }
 
     public void sendMessage(String message) {
-//        if (btManager.getConnectionState(mGatt.getDevice(), GATT) == STATE_CONNECTED) {
         final byte[] tx = message.getBytes();
         characteristicRxTx.setValue(tx);
         characteristicRxTx.setWriteType(BluetoothGattCharacteristic.WRITE_TYPE_NO_RESPONSE);
         mGatt.writeCharacteristic(characteristicRxTx);
         Log.d("SENT", "This message: " + message);
-//        }
     }
 
     public interface BluetoothCallback {
