@@ -163,8 +163,8 @@ public class EndPaddleActivity extends BaseActivity {
                         backBitmap.getWidth(), backBitmap.getHeight(),
                         backBitmap.getConfig());
                 Canvas canvas = new Canvas(bmOverlay);
-                canvas.drawBitmap(snapshot, new Matrix(), null);
                 canvas.drawBitmap(backBitmap, 0, 0, null);
+                canvas.drawBitmap(snapshot, new Matrix(), null);
 
                 storeAndShare(bmOverlay, fileName);
             }
