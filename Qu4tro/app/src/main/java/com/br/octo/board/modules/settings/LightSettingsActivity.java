@@ -189,6 +189,12 @@ public class LightSettingsActivity extends AppCompatPreferenceActivity implement
         new AlertDialog.Builder(this)
                 .setTitle(getString(R.string.dialog_disconnect_title))
                 .setMessage(getString(R.string.dialog_disconnect_light_message))
+                .setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+                        LightSettingsActivity.this.finish();
+                    }
+                })
                 .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
