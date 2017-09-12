@@ -35,14 +35,14 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryViewHolder> {
 
     @Override
     public void onBindViewHolder(HistoryViewHolder holder, int position) {
-        holder.historyDistTV.setText(String.format("%.2f %s", paddles.get(position).getDistance(), context.getString(R.string.bt_dist)));
-        holder.historyKcalTV.setText(String.format("%d %s", paddles.get(position).getKcal(), context.getString(R.string.bt_kcal)));
+        holder.historyDistTV.setText(String.format(Locale.getDefault(), "%.2f %s", paddles.get(position).getDistance(), context.getString(R.string.bt_dist)));
+        holder.historyKcalTV.setText(String.format(Locale.getDefault(), "%d %s", paddles.get(position).getKcal(), context.getString(R.string.bt_kcal)));
 
         int hour = (int) paddles.get(position).getDuration() / (60 * 60);
         int minutes = (int) (paddles.get(position).getDuration() / 60) % 60;
-        holder.historyTimeTV.setText(String.format("%02d:%02d %s", hour, minutes, context.getString(R.string.bt_hour)));
+        holder.historyTimeTV.setText(String.format(Locale.getDefault(), "%02d:%02d %s", hour, minutes, context.getString(R.string.bt_hour)));
 
-        SimpleDateFormat dateFormatter = new SimpleDateFormat("dd.MM.yyyy", Locale.US);
+        SimpleDateFormat dateFormatter = new SimpleDateFormat((Locale.getDefault() == Locale.ENGLISH) ? "MM.dd.yyyy" : "dd.MM.yyyy", Locale.getDefault());
         holder.historyDateTV.setText(dateFormatter.format(paddles.get(position).getDate()));
     }
 

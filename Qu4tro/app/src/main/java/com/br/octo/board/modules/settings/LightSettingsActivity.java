@@ -17,6 +17,8 @@ import com.br.octo.board.api_services.BluetoothHelper;
 import com.br.octo.board.models.SeekBarPreference;
 import com.br.octo.board.modules.base.AppCompatPreferenceActivity;
 
+import java.util.Locale;
+
 /**
  * Created by Endy.
  */
@@ -129,7 +131,7 @@ public class LightSettingsActivity extends AppCompatPreferenceActivity implement
             }
 
             if (radius == 100) radius = 99;
-            newStateMsg += String.format("%02d", radius) + ";>";
+            newStateMsg += String.format(Locale.getDefault(), "%02d", radius) + ";>";
         }
 
         if (btHelper.getConnectionStatus()) {
