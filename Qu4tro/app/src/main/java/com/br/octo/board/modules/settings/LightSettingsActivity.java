@@ -27,7 +27,7 @@ public class LightSettingsActivity extends AppCompatPreferenceActivity implement
     SharedPreferences sharedLightPref;
 
     SwitchPreference enablePreference;
-    ListPreference modePreference;
+    ListPreference modePreference, freqPreference;
     SeekBarPreference intensityPreference, thresholdPreference;
 
     BluetoothHelper btHelper;
@@ -45,6 +45,7 @@ public class LightSettingsActivity extends AppCompatPreferenceActivity implement
         sharedLightPref = getPreferenceScreen().getSharedPreferences();
 
         enablePreference = (SwitchPreference) findPreference(res.getString(R.string.pref_key_light_enabled));
+        freqPreference = (ListPreference) findPreference(res.getString(R.string.pref_key_light_freq));
         modePreference = (ListPreference) findPreference(res.getString(R.string.pref_key_light_mode));
         setFreqEnabled(modePreference.findIndexOfValue(sharedLightPref.getString(res.getString(R.string.pref_key_light_mode), "")));
         if (Variables.lowPowerMode) modePreference.setEnabled(false);
@@ -246,6 +247,12 @@ public class LightSettingsActivity extends AppCompatPreferenceActivity implement
             int index = modePreference.findIndexOfValue("1");
             modePreference.setSummary(index >= 0 ? modePreference.getEntries()[index] : null);
             setFreqEnabled(index);
+        }
+
+        if (!freqPreference.getValue().equals("3")) {
+            freqPreference.setValue("3");
+            int index = freqPreference.findIndexOfValue("3");
+            freqPreference.setSummary(index >= 0 ? freqPreference.getEntries()[index] : null);
         }
 
         sharedLightPref.registerOnSharedPreferenceChangeListener(this);
