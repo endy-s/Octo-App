@@ -9,12 +9,15 @@ import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.br.octo.board.Constants;
 import com.br.octo.board.R;
 import com.br.octo.board.models.Paddle;
 import com.br.octo.board.modules.base.BaseActivity;
@@ -42,6 +45,10 @@ import java.util.Locale;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 
 public class EndPaddleActivity extends BaseActivity {
 
@@ -143,32 +150,59 @@ public class EndPaddleActivity extends BaseActivity {
 
     //endregion
 
+    //region Results
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case Constants.PERMISSION_REQUEST_STORAGE: {
+                if (grantResults.length > 0) {
+                    if (grantResults[0] == PERMISSION_GRANTED) {
+                        shareClicked();
+                    } else {
+                        createDialog(R.string.error_permission_title, R.string.error_permission_storage_message)
+                                .setPositiveButton(R.string.ok, null)
+                                .show();
+                    }
+                }
+            }
+        }
+    }
+
+    //endregion
+
     //region click listeners
 
     @OnClick(R.id.endShareButton)
     public void shareClicked() {
-        Toast.makeText(getBaseContext(), getString(R.string.share_loading), Toast.LENGTH_SHORT).show();
+        if (ContextCompat.checkSelfPermission(this, WRITE_EXTERNAL_STORAGE) != PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this, READ_EXTERNAL_STORAGE) != PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(EndPaddleActivity.this,
+                    new String[]{WRITE_EXTERNAL_STORAGE, READ_EXTERNAL_STORAGE},
+                    Constants.PERMISSION_REQUEST_STORAGE);
+        } else {
+            Toast.makeText(getBaseContext(), getString(R.string.share_loading), Toast.LENGTH_SHORT).show();
 
-        SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd-HH-mm", Locale.US);
-        final String fileName = "Paddle " + dateFormatter.format(Calendar.getInstance().getTime()) + ".png";
+            SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd-HH-mm", Locale.US);
+            final String fileName = "Paddle " + dateFormatter.format(Calendar.getInstance().getTime()) + ".png";
 
-        googleMap.snapshot(new GoogleMap.SnapshotReadyCallback() {
-            @Override
-            public void onSnapshotReady(Bitmap snapshot) {
-                endLayout.setDrawingCacheEnabled(true);
-                Bitmap backBitmap = Bitmap.createBitmap(endLayout.getDrawingCache());
-                endLayout.setDrawingCacheEnabled(false);
+            googleMap.snapshot(new GoogleMap.SnapshotReadyCallback() {
+                @Override
+                public void onSnapshotReady(Bitmap snapshot) {
+                    endLayout.setDrawingCacheEnabled(true);
+                    Bitmap backBitmap = Bitmap.createBitmap(endLayout.getDrawingCache());
+                    endLayout.setDrawingCacheEnabled(false);
 
-                Bitmap bmOverlay = Bitmap.createBitmap(
-                        backBitmap.getWidth(), backBitmap.getHeight(),
-                        backBitmap.getConfig());
-                Canvas canvas = new Canvas(bmOverlay);
-                canvas.drawBitmap(snapshot, new Matrix(), null);
-                canvas.drawBitmap(backBitmap, 0, 0, null);
+                    Bitmap bmOverlay = Bitmap.createBitmap(
+                            backBitmap.getWidth(), backBitmap.getHeight(),
+                            backBitmap.getConfig());
+                    Canvas canvas = new Canvas(bmOverlay);
+                    canvas.drawBitmap(backBitmap, 0, 0, null);
+                    canvas.drawBitmap(snapshot, new Matrix(), null);
 
-                storeAndShare(bmOverlay, fileName);
-            }
-        });
+                    storeAndShare(bmOverlay, fileName);
+                }
+            });
+        }
     }
 
     //endregion
@@ -176,15 +210,15 @@ public class EndPaddleActivity extends BaseActivity {
     //region private
 
     private void showPaddleInfo() {
-        endKm.setText(String.format("%.2f", endedPaddle.getDistance()));
-        endRows.setText(String.format("%d", endedPaddle.getRows()));
-        endKcal.setText(String.format("%d", endedPaddle.getKcal()));
-        endSpeed.setText(String.format("%.2f", endedPaddle.getSpeed()));
+        endKm.setText(String.format(Locale.getDefault(), "%.2f", endedPaddle.getDistance()));
+        endRows.setText(String.format(Locale.getDefault(), "%d", endedPaddle.getRows()));
+        endKcal.setText(String.format(Locale.getDefault(), "%d", endedPaddle.getKcal()));
+        endSpeed.setText(String.format(Locale.getDefault(), "%.2f", endedPaddle.getSpeed()));
 
         int hour = (int) endedPaddle.getDuration() / (60 * 60);
         int minutes = (int) (endedPaddle.getDuration() / 60) % 60;
 //        int seconds = (int) endedPaddle.getDuration() % 60;
-        endTime.setText(String.format("%02d:%02d", hour, minutes));
+        endTime.setText(String.format(Locale.getDefault(), "%02d:%02d", hour, minutes));
     }
 
     private void storeAndShare(Bitmap bm, String fileName) {

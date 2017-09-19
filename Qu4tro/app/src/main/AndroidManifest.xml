@@ -74,7 +74,7 @@
 
         <activity
             android:name=".modules.tutorial.TutorialActivity"
-            android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
 

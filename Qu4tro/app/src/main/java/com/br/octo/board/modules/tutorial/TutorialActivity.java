@@ -1,5 +1,6 @@
 package com.br.octo.board.modules.tutorial;
 
+import android.content.res.Configuration;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -37,6 +38,11 @@ public class TutorialActivity extends AppCompatActivity {
         loadTutorialVideo();
     }
 
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+    }
+
     //endregion
 
     //region Private
@@ -63,7 +69,7 @@ public class TutorialActivity extends AppCompatActivity {
             }
         });
 
-        String path = "android.resource://" + getPackageName() + "/" + R.raw.ex;
+        String path = "android.resource://" + getPackageName() + "/" + R.raw.octo_tutorial;
         tutorialVideoView.setVideoURI(Uri.parse(path));
         tutorialVideoView.start();
     }

@@ -14,7 +14,8 @@ public class Constants {
     public static final int REQUEST_END_SCREEN = 6;
 
     public static final int REQUEST_CHECK_SETTINGS = 79;
-    public static final int PERMISSION_REQUEST_LOCATION = 89;
+    public static final int PERMISSION_REQUEST_LOCATION = 88;
+    public static final int PERMISSION_REQUEST_STORAGE = 89;
     public static final int REQUEST_ENABLE_BT_TO_SCAN = 98;
     public static final int REQUEST_ENABLE_BT = 99;
 
@@ -25,9 +26,8 @@ public class Constants {
 
     public static final int SPLASH_TIME_OUT = 100;
     public static final int BT_CONNECTION_TIME_OUT = 2500;
+    public static final int BT_MESSAGE_DELAY = 100;
 
     public static final String weatherInfo = "weather_info";
     public static final String battValue = "batt_value";
-
-    public static boolean updateSettingsScreen = false;
 }

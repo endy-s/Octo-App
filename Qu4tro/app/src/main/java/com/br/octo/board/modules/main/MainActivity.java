@@ -351,7 +351,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             case REQUEST_GENERAL_SETTINGS:
                 switch (resultCode) {
                     case RESULT_OK:
-                        recreate();
+                        startActivity(new Intent(getBaseContext(), MainActivity.class));
+                        finish();
+
+//                        recreate();
                         break;
                     case RESULT_FIRST_USER:
                         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
@@ -418,14 +421,14 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             if (lastPaddle != null) {
                 paddleId = lastPaddle.getId() + 1;
 
-                lastDist.setText(String.format("%.2f %s", lastPaddle.getDistance(), getString(R.string.bt_dist)));
-                lastKcal.setText(String.format("%d %s", lastPaddle.getKcal(), getString(R.string.bt_kcal)));
+                lastDist.setText(String.format(Locale.getDefault(), "%.2f %s", lastPaddle.getDistance(), getString(R.string.bt_dist)));
+                lastKcal.setText(String.format(Locale.getDefault(), "%d %s", lastPaddle.getKcal(), getString(R.string.bt_kcal)));
 
                 int hour = (int) lastPaddle.getDuration() / (60 * 60);
                 int minutes = (int) (lastPaddle.getDuration() / 60) % 60;
-                lastDuration.setText(String.format("%02d:%02d %s", hour, minutes, getString(R.string.bt_hour)));
+                lastDuration.setText(String.format(Locale.getDefault(), "%02d:%02d %s", hour, minutes, getString(R.string.bt_hour)));
 
-                SimpleDateFormat dateFormatter = new SimpleDateFormat("dd.MM.yyyy", Locale.US);
+                SimpleDateFormat dateFormatter = new SimpleDateFormat((Locale.getDefault() == Locale.ENGLISH) ? "MM.dd.yyyy" : "dd.MM.yyyy", Locale.getDefault());
                 lastDate.setText(dateFormatter.format(lastPaddle.getDate()));
             }
         }
@@ -434,8 +437,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     private void showNotConnectedState() {
         batteryTV.setText(R.string.bt_unknown);
-        if (batteryProgress.getVisibility() == VISIBLE)
+        if (batteryProgress.getVisibility() == VISIBLE) {
+            batteryTV.setVisibility(VISIBLE);
             batteryProgress.setVisibility(INVISIBLE);
+        }
         boardTV.setText(R.string.bt_board_off);
     }
 
@@ -526,8 +531,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 @Override
                 public void run() {
                     batteryTV.setText(battValue.substring(2).trim().concat("%"));
-                    if (batteryProgress.getVisibility() == VISIBLE)
+                    if (batteryProgress.getVisibility() == VISIBLE) {
+                        batteryTV.setVisibility(VISIBLE);
                         batteryProgress.setVisibility(INVISIBLE);
+                    }
 //                    tempWaterTV.setText(tempValue.substring(2).trim().concat(" °C"));
                 }
             });

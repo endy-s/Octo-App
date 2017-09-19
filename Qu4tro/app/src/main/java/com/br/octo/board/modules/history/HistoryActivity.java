@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.br.octo.board.R;
@@ -38,6 +39,16 @@ public class HistoryActivity extends AppCompatActivity {
         loadHistoryInfo();
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
     //endregion
 
     //region Private
@@ -61,8 +72,8 @@ public class HistoryActivity extends AppCompatActivity {
             String nrString = "<font color=\"#21B24B\"> " + String.valueOf(nrToShow) + " </font>";
             historyLabel.setText(Html.fromHtml(getString(R.string.history_prefix) + nrString + getString(R.string.history_suffix)));
 
-            for (int i = nrToShow - 1; i >= 0; i--) {
-                historyPaddles.add(realm.copyFromRealm(realm.where(Paddle.class).findAllSorted("id").get(i)));
+            for (int i = 1; i <= nrToShow; i++) {
+                historyPaddles.add(realm.copyFromRealm(realm.where(Paddle.class).findAllSorted("id").get(nrOfPaddles - i)));
             }
 
             historyAdapter = new HistoryAdapter(historyPaddles);
