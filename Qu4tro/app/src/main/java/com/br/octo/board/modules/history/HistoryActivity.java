@@ -72,8 +72,8 @@ public class HistoryActivity extends AppCompatActivity {
             String nrString = "<font color=\"#21B24B\"> " + String.valueOf(nrToShow) + " </font>";
             historyLabel.setText(Html.fromHtml(getString(R.string.history_prefix) + nrString + getString(R.string.history_suffix)));
 
-            for (int i = nrToShow - 1; i >= 0; i--) {
-                historyPaddles.add(realm.copyFromRealm(realm.where(Paddle.class).findAllSorted("id").get(i)));
+            for (int i = 1; i <= nrToShow; i++) {
+                historyPaddles.add(realm.copyFromRealm(realm.where(Paddle.class).findAllSorted("id").get(nrOfPaddles - i)));
             }
 
             historyAdapter = new HistoryAdapter(historyPaddles);

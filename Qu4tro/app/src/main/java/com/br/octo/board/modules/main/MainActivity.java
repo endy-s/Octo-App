@@ -421,14 +421,14 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             if (lastPaddle != null) {
                 paddleId = lastPaddle.getId() + 1;
 
-                lastDist.setText(String.format("%.2f %s", lastPaddle.getDistance(), getString(R.string.bt_dist)));
-                lastKcal.setText(String.format("%d %s", lastPaddle.getKcal(), getString(R.string.bt_kcal)));
+                lastDist.setText(String.format(Locale.getDefault(), "%.2f %s", lastPaddle.getDistance(), getString(R.string.bt_dist)));
+                lastKcal.setText(String.format(Locale.getDefault(), "%d %s", lastPaddle.getKcal(), getString(R.string.bt_kcal)));
 
                 int hour = (int) lastPaddle.getDuration() / (60 * 60);
                 int minutes = (int) (lastPaddle.getDuration() / 60) % 60;
-                lastDuration.setText(String.format("%02d:%02d %s", hour, minutes, getString(R.string.bt_hour)));
+                lastDuration.setText(String.format(Locale.getDefault(), "%02d:%02d %s", hour, minutes, getString(R.string.bt_hour)));
 
-                SimpleDateFormat dateFormatter = new SimpleDateFormat("dd.MM.yyyy", Locale.US);
+                SimpleDateFormat dateFormatter = new SimpleDateFormat((Locale.getDefault() == Locale.ENGLISH) ? "MM.dd.yyyy" : "dd.MM.yyyy", Locale.getDefault());
                 lastDate.setText(dateFormatter.format(lastPaddle.getDate()));
             }
         }

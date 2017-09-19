@@ -54,6 +54,7 @@ import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -133,9 +134,9 @@ public class PaddleActivity extends BaseActivity implements
 
                 int hour = (int) actualTimeInSeconds / (60 * 60);
                 int minutes = (int) (actualTimeInSeconds / 60) % 60;
-                cArg.setText(String.format("%02d:%02d", hour, minutes));
+                cArg.setText(String.format(Locale.getDefault(), "%02d:%02d", hour, minutes));
                 kcalCount = (int) actualTimeInSeconds / 6;
-                txtKcal.setText(String.format("%d", kcalCount));
+                txtKcal.setText(String.format(Locale.getDefault(), "%d", kcalCount));
             }
         });
 
@@ -183,9 +184,9 @@ public class PaddleActivity extends BaseActivity implements
                     route.add(new TrackingPoints(location.getLatitude(), location.getLongitude()));
                     rowCount = (int) ((kmPaddling * 1000) / 1.5);
 
-                    txtKm.setText(String.format("%.2f", kmPaddling));
-                    txtSpeed.setText(String.format("%.2f", actualSpeed));
-                    txtRows.setText(String.format("%d", rowCount));
+                    txtKm.setText(String.format(Locale.getDefault(), "%.2f", kmPaddling));
+                    txtSpeed.setText(String.format(Locale.getDefault(), "%.2f", actualSpeed));
+                    txtRows.setText(String.format(Locale.getDefault(), "%d", rowCount));
                 }
 
                 @Override
@@ -377,10 +378,10 @@ public class PaddleActivity extends BaseActivity implements
     }
 
     private void bindPaddleInfoToWidgets() {
-        txtKm.setText(String.format("%.2f", kmPaddling));
-        txtRows.setText(String.format("%d", rowCount));
-        txtKcal.setText(String.format("%d", kcalCount));
-        txtSpeed.setText(String.format("%.2f", actualSpeed));
+        txtKm.setText(String.format(Locale.getDefault(), "%.2f", kmPaddling));
+        txtRows.setText(String.format(Locale.getDefault(), "%d", rowCount));
+        txtKcal.setText(String.format(Locale.getDefault(), "%d", kcalCount));
+        txtSpeed.setText(String.format(Locale.getDefault(), "%.2f", actualSpeed));
     }
 
     public Paddle storePaddleInfo() {

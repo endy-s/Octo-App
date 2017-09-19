@@ -17,6 +17,8 @@ import com.br.octo.board.api_services.BluetoothHelper;
 import com.br.octo.board.models.SeekBarPreference;
 import com.br.octo.board.modules.base.AppCompatPreferenceActivity;
 
+import java.util.Locale;
+
 /**
  * Created by Endy.
  */
@@ -27,7 +29,7 @@ public class LightSettingsActivity extends AppCompatPreferenceActivity implement
     SharedPreferences sharedLightPref;
 
     SwitchPreference enablePreference;
-    ListPreference modePreference;
+    ListPreference modePreference, freqPreference;
     SeekBarPreference intensityPreference, thresholdPreference;
 
     BluetoothHelper btHelper;
@@ -45,6 +47,7 @@ public class LightSettingsActivity extends AppCompatPreferenceActivity implement
         sharedLightPref = getPreferenceScreen().getSharedPreferences();
 
         enablePreference = (SwitchPreference) findPreference(res.getString(R.string.pref_key_light_enabled));
+        freqPreference = (ListPreference) findPreference(res.getString(R.string.pref_key_light_freq));
         modePreference = (ListPreference) findPreference(res.getString(R.string.pref_key_light_mode));
         setFreqEnabled(modePreference.findIndexOfValue(sharedLightPref.getString(res.getString(R.string.pref_key_light_mode), "")));
         if (Variables.lowPowerMode) modePreference.setEnabled(false);
@@ -128,7 +131,7 @@ public class LightSettingsActivity extends AppCompatPreferenceActivity implement
             }
 
             if (radius == 100) radius = 99;
-            newStateMsg += String.format("%02d", radius) + ";>";
+            newStateMsg += String.format(Locale.getDefault(), "%02d", radius) + ";>";
         }
 
         if (btHelper.getConnectionStatus()) {
@@ -188,6 +191,12 @@ public class LightSettingsActivity extends AppCompatPreferenceActivity implement
         new AlertDialog.Builder(this)
                 .setTitle(getString(R.string.dialog_disconnect_title))
                 .setMessage(getString(R.string.dialog_disconnect_light_message))
+                .setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+                        LightSettingsActivity.this.finish();
+                    }
+                })
                 .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -246,6 +255,12 @@ public class LightSettingsActivity extends AppCompatPreferenceActivity implement
             int index = modePreference.findIndexOfValue("1");
             modePreference.setSummary(index >= 0 ? modePreference.getEntries()[index] : null);
             setFreqEnabled(index);
+        }
+
+        if (!freqPreference.getValue().equals("3")) {
+            freqPreference.setValue("3");
+            int index = freqPreference.findIndexOfValue("3");
+            freqPreference.setSummary(index >= 0 ? freqPreference.getEntries()[index] : null);
         }
 
         sharedLightPref.registerOnSharedPreferenceChangeListener(this);

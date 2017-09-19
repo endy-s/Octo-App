@@ -254,6 +254,7 @@ public class BluetoothHelper {
         prefEditor.putBoolean(resources.getString(R.string.pref_key_light_enabled), true);
         prefEditor.putInt(resources.getString(R.string.pref_key_light_intensity), 50);
         prefEditor.putString(resources.getString(R.string.pref_key_light_mode), String.valueOf(1));
+        prefEditor.putString(resources.getString(R.string.pref_key_light_freq), String.valueOf(3));
 
         prefEditor.apply();
     }
