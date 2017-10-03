@@ -14,6 +14,7 @@
     <string name="dialog_connecting_message">Device validation…</string>
     <string name="dialog_disconnect_title">Bluetooth disconnected</string>
     <string name="dialog_disconnect_message">Ops… Your bluetooth connection was lost, come back to the Main screen and connect with your board again.</string>
+    <string name="dialog_disconnect_light_message">Ops… Your bluetooth connection was lost. Please, connect with your board again.</string>
     <string name="dialog_reconnected_title">Are you sure?</string>
     <string name="dialog_reconnected_message">You will be disconnected from your board…</string>
     <string name="dialog_finish_message">If you finish the app your actual paddling will be stopped.</string>
@@ -30,13 +31,13 @@
     <!--Error Dialog-->
     <string name="error_bt_error_title">Bluetooth Error</string>
     <string name="error_bt_not_available">Bluetooth not available. Try with another device.</string>
-    <string name="error_bt_not_enabled_leaving">Bluetooth not enabled. Leaving the application.</string>
     <string name="error_bt_not_wanted_title">Bluetooth off</string>
-    <string name="error_bt_not_wanted_message">Some functionalities will be not available.</string>
+    <string name="error_bt_not_wanted_message">You won\'t be able to connect with your board and some functionalities will be not available until you turn the Bluetooth on.</string>
     <string name="error_bt_scan_disabled_message">It seems that the bluetooth turned off and the scan will not works. Turn it on again and restart the scan.</string>
     <string name="error_ble_not_supported">Bluetooth Low Energy not supported. Try with another device.</string>
-    <string name="error_permission_error_title">Functionality limited</string>
-    <string name="error_permission_error_msg">Without the location access granted, this app will not be able to discover your board. Change this configuration at the system Settings or reinstall the application and grant the permission.</string>
+    <string name="error_permission_title">Functionality limited</string>
+    <string name="error_permission_location_message">Without the location access granted, this app will not work properly. Restart the app and grant this permission or change this configuration at the system Settings.</string>
+    <string name="error_permission_storage_message">Without the storage access granted, you can\'t share the Paddle. Click at share again and grant this permission or change this configuration at the system Settings.</string>
     <string name="error_no_location_title">No Location found</string>
     <string name="error_no_location_message">There\'s no location found yet… Try again later.</string>
     <string name="error_provider_location_title">Location not available</string>
@@ -101,6 +102,10 @@
     <string name="bt_pause">PAUSE</string>
     <string name="bt_play">PLAY</string>
 
+    <!--History Screen-->
+    <string name="history_prefix">Latest</string>
+    <string name="history_suffix">Paddle</string>
+    <string name="history_empty">No Paddle History</string>
 
     <!-- Status Infos -->
     <string name="status" translatable="false">Status</string>
@@ -158,9 +163,13 @@
         <item>1</item>
     </string-array>
 
-    <!-- Language settings -->
+    <!--Tutorial preference-->
+    <string name="pref_key_has_never_seen_tutorial" translatable="false">has_never_seen_tutorial_key</string>
+    <!-- General settings -->
     <string name="pref_title_keep_screen">Keep Screen On</string>
+    <string name="pref_title_bcap_enable">Enable Capacitive Button</string>
     <string name="pref_key_keep_screen" translatable="false">keep_screen_key</string>
+    <string name="pref_key_bcap_enable" translatable="false">bcap_enable_key</string>
 
     <!-- Data & Sync settings-->
     <string name="pref_header_data_sync">Board Sync</string>
@@ -214,6 +223,12 @@
     <string name="pref_message_intensity">Select the light intensity</string>
     <string name="pref_light_intensity_unit" translatable="false">%</string>
     <string name="pref_light_intensity_summary">Current value: $1%</string>
+
+    <string name="pref_title_threshold">Low Battery Threshold Level</string>
+    <string name="pref_key_light_threshold" translatable="false">light_treshold_key</string>
+    <string name="pref_message_threshold">Select the low battery threshold level</string>
+    <string name="pref_light_threshold_unit" translatable="false">%</string>
+    <string name="pref_light_threshold_summary">Current value: $1%</string>
 
     <string name="pref_title_freq">Light Frequency</string>
     <string name="pref_key_light_freq" translatable="false">light_freq_key</string>

@@ -4,6 +4,7 @@ import android.bluetooth.BluetoothAdapter;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -19,13 +20,8 @@ import com.br.octo.board.R;
 import com.br.octo.board.modules.base.AppCompatPreferenceActivity;
 import com.br.octo.board.modules.base.BaseActivity;
 import com.br.octo.board.modules.main.MainActivity;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResult;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
 
@@ -40,11 +36,6 @@ import static com.br.octo.board.Constants.SPLASH_TIME_OUT;
 public class SplashScreenActivity extends BaseActivity implements AlertDialog.OnClickListener,
         AlertDialog.OnDismissListener {
 
-    //TODO - Future: Add download of user data (if logged in)
-
-    //Local Bluetooth adapter
-    private BluetoothAdapter mBluetoothAdapter = null;
-
     //region lifecycle
 
     @Override
@@ -58,17 +49,12 @@ public class SplashScreenActivity extends BaseActivity implements AlertDialog.On
             createSplashErrorDialog(R.string.error_bt_error_title, R.string.error_ble_not_supported);
         }
 
-        mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
         // If the adapter is null, then Bluetooth is not supported
         if (mBluetoothAdapter == null) {
             createSplashErrorDialog(R.string.error_bt_error_title, R.string.error_bt_not_available);
         }
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
 
         if (!mBluetoothAdapter.isEnabled()) {
             Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
@@ -88,7 +74,15 @@ public class SplashScreenActivity extends BaseActivity implements AlertDialog.On
             if (resultCode == RESULT_OK) {
                 checkPermissions();
             } else {
-                createSplashErrorDialog(R.string.error_bt_error_title, R.string.error_bt_not_enabled_leaving);
+                createDialog(R.string.error_bt_not_wanted_title, R.string.error_bt_not_wanted_message)
+                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                checkPermissions();
+                            }
+                        })
+                        .setCancelable(false)
+                        .show();
             }
         }
         if (requestCode == REQUEST_CHECK_SETTINGS) {
@@ -99,7 +93,15 @@ public class SplashScreenActivity extends BaseActivity implements AlertDialog.On
                     break;
                 case RESULT_CANCELED:
                     Log.e("Settings", "Result Cancel");
-                    createSplashErrorDialog(R.string.error_gps_not_enabled_title, R.string.error_gps_not_enabled_message);
+                    createDialog(R.string.error_gps_not_enabled_title, R.string.error_gps_not_enabled_message)
+                            .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    callMainActivity();
+                                }
+                            })
+                            .setCancelable(false)
+                            .show();
                     break;
             }
         }
@@ -110,10 +112,12 @@ public class SplashScreenActivity extends BaseActivity implements AlertDialog.On
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {
             case Constants.PERMISSION_REQUEST_LOCATION: {
-                if (grantResults[0] == PERMISSION_GRANTED) {
-                    showSettingDialog();
-                } else {
-                    createSplashErrorDialog(R.string.error_permission_error_title, R.string.error_permission_error_msg);
+                if (grantResults.length > 0) {
+                    if (grantResults[0] == PERMISSION_GRANTED) {
+                        showGPSRequestDialog();
+                    } else {
+                        createSplashErrorDialog(R.string.error_permission_title, R.string.error_permission_location_message);
+                    }
                 }
             }
         }
@@ -124,52 +128,34 @@ public class SplashScreenActivity extends BaseActivity implements AlertDialog.On
     //region Private
 
     private void getScreenOnPreference() {
-        if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean(getString(R.string.pref_key_keep_screen), false)) {
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        if (sharedPref.getBoolean(getString(R.string.pref_key_keep_screen), false)) {
             BaseActivity.keepScreen = true;
             AppCompatPreferenceActivity.keepScreen = true;
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
+
+        SharedPreferences.Editor prefEditor = sharedPref.edit();
+        prefEditor.putBoolean(getResources().getString(R.string.pref_key_bcap_enable), true);
+        prefEditor.apply();
     }
 
     private void checkPermissions() {
-        if (mBluetoothAdapter.getBluetoothLeScanner() == null) {
+        if (!getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE)) {
             createSplashErrorDialog(R.string.error_bt_error_title, R.string.error_ble_not_supported);
         } else {
             if (ContextCompat.checkSelfPermission(this, ACCESS_FINE_LOCATION) != PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this, ACCESS_COARSE_LOCATION) != PERMISSION_GRANTED) {
-//                createDialog(R.string.dialog_permission_request, R.string.dialog_permission_description)
-//                        .setPositiveButton(R.string.dialog_next, null)
-//                        .setOnDismissListener(new DialogInterface.OnDismissListener() {
-//                            @Override
-//                            public void onDismiss(DialogInterface dialog) {
                 ActivityCompat.requestPermissions(SplashScreenActivity.this,
                         new String[]{ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION},
                         Constants.PERMISSION_REQUEST_LOCATION);
-//                            }
-//                        })
-//                        .show();
             } else {
-                showSettingDialog();
+                showGPSRequestDialog();
             }
         }
     }
 
-    /* Show Location Access Dialog */
-    private void showSettingDialog() {
-        GoogleApiClient mGoogleApiClient = new GoogleApiClient.Builder(SplashScreenActivity.this)
-                .addApi(LocationServices.API)
-                .build();
-        mGoogleApiClient.connect();
-
-        LocationRequest locationRequest = LocationRequest.create();
-        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        locationRequest.setInterval(30 * 1000);
-        locationRequest.setFastestInterval(5 * 1000);
-        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder().addLocationRequest(locationRequest);
-
-        builder.setAlwaysShow(true);
-
-        PendingResult<LocationSettingsResult> result = LocationServices.SettingsApi.checkLocationSettings(mGoogleApiClient, builder.build());
-        result.setResultCallback(new ResultCallback<LocationSettingsResult>() {
+    private void showGPSRequestDialog() {
+        generateGPSDialog().setResultCallback(new ResultCallback<LocationSettingsResult>() {
             @Override
             public void onResult(LocationSettingsResult result) {
                 final Status status = result.getStatus();

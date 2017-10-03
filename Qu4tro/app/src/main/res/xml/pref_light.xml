@@ -22,17 +22,6 @@
         android:summary="%s"
         android:title="@string/pref_title_mode"/>
 
-    <com.br.octo.board.models.SeekBarPreference
-        android:defaultValue="50"
-        android:dependency="@string/pref_key_light_enabled"
-        android:dialogMessage="@string/pref_message_intensity"
-        android:key="@string/pref_key_light_intensity"
-        android:max="100"
-        android:persistent="true"
-        android:summary="@string/pref_light_intensity_summary"
-        android:text="@string/pref_light_intensity_unit"
-        android:title="@string/pref_title_intensity"/>
-
     <ListPreference
         android:defaultValue="3"
         android:dependency="@string/pref_key_light_enabled"
@@ -44,5 +33,26 @@
         android:positiveButtonText="@null"
         android:summary="%s"
         android:title="@string/pref_title_freq"/>
+
+    <com.br.octo.board.models.SeekBarPreference
+        android:defaultValue="50"
+        android:dependency="@string/pref_key_light_enabled"
+        android:dialogMessage="@string/pref_message_intensity"
+        android:key="@string/pref_key_light_intensity"
+        android:max="100"
+        android:persistent="true"
+        android:summary="@string/pref_light_intensity_summary"
+        android:text="@string/pref_light_intensity_unit"
+        android:title="@string/pref_title_intensity"/>
+
+    <com.br.octo.board.models.SeekBarPreference
+        android:defaultValue="10"
+        android:dialogMessage="@string/pref_message_threshold"
+        android:key="@string/pref_key_light_threshold"
+        android:max="100"
+        android:persistent="true"
+        android:summary="@string/pref_light_threshold_summary"
+        android:text="@string/pref_light_threshold_unit"
+        android:title="@string/pref_title_threshold"/>
 
 </PreferenceScreen>
